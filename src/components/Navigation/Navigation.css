@@ -3,8 +3,14 @@
     justify-content: space-around; /* 아이템들을 균등하게 배치 */
     align-items: center;
     background-color: white;
-    padding: 20px 0; /* 상하 패딩 */
+    padding: 20px; /* 상하 패딩 */
+    /* margin: 20px auto;  */
+    width: 100%;
     border-bottom: 1px solid #ddd;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05); 
+    border-radius: 10px;
+    margin-bottom: 10px;
+    /* max-width: 1200px; */
     
 }
 
@@ -13,10 +19,10 @@
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: #888;
-    font-size: 14px; /* 글자 크기 조정 */
+    color: #6e6d6d;
+    font-size: 16px; /* 글자 크기 조정 */
     font-weight: bold;
-    transition: color 0.3s;
+    transition: color 0.1s;
 }
 
 .nav-item:hover {
@@ -24,9 +30,12 @@
 }
 
 .nav-icon {
-    width: 70px; /* 아이콘 크기 조정 */
-    height: 70px; /* 아이콘 크기 조정 */
-    margin-bottom: 5px;
+    width: 100px; /* 아이콘 크기 조정 */
+    height: 100px; /* 아이콘 크기 조정 */
+    margin-bottom: 8px;
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.nav-text {
+    font-size: 1em; /* 텍스트 크기 약간 키움 */
 }

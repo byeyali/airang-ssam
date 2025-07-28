@@ -1,46 +1,62 @@
+/*
+    src/components/Header/Header.css (최종)
+*/
+
 .app-header {
-  display: flex;
-  justify-content: space-between; /* 양쪽 끝으로 정렬 */
-  align-items: center;
-  padding: 15px 40px;
+  width: 100%;
   background-color: white;
-  border-bottom: 1px solid #ddd;
-}
-
-
-
-.logo-section {
+  padding: 15px 20px; 
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 30px;
+  margin-top: 20px;
+
+}
+.header-inner {
+    width: 100%;
+    max-width: 1200px; /* ✨✨✨ MainContainer와 동일한 최대 너비 적용 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px; /* ✨✨✨ 좌우 패딩을 여기서 넣어줘서 내용물이 벽에 붙지 않게 함 */
+    box-sizing: border-box;
+}
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .logo-img {
-  width: 50px;
-  height: auto;
+    width: 40px;
+    height: 40px;
 }
 
 .app-name {
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
 }
 
 .header-buttons {
-  display: flex;
-  gap: 10px;
+    display: flex;
+    gap: 10px;
 }
 
 .signup-header-button {
-  padding: 8px 15px;
-  border: none;
-  border-radius: 5px;
-  background-color: #f0f2f5;
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background-color: transparent;
   cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  gap: 10px;
+  font-size: 0.9em;
+  font-weight: bold;
+  transition: background-color 0.2s, color 0.2s;
 }
+
 .signup-header-button:hover {
-  background-color: #e0e2e5;
+  background-color: #007bff;
+  color: white;
 }

@@ -1,136 +1,301 @@
 /*
-    Helpme.css
-    이 파일은 Helpme 컴포넌트의 스타일을 정의해.
+    Helpme.css (최종 정리)
+    3칸(3줄) 레이아웃과 깔끔한 디자인을 위한 스타일.
 */
 
 .helpme-container {
-    padding: 20px;
-    background-color: #f0f2f5; /* 전체 배경색 */
-    font-family: 'Arial', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
+  padding: 20px 0px;
+  background-color: #f0f2f5;
+  font-family: "Arial", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
 }
 
 .helpme-header {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  /* margin-bottom: 20px; */
 }
 
 .helpme-header h1 {
-    font-size: 2.5rem; /* '도와줘요 쌤' 폰트 크기 */
-    color: #333;
-    font-weight: bold;
+  font-size: 3rem;
+  color: #333;
+  font-weight: bold;
 }
 
 .helpme-header p {
-    font-size: 1.2rem; /* '어느 분야를 돌봐드리면 될까요?' 폰트 크기 */
-    color: #666;
-    margin-top: 5px;
+  font-size: 1.5rem;
+  color: #666;
+  margin-top: 10px;
 }
 
+/*  3칸 레이아웃의 핵심이야! */
 .category-wrapper {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap; /* 화면이 작아지면 줄바꿈되게 함 */
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 100%;
 }
 
+/* 🚨🚨🚨 각 카테고리가 1/3씩 공간을 나눠 갖게 해! */
 .category {
-    flex: 1; /* 각 카테고리가 동일한 너비를 갖게 함 */
-    max-width: 300px;
-    background-color: #fff;
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  flex: 1;
+  min-width: 300px;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .category-title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #494848;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .item-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
 }
 
 .item-card {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px;
-    border-radius: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* padding: 15px; */
+  border-radius: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
 
 .item-card:hover {
-    transform: translateY(-5px); /* 호버 시 살짝 위로 올라가는 효과 */
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.item-content {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
 }
 
 .item-image {
-    width: 60px;
-    height: 60px;
-    border-radius: 12px;
-    background-size: cover;
-    background-position: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  margin-right: 20px;
 }
 
-/* 각 항목별 이미지 배경 그라데이션 */
-.돌봄-1 { background-image: linear-gradient(to bottom right, #f6d365, #fda085); }
-.돌봄-2 { background-image: linear-gradient(to bottom right, #a1c4fd, #c2e9fb); }
-.돌봄-3 { background-image: linear-gradient(to bottom right, #fbc2eb, #a6c1ee); }
-.놀이-1 { background-image: linear-gradient(to bottom right, #84fab0, #8fd3f4); }
-.놀이-2 { background-image: linear-gradient(to bottom right, #ff9a9e, #fad0c4); }
-.놀이-3 { background-image: linear-gradient(to bottom right, #a18cd1, #fbc2eb); }
-.놀이-4 { background-image: linear-gradient(to bottom right, #f5f7fa, #c3cfe2); }
-.스터디-1 { background-image: linear-gradient(to bottom right, #d4fc79, #96e6a1); }
-.스터디-2 { background-image: linear-gradient(to bottom right, #fff1eb, #ace0f9); }
-.스터디-3 { background-image: linear-gradient(to bottom right, #e0c3fc, #8ec5fc); }
-.스터디-4 { background-image: linear-gradient(to bottom right, #cfd9df, #e2ebf0); }
-
 .item-text {
-    flex-grow: 1;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #444;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #444;
 }
 
 .item-icon-circle {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    border: 2px solid #ccc;
-    background-color: #fff;
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    color: #444;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
 }
 
-/* 선택되었을 때 아이콘 스타일 */
 .item-icon-circle.selected {
-    background-color: #5cb85c;
-    border-color: #5cb85c;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.item-icon-circle.selected::after {
+  content: "✓";
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/*
+    Helpme.css
+    ✨✨✨ 새로운 검색 필터 UI 스타일
+*/
+
+.search-filter-section {
+    max-width: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.search-title, .filter-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.search-input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input, .date-picker-row input, .time-selector input, .age-selector-group input, .search-input-bottom {
+    flex-grow: 1;
+    padding: 12px 18px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #555;
+    transition: border-color 0.2s;
+
+}
+.search-input:focus, .date-picker-row input:focus, .time-selector input:focus, .age-selector-group input:focus, .search-input-bottom:focus {
+    outline: none;
+    border-color: #007bff; /* 포커스 시 파란색 테두리 */
+}
+
+
+.search-button {
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+.search-result {
+    margin-top: 15px;
+    padding: 18px;
+    background-color: #e6f2ff;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* 결과 상자에도 그림자 */
+}
+
+/* 필터 그룹 공통 스타일 */
+.filter-group, .filter-group-inline {
+    border-top: 1px solid #eee;
+    padding-top: 25px;
+}
+
+.date-picker-row, .time-selector, .age-selector, .day-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/*  나이 선택 그룹 스타일 */
+.age-selector-group {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* 간격을 더 줄여서 하나의 그룹처럼 보이게 */
+}
+
+.age-selector-group input {
+    width: 80px; /* 너비 고정 */
+    text-align: center;
+}
+
+.age-divider {
+    font-size: 1.5rem;
+    color: #aaa;
+    font-weight: 300;
+}
+
+
+.date-picker-row input, .time-selector input, .age-selector input {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.day-selector button, .gender-button {
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+    border-radius: 250px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.day-selector button.active, .gender-button.active {
+    background-color: #007bff;
+    border-color: #007bff;
     color: #fff;
 }
 
+.filter-group-inline {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 
+.search-row-bottom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.search-input-bottom {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.magnifying-glass-button {
+    padding: 8px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.magnifying-glass-button img {
+    width: 100px;
+    height: 24px;
+    filter: invert(100%);
+}

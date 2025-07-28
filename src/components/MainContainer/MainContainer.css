@@ -9,12 +9,30 @@ body {
     display: flex;
     justify-content: center; /* 전체 폼을 중앙으로 정렬 */
     width: 100%;
+    margin: 0 auto; /* 가운데 정렬 */
+    padding: 20px;
 }
 
 .main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;  
     width: 100%;
-    max-width: 900px; /* 🧠 헤더, 네비, 콘텐츠의 최대 가로 넓이를 900px로 제한 */
+    box-sizing: border-box; 
+    /* max-width: 1200px; 🧠 헤더, 네비, 콘텐츠의 최대 가로 넓이를 900px로 제한 */
     background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     min-height: 100vh; /* 화면 높이에 맞춰 최소 높이 설정 */
+    display: flex;
+    flex-direction: column; /* 자식 요소들을 세로로 쌓아줌 */
+
+}
+.main-container > * {
+    padding: 0 20px; /* 좌우 패딩을 줘서 내용이 벽에 붙지 않게 함 */
+}
+
+.main-container > .app-header,
+.main-container > .main-navigation {
+    padding-left: 0;
+    padding-right: 0;
 }
