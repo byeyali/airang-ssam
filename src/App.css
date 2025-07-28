@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+/* frontend/src/App.css */
+
+/* 전체 페이지 레이아웃을 위한 전역 컨테이너 스타일 */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가로 중앙 정렬 */
+  justify-content: center; /* 세로 중앙 정렬 */
+  min-height: 100vh; /* 뷰포트 전체 높이 사용 */
+  background-color: #f0f2f5; /* 배경색 */
+  font-family: Arial, sans-serif; /* 기본 폰트 */
+  padding: 20px; /* 전체 패딩 */
+}
+
+/* 다른 전역 스타일이 있다면 여기에 추가 */
+/* 예: 기본 폰트 크기, 링크 스타일 등 */

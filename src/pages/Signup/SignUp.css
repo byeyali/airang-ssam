@@ -1,0 +1,177 @@
+/* SignUp.css */
+
+/* 1. 바디(body) 태그에 기본 스타일 적용 */
+body {
+  background-color: #f0f2f5; /* 전체 배경색 */
+  font-family: Arial, sans-serif; /* 기본 폰트 */
+  margin: 0; /* 기본 마진 제거 */
+  padding: 0; /* 기본 패딩 제거 */
+}
+
+/* 2. 메인 컨테이너 스타일 */
+.signup-form-container {
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+}
+
+/* 3. 헤더 스타일 */
+.signup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+}
+.signup-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-img {
+  width: 50px;
+  height: auto;
+}
+.app-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+.signup-header-button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f2f5;
+  cursor: pointer;
+  font-size: 14px;
+}
+.signup-header-button:hover {
+  background-color: #e0e2e5;
+}
+
+/* 4. 제목 스타일 */
+.signup-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* 5. 폼 요소 그룹 스타일 */
+.signup-form-group {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  text-align: left;
+}
+
+.signup-form-group-inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.signup-label-button {
+  background-color: #4da6ff;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  width: 150px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.signup-input-field {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.signup-input-field.full-width {
+  width: 100%;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* 상세 주소 입력칸 스타일 */
+.signup-address-detail {
+  width: 100%; /* 부모 요소의 너비에 맞게 100% 설정 */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  resize: vertical; /* 사용자가 세로 크기를 조절할 수 있도록 설정 */
+  min-height: 50px; /* 최소 높이 설정 */
+}
+
+/* 6. 버튼 그룹 스타일 */
+.signup-button-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.signup-action-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.signup-confirm-button,
+.signup-search-button {
+  background-color: #4da6ff;
+  color: white;
+  width: 100px;
+}
+
+.signup-submit-button {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  padding: 15px;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+/* 7. 라디오 버튼 스타일 */
+.signup-radio-button-group {
+  display: flex;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.signup-radio-button {
+  padding: 10px 20px;
+  background-color: #e0f0ff;
+  border: 1px solid #4da6ff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #4da6ff;
+  flex: 1;
+  text-align: center;
+}
+
+.signup-radio-button.selected {
+  background-color: #4da6ff;
+  color: white;
+}

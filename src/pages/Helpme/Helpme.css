@@ -1,0 +1,136 @@
+/*
+    Helpme.css
+    이 파일은 Helpme 컴포넌트의 스타일을 정의해.
+*/
+
+.helpme-container {
+    padding: 20px;
+    background-color: #f0f2f5; /* 전체 배경색 */
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.helpme-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.helpme-header h1 {
+    font-size: 2.5rem; /* '도와줘요 쌤' 폰트 크기 */
+    color: #333;
+    font-weight: bold;
+}
+
+.helpme-header p {
+    font-size: 1.2rem; /* '어느 분야를 돌봐드리면 될까요?' 폰트 크기 */
+    color: #666;
+    margin-top: 5px;
+}
+
+.category-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* 화면이 작아지면 줄바꿈되게 함 */
+}
+
+.category {
+    flex: 1; /* 각 카테고리가 동일한 너비를 갖게 함 */
+    max-width: 300px;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.category-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.item-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.item-card:hover {
+    transform: translateY(-5px); /* 호버 시 살짝 위로 올라가는 효과 */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.item-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+}
+
+/* 각 항목별 이미지 배경 그라데이션 */
+.돌봄-1 { background-image: linear-gradient(to bottom right, #f6d365, #fda085); }
+.돌봄-2 { background-image: linear-gradient(to bottom right, #a1c4fd, #c2e9fb); }
+.돌봄-3 { background-image: linear-gradient(to bottom right, #fbc2eb, #a6c1ee); }
+.놀이-1 { background-image: linear-gradient(to bottom right, #84fab0, #8fd3f4); }
+.놀이-2 { background-image: linear-gradient(to bottom right, #ff9a9e, #fad0c4); }
+.놀이-3 { background-image: linear-gradient(to bottom right, #a18cd1, #fbc2eb); }
+.놀이-4 { background-image: linear-gradient(to bottom right, #f5f7fa, #c3cfe2); }
+.스터디-1 { background-image: linear-gradient(to bottom right, #d4fc79, #96e6a1); }
+.스터디-2 { background-image: linear-gradient(to bottom right, #fff1eb, #ace0f9); }
+.스터디-3 { background-image: linear-gradient(to bottom right, #e0c3fc, #8ec5fc); }
+.스터디-4 { background-image: linear-gradient(to bottom right, #cfd9df, #e2ebf0); }
+
+.item-text {
+    flex-grow: 1;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #444;
+}
+
+.item-icon-circle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    background-color: #fff;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #444;
+}
+
+/* 선택되었을 때 아이콘 스타일 */
+.item-icon-circle.selected {
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+    color: #fff;
+}
+
+

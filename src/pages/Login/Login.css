@@ -1,0 +1,120 @@
+/* LoginPage.css */
+
+/*
+* 회원가입 페이지에서 사용했던 스타일을 대부분 그대로 가져왔습니다.
+* 이렇게 하면 "아이랑 쌤이랑" 앱의 디자인 언어를 통일할 수 있습니다.
+*/
+
+body {
+    background-color: #f0f2f5;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.signup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+}
+.signup-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-img {
+  width: 50px;
+  height: auto;
+}
+.app-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+.signup-header-button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f2f5;
+  cursor: pointer;
+  font-size: 14px;
+}
+.signup-header-button:hover {
+  background-color: #e0e2e5;
+}
+
+.signup-form-container {
+    width: 100%;
+    max-width: 600px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
+
+.signup-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.signup-form-group {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    text-align: left;
+}
+
+.signup-form-group-inline {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.signup-label-button {
+    background-color: #4da6ff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 150px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.signup-input-field {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.signup-action-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.signup-submit-button {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    padding: 15px;
+    font-size: 18px;
+    margin-top: 20px;
+}
