@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 화면 전체 높이 사용 */
 }
 
 .App-logo {
@@ -50,5 +53,15 @@
   padding: 20px; /* 전체 패딩 */
 }
 
-/* 다른 전역 스타일이 있다면 여기에 추가 */
-/* 예: 기본 폰트 크기, 링크 스타일 등 */
+/* 🧠 푸터 스타일 (App.js에 Footer 컴포넌트가 통합될 경우) */
+.main-footer {
+    width: 100%;
+    text-align: center;
+    padding: 30px 20px;
+    background-color: #f0f2f5; /* App.js의 body 배경색과 동일하게 */
+    color: #888;
+    font-size: 14px;
+    margin-top: auto; /* 내용이 적어도 항상 아래에 붙도록 */
+}
+
+

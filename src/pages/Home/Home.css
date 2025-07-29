@@ -1,0 +1,307 @@
+/* 홈 페이지 전체 컨테이너 */
+.home-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 40px 0;
+  font-family: "Pretendard", sans-serif;
+}
+
+/* 메인 콘텐츠 섹션 */
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 히어로 섹션 - 이미지와 텍스트 나란히 배치 */
+.hero-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 80px;
+}
+
+/* 히어로 이미지 */
+.hero-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-image {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+}
+
+/* 히어로 텍스트 */
+.hero-text {
+  padding: 40px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.hero-text h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+  font-family: "Pretendard", sans-serif;
+}
+
+.hero-text h2 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+  font-family: "Pretendard", sans-serif;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  color: #4a90e2;
+  font-weight: 500;
+  margin: 0;
+  font-family: "Pretendard", sans-serif;
+}
+
+/* 후기 섹션 */
+.reviews-section {
+  padding: 20px 0;
+}
+
+/* 후기 제목 섹션 */
+.reviews-title-section {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.reviews-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #dc3545;
+  margin: 0;
+  font-family: "Pretendard", sans-serif;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-bottom: 50px;
+}
+
+.review-card {
+  background-color: #fff3cd;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.mom-icon {
+  margin-right: 15px;
+}
+
+.mom-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.review-info {
+  flex: 1;
+}
+
+.review-location {
+  font-size: 1.1rem;
+  color: #666;
+  font-weight: 500;
+  font-family: "Pretendard", sans-serif;
+  margin-bottom: 3px;
+}
+
+.review-date {
+  font-size: 0.9rem;
+  color: #999;
+  font-weight: 400;
+  font-family: "Pretendard", sans-serif;
+}
+
+.review-rating {
+  margin-bottom: 20px;
+}
+
+.star {
+  font-size: 1.1rem;
+  margin-right: 2px;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+  color: #dc3545;
+}
+
+.star.filled {
+  opacity: 1;
+  color: #dc3545;
+}
+
+.review-text {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #333;
+  margin: 0 0 15px 0;
+  font-family: "Pretendard", sans-serif;
+}
+
+.review-author {
+  font-size: 0.95rem;
+  color: #666;
+  font-weight: 500;
+  font-family: "Pretendard", sans-serif;
+  text-align: right;
+  font-style: italic;
+}
+
+/* 후기 더보기 버튼 */
+.reviews-cta {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.view-more-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 20px 50px;
+  border-radius: 25px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+  font-family: "Pretendard", sans-serif;
+}
+
+.view-more-button:hover {
+  background-color: #357abd;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .hero-section {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .hero-text {
+    padding: 30px;
+    text-align: center;
+  }
+
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-text h2 {
+    font-size: 1.8rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+  }
+
+  .reviews-title {
+    font-size: 2.2rem;
+  }
+
+  .reviews-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .review-card {
+    padding: 20px;
+  }
+
+  .review-text {
+    font-size: 1rem;
+  }
+
+  .mom-avatar {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-page {
+    padding: 20px 0;
+  }
+
+  .main-content {
+    padding: 0 15px;
+  }
+
+  .hero-text {
+    padding: 20px;
+  }
+
+  .hero-text h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-text h2 {
+    font-size: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .reviews-title {
+    font-size: 1.8rem;
+  }
+
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .review-card {
+    padding: 18px;
+  }
+
+  .review-text {
+    font-size: 0.95rem;
+  }
+
+  .mom-avatar {
+    width: 45px;
+    height: 45px;
+  }
+
+  .view-more-button {
+    padding: 18px 40px;
+    font-size: 1.2rem;
+  }
+}

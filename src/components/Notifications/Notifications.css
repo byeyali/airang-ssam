@@ -1,30 +1,143 @@
-.main-navigation {
-    display: flex;
-    justify-content: center; /* 아이템들을 가운데 정렬 */
-    align-items: center;
-    background-color: white;
-    padding: 20px 0; /* 상하 패딩 */
-    border-bottom: 1px solid #ddd;
-    gap: 40px; /* 아이템 사이 간격을 40px로 늘려줬어 */
-}
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: #888;
-    font-size: 14px; /* 글자 크기 조정 */
-    font-weight: bold;
-    transition: color 0.3s;
-}
-.nav-item:hover {
-    color: #4da6ff;
+/* 알림 컨테이너 */
+.notification-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* 헤더 우측에 배치 */
 }
 
-.nav-icon {
-    width: 70px; /* 아이콘 크기 조정 */
-    height: 70px; /* 아이콘 크기 조정 */
-    margin-bottom: 5px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* 알림 트리거 영역 */
+.notification-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+
+.notification-trigger:hover {
+  background-color: rgba(74, 144, 226, 0.1);
+}
+
+/* 사용자 이름 */
+.user-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+}
+
+/* 알림 아이콘 래퍼 */
+.notification-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 2px solid #4a90e2;
+  border-radius: 50%;
+  background-color: white;
+  transition: all 0.2s ease;
+}
+
+.notification-trigger:hover .notification-icon-wrapper {
+  background-color: #4a90e2;
+}
+
+/* 알림 아이콘 */
+.notification-icon {
+  font-size: 16px;
+  color: #4a90e2;
+  transition: color 0.2s ease;
+}
+
+.notification-trigger:hover .notification-icon {
+  color: white;
+}
+
+/* 드롭다운 메뉴 */
+.notification-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e1e5e9;
+  min-width: 160px;
+  z-index: 1000;
+  animation: dropdownFadeIn 0.2s ease;
+}
+
+/* 드롭다운 애니메이션 */
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 드롭다운 화살표 */
+.notification-dropdown::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 20px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid white;
+  z-index: 1;
+}
+
+.notification-dropdown::after {
+  content: "";
+  position: absolute;
+  top: -7px;
+  right: 20px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #e1e5e9;
+  z-index: 0;
+}
+
+/* 드롭다운 링크 */
+.notification-link {
+  display: block;
+  padding: 12px 16px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.notification-link:last-child {
+  border-bottom: none;
+}
+
+.notification-link:hover {
+  background-color: #f8f9fa;
+  color: #4a90e2;
+}
+
+/* 로그아웃 링크 특별 스타일 */
+.notification-link.logout {
+  color: #dc3545;
+}
+
+.notification-link.logout:hover {
+  background-color: #fff5f5;
+  color: #dc3545;
 }

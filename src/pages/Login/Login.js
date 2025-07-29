@@ -1,35 +1,72 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
 import "./Login.css";
 
 function Login() {
-  return (
-    <div class="signup-form-container">
-      <h1 class="signup-title">로그인</h1>
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+  const { login } = useUser();
 
-      <form id="loginForm" action="/api/login" method="POST">
-        <div class="signup-form-group signup-form-group-inline">
-          <label class="signup-label-button">이메일</label>
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // 실제 로그인 로직 (현재는 시뮬레이션)
+    const userData = {
+      name: "김가정",
+      email: formData.email,
+      userType: "parents",
+    };
+
+    login(userData);
+    navigate("/");
+  };
+
+  return (
+    <div className="signup-form-container">
+      <h1 className="signup-title">로그인</h1>
+
+      <form onSubmit={handleSubmit} className="signup-form">
+        <div className="signup-form-group signup-form-group-inline">
+          <label className="signup-label-button">이메일</label>
           <input
             type="email"
-            class="signup-input-field"
+            className="signup-input-field"
             placeholder="이메일을 입력하세요"
             required
             name="email"
+            value={formData.email}
+            onChange={handleChange}
           />
         </div>
-        <div class="signup-form-group signup-form-group-inline">
-          <label class="signup-label-button">패스워드</label>
+        <div className="signup-form-group signup-form-group-inline">
+          <label className="signup-label-button">패스워드</label>
           <input
             type="password"
-            class="signup-input-field"
+            className="signup-input-field"
             placeholder="패스워드를 입력하세요"
             required
-            name="패스워드"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
           />
         </div>
 
-        <button type="submit" class="signup-action-button signup-submit-button">
-          저장
+        <button
+          type="submit"
+          className="signup-action-button signup-submit-button"
+        >
+          로그인
         </button>
       </form>
     </div>

@@ -1,13 +1,80 @@
+/* FRONTEND/src/index.css */
+
+/* 💡 스포카 한 산스 네오 @import - CSS 파일 최상단에! */
+@import url("//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css");
+
+/* 🧠 기본 웹 페이지 설정 */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* 패딩, 보더가 너비/높이에 포함되도록 */
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6; /* 기본 줄 간격 */
+  color: #333; /* 기본 텍스트 색상 */
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+/* 타이틀, 로고, 큰 제목들 (블랙 한 산스) */
+.font-black-han-sans {
+  font-family: "Black Han Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* 쌤과 부모의 피드백, 나눔 후기 게시판 (고운바탕체) */
+.font-gowun-batang {
+  font-family: "Gowun Batang", serif; /* 바탕체 계열이므로 serif를 fallback으로 */
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* 🧠 공통 버튼 스타일 (모든 버튼에 적용될 기본 스타일) */
+.btn-primary {
+  background-color: #5cb85c;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
+}
+.btn-primary:hover {
+  background-color: #4cae4c;
+}
+
+/* 🧠 공통 컨테이너 스타일 (페이지 컨텐츠 영역) */
+.main-content-container {
+  max-width: 900px; /* 적당한 최대 너비 */
+  margin: 40px auto; /* 위아래 간격, 좌우 자동 (중앙 정렬) */
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  flex-grow: 1; /* 남은 공간을 채우도록 */
+  text-align: center; /* 기본 텍스트 정렬 */
+}
+
+/* 🧠 미디어 쿼리 (공통) */
+@media (max-width: 768px) {
+  .main-content-container {
+    margin: 20px auto;
+    padding: 20px;
+  }
 }

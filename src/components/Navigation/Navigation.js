@@ -17,7 +17,7 @@ function Navigation() {
                 <img src="/img/icon_find.png" alt="우리 아이 쌤 찾기" className="nav-icon" />
                 <span className="nav-text">우리 아이 쌤 찾기</span>
             </Link>
-            <Link to="/reviews" className="nav-item">
+            <Link to="/feedback" className="nav-item">
                 <img src="/img/icon_review.png" alt="후기 남기기" className="nav-icon" />
                 <span className="nav-text">후기 남기기</span>
             </Link>
