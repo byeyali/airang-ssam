@@ -1,177 +1,209 @@
-/* SignUp.css */
-
-/* 1. 바디(body) 태그에 기본 스타일 적용 */
-body {
-  background-color: #f0f2f5; /* 전체 배경색 */
-  font-family: Arial, sans-serif; /* 기본 폰트 */
-  margin: 0; /* 기본 마진 제거 */
-  padding: 0; /* 기본 패딩 제거 */
-}
-
-/* 2. 메인 컨테이너 스타일 */
 .signup-form-container {
-  background-color: white;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-
-}
-
-/* 3. 헤더 스타일 */
-.signup-header {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  background-color: white;
-  border-bottom: 1px solid #ddd;
-}
-.signup-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.logo-img {
-  width: 50px;
-  height: auto;
-}
-.app-name {
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-}
-.header-buttons {
-  display: flex;
-  gap: 10px;
-}
-.signup-header-button {
-  padding: 8px 15px;
-  border: none;
-  border-radius: 5px;
-  background-color: #f0f2f5;
-  cursor: pointer;
-  font-size: 14px;
-}
-.signup-header-button:hover {
-  background-color: #e0e2e5;
-}
-
-/* 4. 제목 스타일 */
-.signup-title {
-  font-size: 28px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-/* 5. 폼 요소 그룹 스타일 */
-.signup-form-group {
-  margin-bottom: 20px;
-  display: flex;
-  align-items: flex-start;
   flex-direction: column;
-  text-align: left;
+  justify-content: center;
+}
+
+.signup-title {
+  text-align: center;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 40px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.signup-form {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.signup-form-group {
+  margin-bottom: 25px;
 }
 
 .signup-form-group-inline {
-  flex-direction: row;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  width: 100%;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
 .signup-label-button {
-  background-color: #4da6ff;
+  min-width: 120px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
   color: white;
-  padding: 10px 15px;
-  border-radius: 5px;
-  width: 150px;
+  border-radius: 25px;
+  font-weight: 600;
   text-align: center;
-  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  font-size: 0.9rem;
 }
 
 .signup-input-field {
-  flex-grow: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
-  box-sizing: border-box;
-  text-align: center;
+  flex: 1;
+  min-width: 200px;
+  padding: 15px 20px;
+  border: 2px solid #e1e8ed;
+  border-radius: 25px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+}
+
+.signup-input-field:focus {
+  outline: none;
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+  background: white;
+}
+
+.signup-input-field-half {
+  flex: 0.5;
 }
 
 .signup-input-field.full-width {
   width: 100%;
-  margin-top: 5px;
-  text-align: center;
+  margin-top: 10px;
 }
 
-/* 상세 주소 입력칸 스타일 */
-.signup-address-detail {
-  width: 100%; /* 부모 요소의 너비에 맞게 100% 설정 */
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
-  box-sizing: border-box;
-  resize: vertical; /* 사용자가 세로 크기를 조절할 수 있도록 설정 */
-  min-height: 50px; /* 최소 높이 설정 */
-}
-
-/* 6. 버튼 그룹 스타일 */
-.signup-button-group {
+.signup-radio-button-group {
   display: flex;
-  align-items: center;
   gap: 10px;
-  flex-grow: 1;
+  flex: 1;
+}
+
+.signup-radio-button {
+  flex: 1;
+  padding: 12px 20px;
+  border: 2px solid #e1e8ed;
+  border-radius: 25px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+  font-weight: 500;
+}
+
+.signup-radio-button:hover {
+  border-color: #ff6b6b;
+  background: #fff5f5;
+}
+
+.signup-radio-button.selected {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  border-color: #ff6b6b;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
 }
 
 .signup-action-button {
-  padding: 10px 20px;
+  padding: 12px 25px;
   border: none;
-  border-radius: 5px;
-  font-weight: bold;
+  border-radius: 25px;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
-.signup-confirm-button,
-.signup-search-button {
-  background-color: #4da6ff;
+.signup-confirm-button {
+  background: linear-gradient(135deg, #4ecdc4, #44a08d);
   color: white;
-  width: 100px;
+  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+}
+
+.signup-confirm-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+}
+
+.signup-search-button {
+  background: linear-gradient(135deg, #a8edea, #fed6e3);
+  color: #333;
+  box-shadow: 0 4px 15px rgba(168, 237, 234, 0.3);
+}
+
+.signup-search-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(168, 237, 234, 0.4);
 }
 
 .signup-submit-button {
   width: 100%;
-  background-color: #007bff;
+  padding: 18px;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
   color: white;
-  padding: 15px;
-  font-size: 18px;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
   margin-top: 20px;
 }
 
-/* 7. 라디오 버튼 스타일 */
-.signup-radio-button-group {
-  display: flex;
-  gap: 10px;
-  flex-grow: 1;
+.signup-submit-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
 }
 
-.signup-radio-button {
-  padding: 10px 20px;
-  background-color: #e0f0ff;
-  border: 1px solid #4da6ff;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  color: #4da6ff;
-  flex: 1;
-  text-align: center;
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .signup-form-container {
+    padding: 20px 10px;
+  }
+
+  .signup-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+
+  .signup-form {
+    padding: 30px 20px;
+  }
+
+  .signup-form-group-inline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .signup-label-button {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .signup-input-field {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .signup-radio-button-group {
+    flex-direction: column;
+  }
+
+  .signup-action-button {
+    width: 100%;
+    margin-top: 10px;
+  }
 }
 
-.signup-radio-button.selected {
-  background-color: #4da6ff;
-  color: white;
+@media (max-width: 480px) {
+  .signup-form-container {
+    padding: 10px 5px;
+  }
+
+  .signup-title {
+    font-size: 1.8rem;
+  }
+
+  .signup-form {
+    padding: 20px 15px;
+  }
 }

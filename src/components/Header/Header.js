@@ -17,6 +17,12 @@ function Header() {
     navigate("/login");
   };
 
+  // 사용자 역할 텍스트 반환
+  const getUserRoleText = () => {
+    if (!user) return "";
+    return user.type === "parent" ? "부모님" : "쌤";
+  };
+
   return (
     <header className="app-header">
       <div className="header-inner">
@@ -40,7 +46,12 @@ function Header() {
               </button>
             </div>
           ) : (
-            <Notifications />
+            <div className="user-info-section">
+              <div className="user-role-display">
+                <span className="user-role">{getUserRoleText()}</span>
+              </div>
+              <Notifications />
+            </div>
           )}
         </div>
       </div>

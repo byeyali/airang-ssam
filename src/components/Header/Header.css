@@ -1,88 +1,184 @@
-/*
-    src/components/Header/Header.css (최종)
-*/
-
+/* 헤더 스타일 */
 .app-header {
-  width: 100%;
-  background-color: white;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
   padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  border-radius: 30px;
-  margin-top: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .header-inner {
-  width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
-  box-sizing: border-box;
 }
 
+/* 로고 섹션 */
 .logo-section {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   text-decoration: none;
   color: inherit;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  border-radius: 8px;
-  padding: 4px;
+  transition: all 0.3s ease;
 }
 
 .logo-section:hover {
-  transform: scale(1.02);
-  background-color: rgba(74, 144, 226, 0.05);
+  transform: translateY(-2px);
 }
 
 .logo-img {
   width: 40px;
   height: 40px;
-  pointer-events: none;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+  border: 2px solid #ff6b6b;
 }
 
 .logo-text {
-  font-size: 1.5em;
-  font-weight: bold;
-  color: #333;
-  pointer-events: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff6b6b;
+  text-shadow: 0 2px 4px rgba(255, 107, 107, 0.1);
 }
 
-.app-name {
-  font-size: 1.5em;
-  font-weight: bold;
-  color: #333;
-}
-
+/* 헤더 우측 영역 */
 .header-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 }
 
+/* 로그인 전 버튼들 */
 .header-buttons {
   display: flex;
   gap: 10px;
 }
 
 .signup-header-button {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  color: white;
+  border: none;
   padding: 8px 16px;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  background-color: transparent;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 0.9em;
-  font-weight: bold;
-  transition: background-color 0.2s, color 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
 }
 
 .signup-header-button:hover {
-  background-color: #007bff;
-  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+/* 로그인 후 사용자 정보 섹션 */
+.user-info-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-role-display {
+  display: flex;
+  align-items: center;
+}
+
+.user-role {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ff6b6b;
+  background: linear-gradient(135deg, #ffe3e3 0%, #ffc9c9 100%);
+  padding: 4px 12px;
+  border-radius: 12px;
+  text-align: center;
+  line-height: 1.2;
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.1);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 12px 15px;
+  }
+
+  .logo-text {
+    font-size: 1.3rem;
+  }
+
+  .logo-img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .header-right {
+    gap: 10px;
+  }
+
+  .user-role {
+    font-size: 0.8rem;
+    padding: 3px 10px;
+  }
+
+  .signup-header-button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 10px 12px;
+  }
+
+  .logo-section {
+    gap: 8px;
+  }
+
+  .logo-text {
+    font-size: 1.1rem;
+  }
+
+  .logo-img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .header-right {
+    gap: 8px;
+  }
+
+  .user-info-section {
+    gap: 10px;
+  }
+
+  .user-role {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+  }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+  .app-header {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border-bottom-color: #4a5568;
+  }
+
+  .logo-text {
+    color: #ff6b6b;
+  }
+
+  .user-role {
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    color: #ff6b6b;
+    border-color: rgba(255, 107, 107, 0.3);
+  }
 }

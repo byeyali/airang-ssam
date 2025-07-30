@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const ReviewContext = createContext();
 
@@ -10,113 +10,152 @@ export const useReview = () => {
   return context;
 };
 
-export const ReviewProvider = ({ children }) => {
-  const [reviews, setReviews] = useState([
-    {
-      id: 1,
-      location: "서울특별시 강남구",
-      rating: 5,
-      text: "항상 시간맞춰 오셨고, 아이와 최선을 다해 시간 보내주셨어요~아기를 진심으로 예뻐해주시고, 아껴주시고 돌보아주셨어요.",
-      momName: "김미영",
-      date: "2024.01.15",
-      userId: "user1",
-    },
-    {
-      id: 2,
-      location: "대전특별시 하대전구",
-      rating: 4,
-      text: "아이가 너무 좋아해요! 선생님이 정말 따뜻하고 전문적으로 돌봐주셔서 안심하고 맡길 수 있었어요.",
-      momName: "이수진",
-      date: "2024.01.12",
-      userId: "user2",
-    },
-    {
-      id: 3,
-      location: "부산광역시 해운대구",
-      rating: 5,
-      text: "정말 감사합니다. 아이가 선생님 덕분에 많이 성장했어요. 다음에도 꼭 부탁드리고 싶어요!",
-      momName: "박지영",
-      date: "2024.01.10",
-      userId: "user3",
-    },
-    {
-      id: 4,
-      location: "인천광역시 연수구",
-      rating: 4,
-      text: "첫 아이라 걱정이 많았는데, 선생님이 정말 세심하게 돌봐주셔서 안심했어요. 추천합니다!",
-      momName: "최민지",
-      date: "2024.01.08",
-      userId: "user4",
-    },
-    {
-      id: 5,
-      location: "대구광역시 수성구",
-      rating: 5,
-      text: "아이가 선생님을 너무 좋아해요. 매일 선생님 이야기를 하며 기다리고 있어요. 정말 감사합니다!",
-      momName: "정현아",
-      date: "2024.01.05",
-      userId: "user5",
-    },
-    {
-      id: 6,
-      location: "광주광역시 서구",
-      rating: 4,
-      text: "선생님이 아이의 특성을 잘 파악하시고 맞춤형으로 돌봐주셔서 아이가 많이 발전했어요.",
-      momName: "한소영",
-      date: "2024.01.03",
-      userId: "user6",
-    },
-  ]);
+// 이름 마스킹 함수
+const maskName = (name) => {
+  if (name.length <= 2) return name;
+  return (
+    name.charAt(0) + "*".repeat(name.length - 2) + name.charAt(name.length - 1)
+  );
+};
 
-  const addReview = (newReview, currentUser) => {
-    const review = {
-      id: Date.now(),
-      ...newReview,
-      userId: currentUser?.id || "anonymous",
+export const ReviewProvider = ({ children }) => {
+  const [reviews, setReviews] = useState(() => {
+    // 로컬 스토리지에서 후기 데이터 불러오기
+    const savedReviews = localStorage.getItem("reviews");
+    if (savedReviews) {
+      return JSON.parse(savedReviews);
+    }
+
+    // 초기 후기 데이터
+    return [
+      {
+        id: "review_001",
+        userId: "user_001",
+        teacherId: "teacher_001",
+        teacherName: "양연희",
+        maskedName: "김*정",
+        rating: 5,
+        content:
+          "양연희 쌤께서 우리 아이를 정말 잘 챙겨주셨어요. 피아노도 가르쳐주시고, 영어도 함께 공부할 수 있어서 아이가 너무 좋아했어요. 체계적으로 가르쳐주시고, 아이의 관심사에 맞춰서 수업을 진행해주셔서 정말 만족스러웠습니다.",
+        date: "2025.01.15",
+        region: "관악구",
+      },
+      {
+        id: "review_002",
+        userId: "user_002",
+        teacherId: "teacher_002",
+        teacherName: "김민수",
+        maskedName: "박*영",
+        rating: 4,
+        content:
+          "김민수 쌤은 아이들과 정말 잘 어울리시는 분이에요. 영어 수업을 재미있게 가르쳐주시고, 체육 활동도 함께 해주셔서 아이가 건강하게 성장할 수 있었어요. 다음에도 꼭 부탁드리고 싶어요!",
+        date: "2025.01.12",
+        region: "강남구",
+      },
+      {
+        id: "review_003",
+        userId: "user_003",
+        teacherId: "teacher_003",
+        teacherName: "박지영",
+        maskedName: "이*수",
+        rating: 5,
+        content:
+          "박지영 쌤은 음악과 미술을 정말 잘 가르쳐주시는 분이에요. 아이의 창의력을 키워주시고, 요리 활동도 함께 해주셔서 아이가 다양한 경험을 할 수 있었어요. 정말 감사했습니다!",
+        date: "2025.01.10",
+        region: "마포구",
+      },
+      {
+        id: "review_004",
+        userId: "user_004",
+        teacherId: "teacher_004",
+        teacherName: "이준호",
+        maskedName: "최*희",
+        rating: 4,
+        content:
+          "이준호 쌤은 체육 활동을 정말 잘 가르쳐주시는 분이에요. 축구와 농구를 재미있게 가르쳐주시고, 아이들이 건강하게 운동할 수 있도록 도와주셨어요. 아이가 운동을 좋아하게 되었어요!",
+        date: "2025.01.08",
+        region: "성동구",
+      },
+      {
+        id: "review_005",
+        userId: "user_005",
+        teacherId: "teacher_005",
+        teacherName: "최영희",
+        maskedName: "정*민",
+        rating: 5,
+        content:
+          "최영희 쌤은 오랜 경험을 바탕으로 아이들을 정말 잘 챙겨주시는 분이에요. 기초 학습부터 생활습관까지 체계적으로 가르쳐주시고, 따뜻한 마음으로 아이를 돌봐주셨어요. 정말 만족스러웠습니다.",
+        date: "2025.01.05",
+        region: "노원구",
+      },
+      {
+        id: "review_006",
+        userId: "user_006",
+        teacherId: "teacher_006",
+        teacherName: "정수진",
+        maskedName: "한*우",
+        rating: 4,
+        content:
+          "정수진 쌤은 수학을 정말 잘 가르쳐주시는 분이에요. 어려워하는 부분을 쉽게 설명해주시고, 단계별로 차근차근 가르쳐주셔서 아이가 수학을 좋아하게 되었어요. 감사합니다!",
+        date: "2025.01.03",
+        region: "양천구",
+      },
+    ];
+  });
+
+  // 후기 데이터가 변경될 때마다 로컬 스토리지에 저장
+  useEffect(() => {
+    localStorage.setItem("reviews", JSON.stringify(reviews));
+  }, [reviews]);
+
+  const addReview = (reviewData) => {
+    const newReview = {
+      id: `review_${Date.now()}`,
+      ...reviewData,
+      maskedName: maskName(reviewData.name || ""),
       date: new Date()
         .toLocaleDateString("ko-KR", {
           year: "numeric",
           month: "2-digit",
           day: "2-digit",
         })
-        .replace(/\. /g, ".")
-        .replace(".", ""),
+        .replace(/\./g, "")
+        .replace(/\s/g, "."),
     };
-    setReviews((prev) => [review, ...prev]);
+    setReviews((prev) => [...prev, newReview]);
   };
 
-  const updateReview = (reviewId, updatedData) => {
+  const updateReview = (id, updatedData) => {
     setReviews((prev) =>
       prev.map((review) =>
-        review.id === reviewId ? { ...review, ...updatedData } : review
+        review.id === id
+          ? {
+              ...review,
+              ...updatedData,
+              maskedName: maskName(updatedData.name || review.maskedName),
+            }
+          : review
       )
     );
   };
 
-  const deleteReview = (reviewId) => {
-    setReviews((prev) => prev.filter((review) => review.id !== reviewId));
+  const deleteReview = (id) => {
+    setReviews((prev) => prev.filter((review) => review.id !== id));
   };
 
-  const getHomeReviews = () => {
-    return reviews.slice(0, 6); // 홈페이지에는 최신 6개만 표시
+  const getReviewById = (id) => {
+    return reviews.find((review) => review.id === id);
   };
 
-  const getAllReviews = () => {
-    return reviews;
+  const value = {
+    reviews,
+    addReview,
+    updateReview,
+    deleteReview,
+    getReviewById,
   };
 
   return (
-    <ReviewContext.Provider
-      value={{
-        reviews,
-        addReview,
-        updateReview,
-        deleteReview,
-        getHomeReviews,
-        getAllReviews,
-      }}
-    >
-      {children}
-    </ReviewContext.Provider>
+    <ReviewContext.Provider value={value}>{children}</ReviewContext.Provider>
   );
 };

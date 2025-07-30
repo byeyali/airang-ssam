@@ -1,130 +1,182 @@
-/* 홈 페이지 전체 컨테이너 */
+/* 홈페이지 스타일 */
 .home-page {
   min-height: 100vh;
-  background-color: #f8f9fa;
-  padding: 40px 0;
-  font-family: "Pretendard", sans-serif;
+  background: linear-gradient(135deg, #ffe3e3 0%, #ffc9c9 100%);
 }
 
-/* 메인 콘텐츠 섹션 */
-.main-content {
+/* 히어로 섹션 */
+.hero-section {
+  padding: 60px 20px;
+  text-align: center;
+  background: white;
+  margin-bottom: 40px;
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.hero-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* 히어로 섹션 - 이미지와 텍스트 나란히 배치 */
-.hero-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: center;
-  margin-bottom: 80px;
-}
-
-/* 히어로 이미지 */
-.hero-image {
   display: flex;
-  justify-content: center;
   align-items: center;
-}
-
-.main-image {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  object-fit: cover;
-}
-
-/* 히어로 텍스트 */
-.hero-text {
-  padding: 40px;
-  background-color: white;
-  border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  gap: 40px;
 }
 
 .hero-text h1 {
-  font-size: 2.8rem;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ff6b6b;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hero-text p {
+  font-size: 1.3rem;
+  color: #666;
+  margin: 0;
+}
+
+.hero-image img {
+  max-width: 400px;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* 서비스 연결 버튼 섹션 */
+.service-links-section {
+  padding: 40px 20px;
+  margin-bottom: 40px;
+}
+
+.service-links-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.service-link-card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px 25px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-link-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.service-link-card:hover::before {
+  transform: scaleX(1);
+}
+
+.service-link-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(255, 107, 107, 0.2);
+}
+
+.service-link-icon {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.service-link-card h3 {
+  font-size: 1.5rem;
   font-weight: 700;
   color: #333;
-  margin-bottom: 10px;
-  font-family: "Pretendard", sans-serif;
-}
-
-.hero-text h2 {
-  font-size: 2.2rem;
-  font-weight: 600;
-  color: #333;
   margin-bottom: 15px;
-  font-family: "Pretendard", sans-serif;
 }
 
-.hero-subtitle {
+.service-link-card p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.service-link-arrow {
   font-size: 1.5rem;
-  color: #4a90e2;
-  font-weight: 500;
-  margin: 0;
-  font-family: "Pretendard", sans-serif;
+  color: #ff6b6b;
+  font-weight: 700;
+  transition: transform 0.3s ease;
+}
+
+.service-link-card:hover .service-link-arrow {
+  transform: translateX(5px);
 }
 
 /* 후기 섹션 */
 .reviews-section {
-  padding: 20px 0;
+  background: white;
+  padding: 60px 20px;
+  margin-bottom: 40px;
+  border-radius: 30px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
-/* 후기 제목 섹션 */
 .reviews-title-section {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 .reviews-title {
-  font-size: 2.8rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  color: #dc3545;
+  color: #333;
   margin: 0;
-  font-family: "Pretendard", sans-serif;
 }
 
 .reviews-grid {
+  max-width: 1200px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
-  margin-bottom: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
 }
 
 .review-card {
-  background-color: #fff3cd;
-  border-radius: 15px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 20px;
   padding: 25px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .review-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .review-header {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  gap: 15px;
+  margin-bottom: 15px;
 }
 
-.mom-icon {
-  margin-right: 15px;
-}
-
-.mom-avatar {
-  width: 60px;
-  height: 60px;
+.mom-icon img {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #fff;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
 }
 
 .review-info {
@@ -132,176 +184,559 @@
 }
 
 .review-location {
-  font-size: 1.1rem;
-  color: #666;
-  font-weight: 500;
-  font-family: "Pretendard", sans-serif;
-  margin-bottom: 3px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
 }
 
 .review-date {
   font-size: 0.9rem;
-  color: #999;
-  font-weight: 400;
-  font-family: "Pretendard", sans-serif;
+  color: #666;
 }
 
 .review-rating {
-  margin-bottom: 20px;
-}
-
-.star {
-  font-size: 1.1rem;
-  margin-right: 2px;
-  opacity: 0.3;
-  transition: opacity 0.3s ease;
-  color: #dc3545;
-}
-
-.star.filled {
-  opacity: 1;
-  color: #dc3545;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
 }
 
 .review-text {
-  font-size: 1.1rem;
-  line-height: 1.7;
-  color: #333;
-  margin: 0 0 15px 0;
-  font-family: "Pretendard", sans-serif;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 15px;
 }
 
 .review-author {
-  font-size: 0.95rem;
-  color: #666;
-  font-weight: 500;
-  font-family: "Pretendard", sans-serif;
+  font-weight: 600;
+  color: #ff6b6b;
   text-align: right;
-  font-style: italic;
 }
 
-/* 후기 더보기 버튼 */
 .reviews-cta {
   text-align: center;
-  margin-top: 50px;
 }
 
 .view-more-button {
-  background-color: #4a90e2;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
   color: white;
   border: none;
-  padding: 20px 50px;
-  border-radius: 25px;
-  font-size: 1.3rem;
+  padding: 15px 30px;
+  border-radius: 15px;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
-  font-family: "Pretendard", sans-serif;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
 }
 
 .view-more-button:hover {
-  background-color: #357abd;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+/* NEW 도와줘요 쌤! 섹션 */
+.applications-section {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  padding: 60px 20px;
+  margin-bottom: 40px;
+  border-radius: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.applications-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.applications-title-section {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.applications-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.new-text {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700, 0 0 15px #ffd700;
+  }
+  to {
+    text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
+  }
+}
+
+.applications-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.application-card {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.application-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.application-card:hover::before {
+  transform: scaleX(1);
+}
+
+.application-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.application-header {
+  margin-bottom: 20px;
+}
+
+.child-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 15px;
+  border: 3px solid #ff6b6b;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.child-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.application-content {
+  text-align: center;
+}
+
+.application-target {
+  font-weight: 600;
+  color: #ff6b6b;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.application-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
+.application-details {
+  margin-bottom: 20px;
+}
+
+.application-date,
+.application-schedule,
+.application-payment {
+  color: #666;
+  margin-bottom: 5px;
+  font-size: 0.95rem;
+}
+
+.view-details-button {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.view-details-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.applications-cta {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.view-more-applications-button {
+  background: white;
+  color: #ff6b6b;
+  border: 2px solid white;
+  padding: 15px 30px;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.view-more-applications-button:hover {
+  background: transparent;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* NEW 우리 아이 쌤 찾기 섹션 */
+.teachers-section {
+  background: white;
+  padding: 60px 20px;
+  margin-bottom: 40px;
+  border-radius: 30px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.teachers-title-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.teachers-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.teachers-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.teacher-card {
+  background: white;
+  border: 2px solid #e1e8ed;
+  border-radius: 20px;
+  padding: 30px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.teacher-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #ff6b6b;
+}
+
+.teacher-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.teacher-profile {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #ff6b6b;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  margin-bottom: 15px;
+}
+
+.teacher-profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.teacher-info {
+  text-align: center;
+}
+
+.teacher-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.teacher-rating-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.star-icon {
+  color: #ff6b6b;
+  font-size: 1.1rem;
+}
+
+.rating-score {
+  color: #ff6b6b;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.teacher-age {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.teacher-content {
+  text-align: center;
+}
+
+.teacher-wage {
+  color: #28a745;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.teacher-location {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.location-icon {
+  margin-right: 5px;
+}
+
+.location-text {
+  color: #666;
+}
+
+.teacher-certification {
+  color: #007bff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.teacher-skills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.skill-tag {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.teacher-preferences {
+  margin-top: 10px;
+}
+
+.preferences-label {
+  font-weight: 600;
+  color: #333;
+  margin-right: 5px;
+}
+
+.preferences-text {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.teachers-cta {
+  text-align: center;
+}
+
+.view-more-teachers-button {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.view-more-teachers-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+/* 비활성화된 서비스 링크 카드 */
+.service-link-card.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.service-link-card.disabled::after {
+  content: "로그인 필요";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.service-link-card.disabled:hover::after {
+  opacity: 1;
+}
+
+.service-link-card.disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 비활성화된 버튼 */
+.view-details-button.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #ccc !important;
+  color: #666 !important;
+  box-shadow: none !important;
+}
+
+.view-details-button.disabled:hover {
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
-  .hero-section {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .hero-text {
-    padding: 30px;
+  .hero-content {
+    flex-direction: column;
     text-align: center;
   }
 
   .hero-text h1 {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
   }
 
-  .hero-text h2 {
-    font-size: 1.8rem;
+  .hero-image img {
+    max-width: 300px;
   }
 
-  .hero-subtitle {
-    font-size: 1.3rem;
-  }
-
-  .reviews-title {
-    font-size: 2.2rem;
-  }
-
-  .reviews-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .service-links-container {
+    grid-template-columns: 1fr;
     gap: 20px;
   }
 
-  .review-card {
-    padding: 20px;
+  .reviews-grid,
+  .applications-grid,
+  .teachers-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
-  .review-text {
-    font-size: 1rem;
+  .reviews-title,
+  .applications-title,
+  .teachers-title {
+    font-size: 2rem;
   }
 
-  .mom-avatar {
-    width: 50px;
-    height: 50px;
+  .applications-section,
+  .reviews-section,
+  .teachers-section {
+    padding: 40px 20px;
   }
 }
 
 @media (max-width: 480px) {
-  .home-page {
-    padding: 20px 0;
-  }
-
-  .main-content {
-    padding: 0 15px;
-  }
-
-  .hero-text {
-    padding: 20px;
-  }
-
   .hero-text h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
-  .hero-text h2 {
-    font-size: 1.5rem;
-  }
-
-  .hero-subtitle {
+  .hero-text p {
     font-size: 1.1rem;
   }
 
-  .reviews-title {
+  .service-link-card {
+    padding: 25px 20px;
+  }
+
+  .service-link-icon {
+    font-size: 3rem;
+  }
+
+  .service-link-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .reviews-title,
+  .applications-title,
+  .teachers-title {
     font-size: 1.8rem;
   }
 
-  .reviews-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-
+  .application-card,
+  .teacher-card,
   .review-card {
-    padding: 18px;
-  }
-
-  .review-text {
-    font-size: 0.95rem;
-  }
-
-  .mom-avatar {
-    width: 45px;
-    height: 45px;
-  }
-
-  .view-more-button {
-    padding: 18px 40px;
-    font-size: 1.2rem;
+    padding: 20px;
   }
 }

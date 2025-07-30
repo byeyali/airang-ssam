@@ -1,120 +1,194 @@
-/* LoginPage.css */
-
-/*
-* 회원가입 페이지에서 사용했던 스타일을 대부분 그대로 가져왔습니다.
-* 이렇게 하면 "아이랑 쌤이랑" 앱의 디자인 언어를 통일할 수 있습니다.
-*/
-
-body {
-    background-color: #f0f2f5;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-.signup-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  background-color: white;
-  border-bottom: 1px solid #ddd;
-}
-.signup-logo {
+/* 로그인 페이지 스타일 */
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffe3e3 0%, #ffc9c9 100%);
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  padding: 20px;
 }
-.logo-img {
-  width: 50px;
-  height: auto;
+
+.login-container {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
 }
-.app-name {
-  font-size: 20px;
-  font-weight: bold;
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ff6b6b;
+  margin-bottom: 10px;
+}
+
+.login-header p {
+  color: #666;
+  font-size: 1rem;
+}
+
+.login-form {
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
   color: #333;
+  font-size: 0.9rem;
 }
-.header-buttons {
-  display: flex;
-  gap: 10px;
+
+.form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
 }
-.signup-header-button {
-  padding: 8px 15px;
+
+.form-group input:focus {
+  outline: none;
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+.error-message {
+  background: #ffe6e6;
+  color: #d63031;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  border-left: 4px solid #d63031;
+}
+
+.login-button {
+  width: 100%;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  color: white;
   border: none;
-  border-radius: 5px;
-  background-color: #f0f2f5;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 14px;
-}
-.signup-header-button:hover {
-  background-color: #e0e2e5;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
 }
 
-.signup-form-container {
-    width: 100%;
-    max-width: 600px;
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
 }
 
-.signup-title {
-    font-size: 28px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 30px;
-    text-align: center;
+.login-footer {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-.signup-form-group {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    text-align: left;
+.login-footer p {
+  color: #666;
+  margin-bottom: 10px;
 }
 
-.signup-form-group-inline {
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
+.signup-link {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.9rem;
 }
 
-.signup-label-button {
-    background-color: #4da6ff;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    width: 150px;
-    text-align: center;
-    font-weight: bold;
+.signup-link:hover {
+  color: #ff4757;
 }
 
-.signup-input-field {
-    flex-grow: 1;
+.demo-accounts {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #e9ecef;
+}
+
+.demo-accounts h3 {
+  color: #333;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.demo-account {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+  border-left: 4px solid #ff6b6b;
+}
+
+.demo-account:last-child {
+  margin-bottom: 0;
+}
+
+.demo-account strong {
+  color: #ff6b6b;
+  font-size: 0.9rem;
+}
+
+.demo-account p {
+  margin: 5px 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 30px 20px;
+  }
+
+  .login-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .form-group input {
+    padding: 10px 14px;
+  }
+
+  .login-button {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-page {
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
-}
+  }
 
-.signup-action-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-}
+  .login-container {
+    padding: 25px 15px;
+  }
 
-.signup-submit-button {
-    width: 100%;
-    background-color: #007bff;
-    color: white;
+  .login-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .demo-accounts {
     padding: 15px;
-    font-size: 18px;
-    margin-top: 20px;
+  }
 }

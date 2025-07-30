@@ -2,50 +2,80 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
 import { ReviewProvider } from "./contexts/ReviewContext";
-import "./App.css";
-
-// 컴포넌트 파일 안들을 모두 불러와.
+import { ApplicationProvider } from "./contexts/ApplicationContext";
+import { TeacherProvider } from "./contexts/TeacherContext";
+import { MatchingProvider } from "./contexts/MatchingContext";
 import Header from "./components/Header/Header";
 import Navigation from "./components/Navigation/Navigation";
-import MainContainer from "./components/MainContainer/MainContainer";
-
-// 페이지(컴포넌트)들을 불러와.
-import SignUp from "./pages/Signup/SignUp";
-import Login from "./pages/Login/Login";
-import Helpme from "./pages/Helpme/Helpme";
+import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
-import Feedback from "./pages/Feedback/Feedback";
+import Login from "./pages/Login/Login";
+import SignUp from "./pages/SignUp/SignUp";
+import Helpme from "./pages/Helpme/Helpme";
+import TeacherProfile from "./pages/TeacherProfile/TeacherProfile";
+import Applications from "./pages/Applications/Applications";
+import TeacherApplications from "./pages/TeacherApplications/TeacherApplications";
 import Reviews from "./pages/Reviews/Reviews";
+import Feedback from "./pages/Feedback/Feedback";
+import Matchings from "./pages/Matchings/Matchings";
+import ParentService from "./pages/ParentService/ParentService";
+import TeacherService from "./pages/TeacherService/TeacherService";
+import ApplicationDetail from "./pages/ApplicationDetail/ApplicationDetail";
+import MyReviews from "./pages/MyReviews/MyReviews";
+import "./App.css";
 
-const App = () => {
+function App() {
   return (
-    <UserProvider>
-      <ReviewProvider>
-        <Router>
-          <div className="App">
-            <MainContainer>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/feedback" element={<Feedback />} />
-                <Route path="/reviews" element={<Reviews />} />
-                <Route path="/Helpme" element={<Helpme />} />
-                <Route path="/Login" element={<Login />} />
-                <Route path="/SignUp" element={<SignUp />} />
-              </Routes>
-            </MainContainer>
-            <Footer />
-          </div>
-        </Router>
-      </ReviewProvider>
-    </UserProvider>
-  );
-};
-
-function Footer() {
-  return (
-    <footer className="main-footer">
-      <p>&copy; {new Date().getFullYear()} 아이랑쌤. All rights reserved.</p>
-    </footer>
+    <Router>
+      <UserProvider>
+        <ReviewProvider>
+          <ApplicationProvider>
+            <TeacherProvider>
+              <MatchingProvider>
+                <div className="App">
+                  <Header />
+                  <Navigation />
+                  <main className="main-content">
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/signup" element={<SignUp />} />
+                      <Route path="/Helpme" element={<Helpme />} />
+                      <Route
+                        path="/teacher-profile"
+                        element={<TeacherProfile />}
+                      />
+                      <Route path="/applications" element={<Applications />} />
+                      <Route
+                        path="/teacher-applications"
+                        element={<TeacherApplications />}
+                      />
+                      <Route path="/reviews" element={<Reviews />} />
+                      <Route path="/feedback" element={<Feedback />} />
+                      <Route path="/matchings" element={<Matchings />} />
+                      <Route
+                        path="/parent-service"
+                        element={<ParentService />}
+                      />
+                      <Route
+                        path="/teacher-service"
+                        element={<TeacherService />}
+                      />
+                      <Route
+                        path="/application-detail/:applicationId"
+                        element={<ApplicationDetail />}
+                      />
+                      <Route path="/my-reviews" element={<MyReviews />} />
+                    </Routes>
+                  </main>
+                  <Footer />
+                </div>
+              </MatchingProvider>
+            </TeacherProvider>
+          </ApplicationProvider>
+        </ReviewProvider>
+      </UserProvider>
+    </Router>
   );
 }
 
