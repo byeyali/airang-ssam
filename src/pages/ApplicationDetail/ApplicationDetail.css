@@ -2,21 +2,28 @@
 .application-detail-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #ffe3e3 0%, #ffc9c9 100%);
-  padding: 20px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 
 .application-detail-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 40px 60px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .detail-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
-  padding: 20px;
+  margin-bottom: 20px;
+  padding: 15px 20px;
   background: white;
   border-radius: 20px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
@@ -70,22 +77,21 @@
 .detail-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  margin-top: 30px;
-}
-
-.detail-left {
-  display: flex;
-  justify-content: center;
+  gap: 40px;
+  flex: 1;
+  width: 100%;
 }
 
 .application-summary-card {
   background: white;
   border-radius: 20px;
-  padding: 30px;
+  padding: 40px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .child-avatar-section {
@@ -98,8 +104,8 @@
 }
 
 .child-avatar {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -130,11 +136,13 @@
 }
 
 .application-title {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: #2f0005;
   margin-bottom: 15px;
-  line-height: 1.4;
+  line-height: 1.3;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .application-details {
@@ -151,22 +159,20 @@
   font-weight: 500;
 }
 
-.detail-right {
-  display: flex;
-  justify-content: center;
-}
-
 .detail-info-box {
   background: linear-gradient(135deg, #ffe3e3 0%, #ffc9c9 100%);
   border-radius: 20px;
-  padding: 30px;
+  padding: 40px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 500px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .detail-info-box h2 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #333;
   margin-bottom: 25px;
@@ -175,8 +181,8 @@
 
 .detail-row {
   display: flex;
-  margin-bottom: 15px;
-  padding: 10px 0;
+  margin-bottom: 12px;
+  padding: 8px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -187,14 +193,16 @@
 .detail-label {
   font-weight: 600;
   color: #333;
-  min-width: 120px;
+  min-width: 100px;
   margin-right: 15px;
+  font-size: 0.95rem;
 }
 
 .detail-value {
   color: #666;
   flex: 1;
-  line-height: 1.5;
+  line-height: 1.4;
+  font-size: 0.95rem;
 }
 
 .loading {
@@ -205,7 +213,37 @@
 }
 
 /* 반응형 디자인 */
+@media (max-width: 1200px) {
+  .application-detail-container {
+    padding: 30px 40px;
+  }
+
+  .detail-content {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .application-detail-container {
+    padding: 20px 30px;
+  }
+
+  .detail-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .application-summary-card,
+  .detail-info-box {
+    padding: 30px;
+  }
+}
+
 @media (max-width: 768px) {
+  .application-detail-container {
+    padding: 15px 20px;
+  }
+
   .detail-header {
     flex-direction: column;
     gap: 15px;
@@ -213,17 +251,39 @@
   }
 
   .detail-header h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .detail-content {
-    grid-template-columns: 1fr;
     gap: 20px;
   }
 
   .application-summary-card,
   .detail-info-box {
-    max-width: 100%;
+    padding: 20px;
+  }
+
+  .application-title {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .application-detail-container {
+    padding: 10px 15px;
+  }
+
+  .detail-header {
+    padding: 10px 15px;
+  }
+
+  .application-summary-card,
+  .detail-info-box {
+    padding: 15px;
+  }
+
+  .application-title {
+    font-size: 1.1rem;
   }
 }
 

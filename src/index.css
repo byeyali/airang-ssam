@@ -1,9 +1,9 @@
 /* FRONTEND/src/index.css */
 
-/* 💡 스포카 한 산스 네오 @import - CSS 파일 최상단에! */
+/* 스포카 한 산스 네오 @import - CSS 파일 최상단에! */
 @import url("//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css");
 
-/* 🧠 기본 웹 페이지 설정 */
+/* 기본 웹 페이지 설정 */
 html,
 body,
 #root {
@@ -43,7 +43,7 @@ code {
   font-style: normal;
 }
 
-/* 🧠 공통 버튼 스타일 (모든 버튼에 적용될 기본 스타일) */
+/* 공통 버튼 스타일 (모든 버튼에 적용될 기본 스타일) */
 .btn-primary {
   background-color: #5cb85c;
   color: white;
@@ -59,7 +59,7 @@ code {
   background-color: #4cae4c;
 }
 
-/* 🧠 공통 컨테이너 스타일 (페이지 컨텐츠 영역) */
+/* 공통 컨테이너 스타일 (페이지 컨텐츠 영역) */
 .main-content-container {
   max-width: 900px; /* 적당한 최대 너비 */
   margin: 40px auto; /* 위아래 간격, 좌우 자동 (중앙 정렬) */
@@ -71,7 +71,7 @@ code {
   text-align: center; /* 기본 텍스트 정렬 */
 }
 
-/* 🧠 미디어 쿼리 (공통) */
+/* 미디어 쿼리 (공통) */
 @media (max-width: 768px) {
   .main-content-container {
     margin: 20px auto;

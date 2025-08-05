@@ -2,7 +2,7 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 40px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -40,12 +40,12 @@
 .signup-label-button {
   min-width: 120px;
   padding: 12px 20px;
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  background: linear-gradient(135deg, #ff6b9d, #ff8fab);
   color: white;
   border-radius: 25px;
   font-weight: 600;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
   font-size: 0.9rem;
 }
 
@@ -60,10 +60,20 @@
   background: #f8f9fa;
 }
 
+.signup-input-field.address-field {
+  min-width: 150px;
+  max-width: 300px;
+}
+
+.signup-input-field::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
 .signup-input-field:focus {
   outline: none;
-  border-color: #ff6b6b;
-  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+  border-color: #ff6b9d;
+  box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.1);
   background: white;
 }
 
@@ -74,6 +84,202 @@
 .signup-input-field.full-width {
   width: 100%;
   margin-top: 10px;
+}
+
+.birthdate-input-container {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+}
+
+.birthdate-input-container .signup-input-field {
+  flex: 1;
+  padding-right: 50px;
+}
+
+.calendar-button {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.calendar-button:hover {
+  background: rgba(255, 107, 157, 0.1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.calendar-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #e1e8ed;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  margin-top: 5px;
+  padding: 15px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.calendar-date-selector {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.calendar-year-select,
+.calendar-month-select {
+  padding: 5px 10px;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  background: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.calendar-year-select:focus,
+.calendar-month-select:focus {
+  outline: none;
+  border-color: #ff6b9d;
+  box-shadow: 0 0 0 2px rgba(255, 107, 157, 0.1);
+}
+
+.calendar-nav-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.calendar-nav-btn:hover {
+  background: rgba(255, 107, 157, 0.1);
+}
+
+.calendar-title {
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.calendar-weekdays div {
+  text-align: center;
+  font-weight: 600;
+  color: #666;
+  font-size: 0.85rem;
+  padding: 5px;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.calendar-day {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.calendar-day:hover {
+  background: rgba(255, 107, 157, 0.2);
+}
+
+.calendar-day.other-month {
+  color: #ccc;
+}
+
+.address-input-container {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-input-field {
+  padding: 10px 15px;
+  border: 2px solid #e1e8ed;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+}
+
+.search-input-field:focus {
+  outline: none;
+  border-color: #ff6b9d;
+  box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.1);
+  background: white;
+}
+
+.address-search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #e1e8ed;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  margin-top: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  width: calc(100% - 90px);
+}
+
+.address-result-item {
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.9rem;
+}
+
+.address-result-item:last-child {
+  border-bottom: none;
+}
+
+.address-result-item:hover {
+  background: rgba(255, 107, 157, 0.1);
+  color: #ff6b9d;
 }
 
 .signup-radio-button-group {
@@ -95,15 +301,15 @@
 }
 
 .signup-radio-button:hover {
-  border-color: #ff6b6b;
-  background: #fff5f5;
+  border-color: #ff6b9d;
+  background: #fff0f5;
 }
 
 .signup-radio-button.selected {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  background: linear-gradient(135deg, #ff6b9d, #ff8fab);
   color: white;
-  border-color: #ff6b6b;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  border-color: #ff6b9d;
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
 }
 
 .signup-action-button {
@@ -118,40 +324,45 @@
 }
 
 .signup-confirm-button {
-  background: linear-gradient(135deg, #4ecdc4, #44a08d);
-  color: white;
-  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+  background: linear-gradient(135deg, #e1e8ed, #d1d9e0);
+  color: #6c757d;
+  box-shadow: 0 4px 15px rgba(225, 232, 237, 0.3);
+  min-width: 80px;
+  height: 45px;
 }
 
 .signup-confirm-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+  box-shadow: 0 6px 20px rgba(225, 232, 237, 0.4);
+  background: linear-gradient(135deg, #d1d9e0, #c1c9d0);
 }
 
 .signup-search-button {
-  background: linear-gradient(135deg, #a8edea, #fed6e3);
-  color: #333;
-  box-shadow: 0 4px 15px rgba(168, 237, 234, 0.3);
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: white;
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+  min-width: 80px;
+  height: 45px;
 }
 
 .signup-search-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(168, 237, 234, 0.4);
+  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
 }
 
 .signup-submit-button {
   width: 100%;
   padding: 18px;
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  background: linear-gradient(135deg, #ff6b9d, #ff8fab);
   color: white;
   font-size: 1.1rem;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
   margin-top: 20px;
 }
 
 .signup-submit-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
 }
 
 /* 반응형 디자인 */
@@ -191,6 +402,20 @@
   .signup-action-button {
     width: 100%;
     margin-top: 10px;
+  }
+
+  .address-input-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .signup-input-field.address-field {
+    min-width: auto;
+    max-width: none;
+  }
+
+  .address-search-results {
+    width: 100%;
   }
 }
 

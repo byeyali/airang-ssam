@@ -1,32 +1,34 @@
 /* TeacherApplications 페이지 스타일 */
 .teacher-applications-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 50%, #fff8e1 100%);
   padding: 20px;
 }
 
 .teacher-applications-container {
   max-width: 1200px;
   margin: 0 auto;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
+  padding: 40px 20px;
 }
 
 .teacher-applications-header {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-  color: white;
-  padding: 30px;
   text-align: center;
-  position: relative;
+  margin-bottom: 40px;
+  padding: 40px 30px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
 }
 
 .teacher-applications-header h1 {
-  margin: 0;
-  font-size: 2.5rem;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-size: 2.8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #42a5f5 0%, #ec407a 50%, #ffca28 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 15px;
 }
 
 .setup-profile-button {
@@ -70,7 +72,7 @@
 }
 
 .setup-profile-button-large {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
   color: white;
   border: none;
   padding: 15px 40px;
@@ -79,12 +81,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
 }
 
 .setup-profile-button-large:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
 }
 
 /* 매칭 가능한 공고가 없을 때 */
@@ -106,7 +108,7 @@
 }
 
 .matching-info {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
   color: white;
   padding: 25px;
   border-radius: 15px;
@@ -133,18 +135,19 @@
 }
 
 .teacher-item {
-  background: white;
-  border: 2px solid #e1e8ed;
-  border-radius: 20px;
-  padding: 25px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border: 2px solid #e1f5fe;
+  border-radius: 25px;
+  padding: 30px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
 }
 
 .teacher-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  border-color: #ff6b6b;
+  box-shadow: 0 15px 40px rgba(66, 165, 245, 0.15);
+  border-color: #42a5f5;
 }
 
 .teacher-summary {
@@ -165,8 +168,8 @@
   height: 160px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid #ff6b6b;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  border: 3px solid #e3f2fd;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
 }
 
 .teacher-profile img {
@@ -179,7 +182,7 @@
   position: absolute;
   top: -5px;
   right: -5px;
-  background: #ff6b6b;
+  background: #42a5f5;
   color: white;
   width: 25px;
   height: 25px;
@@ -188,7 +191,7 @@
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 2px 8px rgba(66, 165, 245, 0.4);
 }
 
 .teacher-info {
@@ -203,7 +206,7 @@
 }
 
 .teacher-rating {
-  color: #ff6b6b;
+  color: #42a5f5;
   font-weight: 600;
   margin-bottom: 10px;
 }
@@ -268,7 +271,7 @@
 }
 
 .matching-request-button {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  background: linear-gradient(135deg, #42a5f5 0%, #ec407a 100%);
   color: white;
   border: none;
   padding: 12px 25px;
@@ -276,16 +279,16 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 4px 15px rgba(66, 165, 245, 0.3);
 }
 
 .matching-request-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 6px 20px rgba(66, 165, 245, 0.4);
 }
 
 .matching-request-button-small {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
   color: white;
   border: none;
   padding: 8px 12px;
@@ -294,7 +297,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
   height: 36px;
   display: flex;
   align-items: center;
@@ -303,20 +306,20 @@
 
 .matching-request-button-small:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
 }
 
 .view-details-button {
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, #42a5f5 0%, #ec407a 100%);
   color: white;
   border: none;
   padding: 8px 12px;
-  border-radius: 15px;
+  border-radius: 25px;
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(66, 165, 245, 0.3);
   height: 36px;
   display: flex;
   align-items: center;
@@ -325,7 +328,7 @@
 
 .view-details-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(66, 165, 245, 0.4);
 }
 
 /* 상세 보기 모달 */
@@ -368,13 +371,13 @@
 
 .detail-header h2 {
   margin: 0;
-  color: #ff6b6b;
+  color: #42a5f5;
   font-size: 1.5rem;
   font-weight: bold;
 }
 
 .close-button {
-  background: #ff6b6b;
+  background: #42a5f5;
   color: white;
   border: none;
   width: 35px;
@@ -387,13 +390,13 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 2px 8px rgba(66, 165, 245, 0.3);
 }
 
 .close-button:hover {
-  background: #e55555;
+  background: #ec407a;
   transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 4px 12px rgba(66, 165, 245, 0.4);
 }
 
 .detail-body {
@@ -412,12 +415,12 @@
 }
 
 .teacher-detail-profile img {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid #ff6b6b;
-  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+  border: 4px solid #4a90e2;
+  box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
 }
 
 .teacher-detail-info h3 {
@@ -449,7 +452,7 @@
   padding: 15px;
   background: #f8f9fa;
   border-radius: 12px;
-  border-left: 4px solid #ff6b6b;
+  border-left: 4px solid #4a90e2;
 }
 
 .detail-label {
@@ -501,8 +504,8 @@
 }
 
 .file-item:hover {
-  border-color: #ff6b6b;
-  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.15);
+  border-color: #4a90e2;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.15);
   transform: translateY(-1px);
 }
 
@@ -570,12 +573,12 @@
 
 .matching-message:focus {
   outline: none;
-  border-color: #ff6b6b;
-  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
 }
 
 .matching-request-button {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
   color: white;
   border: none;
   padding: 15px 30px;
@@ -584,13 +587,13 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
   width: 100%;
 }
 
 .matching-request-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
 }
 
 /* 반응형 디자인 */

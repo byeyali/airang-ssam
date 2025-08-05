@@ -55,6 +55,19 @@
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
+.write-review-btn.disabled {
+  background: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.write-review-btn.disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
 .my-reviews-btn {
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   color: white;

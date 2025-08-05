@@ -1,0 +1,367 @@
+/* 부모 충전 페이지 스타일 */
+.parent-recharge-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  padding: 20px;
+}
+
+.recharge-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 25px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.recharge-header {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  padding: 30px;
+  text-align: center;
+  position: relative;
+}
+
+.back-button {
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.recharge-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.recharge-header p {
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* 충전 방법 카드 */
+.recharge-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+  padding: 30px;
+}
+
+.recharge-method-card {
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.recharge-method-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.method-icon {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.recharge-method-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+/* 계좌 정보 */
+.account-info {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+.account-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.account-item:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  font-weight: 600;
+  color: #666;
+  min-width: 80px;
+}
+
+.value {
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+}
+
+.copy-button {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.copy-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+/* 카드 정보 */
+.card-info {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card-info p {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.card-brands {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.card-brands span {
+  background: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-payment-button {
+  width: 100%;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.card-payment-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+}
+
+.method-note {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.method-note p {
+  margin: 0 0 8px 0;
+  font-size: 0.9rem;
+  color: #856404;
+  line-height: 1.4;
+}
+
+.method-note p:last-child {
+  margin-bottom: 0;
+}
+
+/* 충전 금액 선택 */
+.recharge-amount-section {
+  padding: 30px;
+  background: #f8f9fa;
+}
+
+.recharge-amount-section h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.amount-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.amount-option {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.amount-option:hover {
+  border-color: #28a745;
+  background: #f8fff8;
+}
+
+.amount-option.selected {
+  border-color: #28a745;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+}
+
+.custom-amount {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+}
+
+.custom-amount-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.currency {
+  font-weight: 600;
+  color: #666;
+}
+
+/* 주의사항 */
+.recharge-notice {
+  padding: 30px;
+  background: white;
+}
+
+.recharge-notice h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.recharge-notice ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.recharge-notice li {
+  margin-bottom: 10px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.recharge-notice li:last-child {
+  margin-bottom: 0;
+}
+
+/* 접근 거부 */
+.access-denied {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+.access-denied h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #dc3545;
+  margin: 0 0 15px 0;
+}
+
+.access-denied p {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .recharge-header {
+    padding: 20px;
+  }
+
+  .recharge-header h1 {
+    font-size: 2rem;
+  }
+
+  .back-button {
+    position: static;
+    transform: none;
+    margin-bottom: 15px;
+  }
+
+  .recharge-methods {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .amount-options {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .recharge-amount-section,
+  .recharge-notice {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .recharge-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .amount-options {
+    grid-template-columns: 1fr;
+  }
+
+  .card-brands {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+}

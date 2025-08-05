@@ -9,45 +9,161 @@ function TeacherApplications() {
   const { getAllTeachers, getHomeTeachers } = useTeacher();
   const { user } = useUser();
   const { createMatching } = useMatching();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [selectedTeacher, setSelectedTeacher] = useState(null);
-  const [showDetail, setShowDetail] = useState(false);
-  const [matchingMessage, setMatchingMessage] = useState("");
 
-  // 홈페이지에서 온 경우 전체 쌤 목록, 그렇지 않으면 홈용 쌤 2명
-  const teachers = location.state?.fromHome
-    ? getAllTeachers()
-    : getHomeTeachers();
-
-  const handleViewDetail = (teacher) => {
-    setSelectedTeacher(teacher);
-    setShowDetail(true);
+  // 쌤 이미지 매핑 함수
+  const getTeacherImage = (teacherId) => {
+    const imageMap = {
+      teacher_001: "/img/teacher-kimyouhghee-womam.png", // 김영희 (28세 여성)
+      teacher_002: "/img/teacher-man-ball.jpg", // 박민수 (32세 남성)
+      teacher_003: "/img/teacher-kimjiyoung.jpg", // 이수진 (26세 여성)
+      teacher_004: "/img/teacher-math-english.jpg", // 최지영 (29세 여성)
+      teacher_005: "/img/teacher-studing-with-2children.jpeg", // 한미영 (31세 여성)
+      teacher_006: "/img/teacher-man-readingbook.png", // 정성훈 (35세 남성)
+      teacher_007: "/img/kimtashyeon-man.png", // 김태현 (27세 남성)
+      teacher_008: "/img/teacher-30-man.png", // 박성훈 (30세 남성)
+      teacher_009: "/img/teacher-20-woman.png", // 이미영 (22세 여성)
+      teacher_010: "/img/teacher-40-woman.png", // 박지영 (45세 여성)
+      teacher_011: "/img/teacher-60-woman.png", // 최영희 (55세 여성)
+    };
+    return imageMap[teacherId] || "/img/teacher-30-woman.png";
   };
 
-  const handleCloseDetail = () => {
-    setShowDetail(false);
-    setSelectedTeacher(null);
+  // 사용자 타입에 따른 쌤 데이터 필터링
+  const getFilteredTeachers = () => {
+    if (!user) return [];
+
+    if (user.type === "parent") {
+      // 부모는 쌤 정보만 볼 수 있고, 지역이 매칭되는 것만
+      const allTeachers = getAllTeachers();
+      return allTeachers.filter((teacher) =>
+        teacher.regions.some((region) => user.region.includes(region))
+      );
+    } else if (user.type === "teacher") {
+      // 쌤은 간략한 쌤 프로필만 볼 수 있음 (상세보기/매칭 제한)
+      return getAllTeachers();
+    } else if (user.type === "admin") {
+      // 관리자는 모든 쌤 정보를 볼 수 있음
+      return getAllTeachers();
+    }
+
+    return [];
+  };
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [showMatchingModal, setShowMatchingModal] = useState(false);
+  const [matchingMessage, setMatchingMessage] = useState("");
+
+  // 홈페이지에서 온 경우와 일반 접근을 구분
+  const teachers = location.state?.fromHome
+    ? user
+      ? getFilteredTeachers()
+      : getHomeTeachers()
+    : getFilteredTeachers();
+
+  const handleViewDetail = (teacher) => {
+    // 쌤 회원은 상세보기 제한
+    if (user && user.type === "teacher") {
+      showNotification("쌤 회원은 상세보기를 이용할 수 없습니다.", "warning");
+      return;
+    }
+    navigate(`/teacher-detail/${teacher.id}`);
+  };
+
+  const handleOpenMatchingModal = (teacher) => {
+    if (!user) {
+      showNotification("로그인이 필요합니다.", "error");
+      return;
+    }
+
+    // 쌤 회원은 매칭 요청 제한
+    if (user.type === "teacher") {
+      showNotification("쌤 회원은 매칭 요청을 이용할 수 없습니다.", "warning");
+      return;
+    }
+
+    setShowMatchingModal(true);
     setMatchingMessage("");
   };
 
-  const handleProceedMatching = (teacher) => {
+  const handleCloseMatchingModal = () => {
+    setShowMatchingModal(false);
+    setMatchingMessage("");
+  };
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  const handleProceedMatching = async () => {
     if (!user) {
-      alert("로그인이 필요합니다.");
+      showNotification("로그인이 필요합니다.", "error");
       return;
     }
 
     if (!matchingMessage.trim()) {
-      alert("매칭 메시지를 입력해주세요.");
+      showNotification("매칭 메시지를 입력해주세요.", "warning");
       return;
     }
 
-    // 매칭 생성 (실제로는 선택된 쌤의 ID가 필요)
-    const teacherId = teacher.id;
-    createMatching(user.id, teacherId, null, matchingMessage);
+    setIsSubmitting(true);
 
-    alert("매칭 요청을 보냈습니다.");
-    handleCloseDetail();
+    try {
+      // 매칭 생성 (실제로는 선택된 쌤의 ID가 필요)
+      createMatching(user.id, "teacher_001", null, matchingMessage);
+
+      setSubmitSuccess(true);
+      showNotification("매칭 요청을 성공적으로 보냈습니다! 💌", "success");
+
+      // 2초 후 모달 닫기
+      setTimeout(() => {
+        handleCloseMatchingModal();
+        setSubmitSuccess(false);
+      }, 2000);
+    } catch (error) {
+      showNotification("매칭 요청 중 오류가 발생했습니다.", "error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // 사용자 친화적인 알림 함수
+  const showNotification = (message, type = "info") => {
+    // 기존 알림 제거
+    const existingNotification = document.querySelector(".custom-notification");
+    if (existingNotification) {
+      existingNotification.remove();
+    }
+
+    const notification = document.createElement("div");
+    notification.className = `custom-notification ${type}`;
+    notification.innerHTML = `
+      <div class="notification-content">
+        <span class="notification-icon">${getNotificationIcon(type)}</span>
+        <span class="notification-message">${message}</span>
+      </div>
+    `;
+
+    document.body.appendChild(notification);
+
+    // 3초 후 자동 제거
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.remove();
+      }
+    }, 3000);
+  };
+
+  const getNotificationIcon = (type) => {
+    switch (type) {
+      case "success":
+        return "✅";
+      case "error":
+        return "❌";
+      case "warning":
+        return "⚠️";
+      default:
+        return "ℹ️";
+    }
   };
 
   const handleDownloadFile = (fileName, fileType) => {
@@ -67,40 +183,63 @@ function TeacherApplications() {
     navigate("/teacher-profile");
   };
 
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case "accepted":
+        return "";
+      case "rejected":
+        return "";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="teacher-applications-page">
       <div className="teacher-applications-container">
         <div className="teacher-applications-header">
           <h1>
-            {location.state?.fromHome ? "우리 아이 쌤 찾기" : "지역 공고"}
+            {user?.type === "teacher"
+              ? "부모님들의 공고 확인"
+              : location.state?.fromHome
+              ? "우리 아이 쌤 찾기"
+              : "지역 공고"}
           </h1>
-          {!user?.profileCompleted && (
+          {user?.type === "teacher" && (
             <button
               className="setup-profile-button"
-              onClick={handleProfileSetup}
+              onClick={() => navigate("/teacher-profile")}
             >
-              프로필 등록하기
+              내 프로필 수정
+            </button>
+          )}
+          {user?.type === "parent" && (
+            <button
+              className="setup-profile-button"
+              onClick={() => navigate("/Helpme")}
+            >
+              공고 작성하기
             </button>
           )}
         </div>
 
-        {!user?.profileCompleted ? (
+        {user?.type === "parent" && teachers.length === 0 ? (
           <div className="profile-required">
             <div className="profile-required-content">
-              <h2>프로필 등록이 필요합니다</h2>
+              <h2>공고를 먼저 작성해주세요</h2>
               <p>
-                활동 가능한 지역과 분야를 등록하시면 해당 지역의 쌤들을 확인할
-                수 있습니다.
+                쌤을 찾기 전에 "도와줘요 쌤" 공고를 먼저 작성해주세요. 공고를
+                작성하시면 해당 지역의 쌤들이 확인할 수 있습니다.
               </p>
               <button
                 className="setup-profile-button-large"
-                onClick={handleProfileSetup}
+                onClick={() => navigate("/Helpme")}
               >
-                프로필 등록하기
+                공고 작성하기
               </button>
             </div>
           </div>
-        ) : teachers.length === 0 ? (
+        ) : teachers.length === 0 && user?.type !== "parent" ? (
           <div className="no-teachers">
             <p>
               {location.state?.fromHome
@@ -125,16 +264,17 @@ function TeacherApplications() {
                     }개를 확인할 수 있습니다.`}
               </p>
             </div>
-
             <div className="teachers-list">
               {teachers.map((teacher) => (
                 <div key={teacher.id} className="teacher-item">
                   <div className="teacher-summary">
                     <div className="teacher-header-info">
                       <div className="teacher-profile">
-                        <img src={teacher.profileImage} alt="쌤 프로필" />
+                        <img
+                          src={getTeacherImage(teacher.id)}
+                          alt="쌤 프로필"
+                        />
                       </div>
-                      <div className="heart-icon">♡</div>
                     </div>
                     <div className="teacher-info">
                       <div className="teacher-name">
@@ -159,16 +299,16 @@ function TeacherApplications() {
                   <div className="teacher-actions">
                     <div className="matching-status">
                       {teacher.matchingStatus === "pending" ? (
-                        <span className="status-pending">진행중</span>
+                        <span className="status-pending">매칭 진행중</span>
                       ) : teacher.matchingStatus === "matched" ? (
-                        <span className="status-matched">완료</span>
+                        <span className="status-matched">매칭 완료</span>
                       ) : (
-                        <span className="status-available">가능</span>
+                        <span className="status-available">매칭 가능</span>
                       )}
                     </div>
                     <button
                       className="matching-request-button-small"
-                      onClick={() => handleProceedMatching(teacher)}
+                      onClick={() => handleOpenMatchingModal(teacher)}
                     >
                       매칭요청
                     </button>
@@ -182,119 +322,66 @@ function TeacherApplications() {
                 </div>
               ))}
             </div>
-
-            {/* 상세 보기 모달 */}
-            {showDetail && selectedTeacher && (
-              <div className="detail-modal">
-                <div className="detail-content">
-                  <div className="detail-header">
-                    <h2>쌤 상세 정보</h2>
+            {/* 매칭 요청 모달 */}
+            {showMatchingModal && (
+              <div className="matching-modal">
+                <div className="matching-content">
+                  <div className="matching-header">
+                    <h2>매칭 요청</h2>
                     <button
                       className="close-button"
-                      onClick={handleCloseDetail}
+                      onClick={handleCloseMatchingModal}
                     >
                       ×
                     </button>
                   </div>
-                  <div className="detail-body">
-                    <div className="teacher-detail-profile">
-                      <img src={selectedTeacher.profileImage} alt="쌤 프로필" />
-                      <div className="teacher-detail-info">
-                        <h3>
-                          {selectedTeacher.maskedName} ({selectedTeacher.age}세)
-                        </h3>
-                        <p>
-                          ⭐ {selectedTeacher.rating} (
-                          {selectedTeacher.experience} 경력)
+                  <div className="matching-body">
+                    <div className="matching-form">
+                      <div className="matching-message-section">
+                        <h3>메시지 작성</h3>
+                        <p className="matching-description">
+                          쌤께 전달할 메시지를 작성해주세요. 아이의 나이, 필요한
+                          서비스, 희망하는 시간 등을 포함하면 더 좋은 매칭이
+                          가능합니다.
                         </p>
-                        <p>희망 시급: {selectedTeacher.hourlyWage}</p>
-                        <p>활동 지역: {selectedTeacher.regions.join(", ")}</p>
-                      </div>
-                    </div>
-
-                    <div className="detail-info-grid">
-                      <div className="detail-row">
-                        <span className="detail-label">자격증</span>
-                        <span className="detail-value">
-                          {selectedTeacher.certification}
-                        </span>
-                      </div>
-
-                      <div className="detail-row">
-                        <span className="detail-label">자격</span>
-                        <span className="detail-value">
-                          {selectedTeacher.qualifications.join(", ")}
-                        </span>
-                      </div>
-
-                      <div className="detail-row">
-                        <span className="detail-label">기술</span>
-                        <span className="detail-value">
-                          {selectedTeacher.skills.join(", ")}
-                        </span>
-                      </div>
-
-                      <div className="detail-row">
-                        <span className="detail-label">선호사항</span>
-                        <span className="detail-value">
-                          {selectedTeacher.preferences.join(", ")}
-                        </span>
-                      </div>
-
-                      <div className="detail-row">
-                        <span className="detail-label">소개</span>
-                        <span className="detail-value">
-                          {selectedTeacher.introduction}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 업로드된 파일 다운로드 섹션 */}
-                  {selectedTeacher.uploadedFiles &&
-                    Object.keys(selectedTeacher.uploadedFiles).length > 0 && (
-                      <div className="uploaded-files-section">
-                        <h3>업로드된 파일</h3>
-                        <div className="files-grid">
-                          {Object.entries(selectedTeacher.uploadedFiles).map(
-                            ([key, file]) => (
-                              <div key={key} className="file-item">
-                                <div className="file-info">
-                                  <span className="file-name">{file.name}</span>
-                                  <span className="file-size">
-                                    {(file.size / 1024).toFixed(1)} KB
-                                  </span>
-                                </div>
-                                <button
-                                  className="download-button"
-                                  onClick={() =>
-                                    handleDownloadFile(file.name, file.type)
-                                  }
-                                >
-                                  다운로드
-                                </button>
-                              </div>
-                            )
-                          )}
+                        <textarea
+                          className="matching-message-input"
+                          placeholder="예시: 안녕하세요! 7살 아이를 키우고 있는 부모입니다. 방과후 돌봄이 필요해서 연락드립니다. 아이는 활발하고 장난감 놀이를 좋아합니다. 월~금 오후 3시부터 6시까지 가능하시면 연락 부탁드립니다."
+                          value={matchingMessage}
+                          onChange={(e) => setMatchingMessage(e.target.value)}
+                          rows="6"
+                        />
+                        <div className="message-counter">
+                          {matchingMessage.length}/500자
                         </div>
                       </div>
-                    )}
 
-                  <div className="detail-actions">
-                    <div className="matching-section">
-                      <h3>매칭 요청</h3>
-                      <textarea
-                        className="matching-message"
-                        placeholder="쌤께 전달할 메시지를 입력해주세요..."
-                        value={matchingMessage}
-                        onChange={(e) => setMatchingMessage(e.target.value)}
-                      />
-                      <button
-                        className="matching-request-button"
-                        onClick={() => handleProceedMatching(selectedTeacher)}
-                      >
-                        매칭 요청 보내기
-                      </button>
+                      <div className="matching-actions">
+                        <button
+                          className="cancel-button"
+                          onClick={handleCloseMatchingModal}
+                        >
+                          취소
+                        </button>
+                        <button
+                          className={`matching-submit-button ${
+                            submitSuccess ? "success" : ""
+                          }`}
+                          onClick={handleProceedMatching}
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <span className="loading-spinner"></span>
+                              매칭 요청 중...
+                            </>
+                          ) : submitSuccess ? (
+                            <>매칭 요청 완료!</>
+                          ) : (
+                            <>매칭 요청 보내기</>
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

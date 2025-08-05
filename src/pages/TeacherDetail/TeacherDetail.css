@@ -1,0 +1,927 @@
+/* TeacherDetail 페이지 스타일 */
+.teacher-detail-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffe3e3 0%, #ffc9c9 100%);
+  padding: 20px;
+}
+
+/* 로딩 컨테이너 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  gap: 20px;
+}
+
+.loading-container p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+/* 헤더 */
+.teacher-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  background: white;
+  padding: 20px 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.back-button {
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+}
+
+.teacher-detail-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ff6b6b;
+}
+
+/* 컨테이너 */
+.teacher-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* 프로필 섹션 */
+.profile-section {
+  background: white;
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.profile-image {
+  flex-shrink: 0;
+}
+
+.profile-image img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #ff6b6b;
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-info h2 {
+  margin: 0 0 15px 0;
+  font-size: 3.3rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.profile-rating {
+  font-size: 1.95rem;
+  margin-bottom: 20px;
+  color: #ff6b6b;
+  font-weight: 600;
+}
+
+.profile-details p {
+  margin: 8px 0;
+  font-size: 1.65rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.profile-details strong {
+  color: #333;
+  font-weight: 600;
+}
+
+/* 상세 정보 섹션 */
+.details-section {
+  background: white;
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.detail-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-radius: 20px;
+  padding: 25px;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.detail-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: #ff6b6b;
+}
+
+.detail-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.detail-card h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-card p {
+  margin: 0;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.skills-list,
+.preferences-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag,
+.preference-tag {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+}
+
+/* 파일 섹션 */
+.files-section {
+  background: white;
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.files-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.files-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.download-all-button {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.download-all-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.download-all-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.file-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-radius: 15px;
+  padding: 20px;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-color: #ff6b6b;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.file-icon {
+  font-size: 2rem;
+  color: #ff6b6b;
+}
+
+.file-details {
+  flex: 1;
+}
+
+.file-name {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+  font-size: 1rem;
+}
+
+.file-size {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.download-file-button {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+}
+
+.download-file-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+}
+
+/* 액션 섹션 */
+.action-section {
+  background: white;
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.matching-card {
+  text-align: center;
+}
+
+.matching-card h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.matching-card p {
+  margin: 0 0 25px 0;
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+.matching-request-button {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.matching-request-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.matching-request-button:hover::before {
+  left: 100%;
+}
+
+.matching-request-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+}
+
+/* 수정하기 카드 */
+.edit-card {
+  text-align: center;
+}
+
+.edit-card h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #28a745;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.edit-card h3::before {
+  content: "✏️";
+}
+
+.edit-card p {
+  margin: 0 0 25px 0;
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+.edit-profile-button {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-profile-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.edit-profile-button:hover::before {
+  left: 100%;
+}
+
+.edit-profile-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+}
+
+/* 매칭 모달 (기존 스타일 재사용) */
+.matching-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
+}
+
+.matching-content {
+  background: white;
+  border-radius: 25px;
+  max-width: 600px;
+  width: 95%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+  animation: slideUp 0.3s ease;
+}
+
+.matching-header {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 35px 25px 35px;
+  border-bottom: 3px solid #f0f0f0;
+  border-radius: 25px 25px 0 0;
+}
+
+.matching-header h2 {
+  margin: 0;
+  color: #ff6b6b;
+  font-size: 1.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.close-button {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.close-button:hover {
+  background: linear-gradient(135deg, #e55555 0%, #ff6b6b 100%);
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.matching-body {
+  padding: 35px;
+}
+
+.teacher-matching-info {
+  margin-bottom: 30px;
+  padding: 25px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-radius: 20px;
+  border: 2px solid #e9ecef;
+}
+
+.teacher-matching-profile {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.teacher-matching-profile img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ff6b6b;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.teacher-matching-details h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.4rem;
+  color: #333;
+  font-weight: 700;
+}
+
+.teacher-matching-details p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+.matching-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.matching-message-section h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.3rem;
+  color: #333;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.matching-message-section h3::before {
+  content: "✍️";
+  font-size: 1.1rem;
+}
+
+.matching-description {
+  margin: 0 0 20px 0;
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.5;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 3px solid #ff6b6b;
+}
+
+.matching-message-input {
+  width: 100%;
+  min-height: 150px;
+  padding: 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 15px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s ease;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.matching-message-input:focus {
+  outline: none;
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1), 0 4px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.matching-message-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.message-counter {
+  text-align: right;
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 8px;
+}
+
+.matching-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+}
+
+.cancel-button {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+.cancel-button:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+}
+
+.matching-submit-button {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.matching-submit-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.matching-submit-button:hover::before {
+  left: 100%;
+}
+
+.matching-submit-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+}
+
+.matching-submit-button:active {
+  transform: translateY(-1px);
+}
+
+.matching-submit-button.success {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+}
+
+.matching-submit-button.success:hover {
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+}
+
+.matching-submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.matching-submit-button:disabled:hover {
+  transform: none !important;
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3) !important;
+}
+
+/* 로딩 스피너 */
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 커스텀 알림 스타일 */
+.custom-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  background: white;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-left: 4px solid;
+  animation: slideInRight 0.3s ease;
+  max-width: 350px;
+}
+
+.custom-notification.success {
+  border-left-color: #28a745;
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+}
+
+.custom-notification.error {
+  border-left-color: #dc3545;
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+}
+
+.custom-notification.warning {
+  border-left-color: #ffc107;
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+}
+
+.custom-notification.info {
+  border-left-color: #17a2b8;
+  background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.notification-icon {
+  font-size: 1.2rem;
+}
+
+.notification-message {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+  line-height: 1.4;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .teacher-detail-page {
+    padding: 15px;
+  }
+
+  .teacher-detail-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .teacher-detail-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .profile-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-image img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .files-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .files-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .matching-actions {
+    flex-direction: column;
+  }
+
+  .profile-rating {
+    font-size: 1.5rem;
+  }
+
+  .profile-details p {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .teacher-detail-page {
+    padding: 10px;
+  }
+
+  .profile-section,
+  .details-section,
+  .files-section,
+  .matching-section {
+    padding: 25px;
+  }
+
+  .profile-image img {
+    width: 180px;
+    height: 180px;
+  }
+
+  .profile-info h2 {
+    font-size: 2.7rem;
+  }
+
+  .matching-content {
+    width: 98%;
+    max-height: 90vh;
+  }
+
+  .matching-header {
+    padding: 20px 25px 15px 25px;
+  }
+
+  .matching-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .matching-body {
+    padding: 25px;
+  }
+
+  .teacher-matching-profile {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .teacher-matching-profile img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .profile-rating {
+    font-size: 1.3rem;
+  }
+
+  .profile-details p {
+    font-size: 1.1rem;
+  }
+}

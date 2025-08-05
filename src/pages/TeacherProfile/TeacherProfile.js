@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
+import { useTeacher } from "../../contexts/TeacherContext";
 import RegionSearch from "../../components/RegionSearch/RegionSearch";
 import "./TeacherProfile.css";
 
 const TeacherProfile = () => {
   const { user, updateUserProfile } = useUser();
+  const { getTeacherById } = useTeacher();
   const navigate = useNavigate();
+  const [isEditMode, setIsEditMode] = useState(false);
 
   // 분야 선택 상태
   const [selectedFields, setSelectedFields] = useState([]);
@@ -22,24 +25,57 @@ const TeacherProfile = () => {
     bankbook: null,
   });
 
-  // 분야 카테고리
+  // 기존 프로필 데이터 불러오기
+  useEffect(() => {
+    if (user && user.type === "teacher") {
+      const existingProfile = getTeacherById(user.id);
+      if (existingProfile) {
+        setIsEditMode(true);
+        setSelectedFields(existingProfile.fields || []);
+        setSelectedRegions(existingProfile.regions || []);
+        setBirthYear(existingProfile.birthYear || "");
+        setGender(existingProfile.gender || "");
+        setUploadedFiles(
+          existingProfile.uploadedFiles || {
+            photo: null,
+            identityVerification: null,
+            healthCheck: null,
+            qualification: null,
+            portfolio: null,
+            bankbook: null,
+          }
+        );
+      }
+    }
+  }, [user, getTeacherById]);
+
+  // 분야 카테고리 (Helpme 페이지와 동일한 구조)
   const fieldCategories = {
     care: [
-      { id: "afterSchool", name: "방과 후 마중", icon: "🏠" },
-      { id: "foodCare", name: "음식 챙김", icon: "🍽️" },
-      { id: "specialCare", name: "특수 돌봄", icon: "💙" },
+      {
+        id: "afterSchool",
+        name: "방과 후 마중",
+        image: "/img/afterschool.png",
+      },
+      { id: "foodCare", name: "음식 챙김", image: "/img/food.png" },
+      { id: "clean", name: "정리 정돈", image: "/img/clean.png" },
+      { id: "specialCare", name: "특수 돌봄", image: "/img/specialcare.png" },
     ],
     play: [
-      { id: "sports", name: "스포츠", icon: "⚽" },
-      { id: "music", name: "음악", icon: "🎹" },
-      { id: "art", name: "미술", icon: "🎨" },
-      { id: "boardGame", name: "보드게임", icon: "🎲" },
+      { id: "sports", name: "스포츠", image: "/img/sports.png" },
+      { id: "music", name: "음악", image: "/img/music.png" },
+      { id: "art", name: "미술", image: "/img/art.png" },
+      { id: "boardGame", name: "보드게임", image: "/img/boardgame.png" },
     ],
     study: [
-      { id: "math", name: "산수", icon: "123" },
-      { id: "subjectTutoring", name: "교과 보충", icon: "📚" },
-      { id: "readingDiscussion", name: "독서 대화", icon: "💬" },
-      { id: "secondLanguage", name: "제2외국어", icon: "🌍" },
+      { id: "math", name: "산수", image: "/img/math.png" },
+      { id: "subjectTutoring", name: "교과 보충", image: "/img/textbook.png" },
+      { id: "readingDiscussion", name: "독서 대화", image: "/img/reading.png" },
+      {
+        id: "secondLanguage",
+        name: "제2외국어",
+        image: "/img/secondlanguage.png",
+      },
     ],
   };
 
@@ -115,20 +151,23 @@ const TeacherProfile = () => {
     navigate("/applications");
   };
 
-  // 분야 카드 렌더링
+  // 분야 카드 렌더링 (Helpme 페이지와 동일한 스타일)
   const renderFieldCard = (field) => {
     const isSelected = selectedFields.includes(field.id);
     return (
       <div
         key={field.id}
-        className={`field-card ${isSelected ? "selected" : ""}`}
+        className="item-card"
         onClick={() => handleFieldSelect(field.id)}
       >
-        <div className="field-icon">{field.icon}</div>
-        <div className="field-name">{field.name}</div>
-        <div className={`selection-indicator ${isSelected ? "selected" : ""}`}>
-          {isSelected ? "✓" : ""}
-        </div>
+        <div
+          className="item-image"
+          style={{ backgroundImage: `url('${field.image}')` }}
+        ></div>
+        <div className="item-text">{field.name}</div>
+        <div
+          className={`item-icon-circle ${isSelected ? "selected" : ""}`}
+        ></div>
       </div>
     );
   };
@@ -136,30 +175,37 @@ const TeacherProfile = () => {
   return (
     <div className="teacher-profile-container">
       <div className="profile-header">
-        <h1>쌤 프로필 등록</h1>
-        <p>활동하실 돌봄 분야 선택해주세요</p>
+        <h1>{isEditMode ? "쌤 프로필 수정" : "쌤 프로필 등록"}</h1>
+        <p>
+          {isEditMode
+            ? "프로필 정보를 수정해주세요"
+            : "활동하실 돌봄 분야 선택해주세요"}
+        </p>
       </div>
 
       {/* 분야 선택 섹션 */}
       <div className="field-selection-section">
         <div className="field-categories">
-          <div className="field-category">
-            <h3>돌봄</h3>
-            <div className="field-grid">
+          {/* 돌봄 카테고리 */}
+          <div className="category">
+            <div className="category-title">돌봄</div>
+            <div className="item-list">
               {fieldCategories.care.map(renderFieldCard)}
             </div>
           </div>
 
-          <div className="field-category">
-            <h3>놀이</h3>
-            <div className="field-grid">
+          {/* 놀이 카테고리 */}
+          <div className="category">
+            <div className="category-title">놀이</div>
+            <div className="item-list">
               {fieldCategories.play.map(renderFieldCard)}
             </div>
           </div>
 
-          <div className="field-category">
-            <h3>스터디</h3>
-            <div className="field-grid">
+          {/* 스터디 카테고리 */}
+          <div className="category">
+            <div className="category-title">스터디</div>
+            <div className="item-list">
               {fieldCategories.study.map(renderFieldCard)}
             </div>
           </div>
@@ -219,7 +265,7 @@ const TeacherProfile = () => {
       {/* 액션 버튼 */}
       <div className="action-buttons">
         <button className="save-button" onClick={handleSave}>
-          저장
+          {isEditMode ? "수정 완료" : "저장"}
         </button>
         <button
           className="upload-button"

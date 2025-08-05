@@ -47,10 +47,19 @@ function Reviews() {
 
       <div className="reviews-actions">
         <button
-          className="action-button write-review-btn"
-          onClick={() => setShowAddForm(!showAddForm)}
+          className={`action-button write-review-btn ${
+            !user ? "disabled" : ""
+          }`}
+          onClick={() => {
+            if (!user) {
+              alert("로그인이 필요합니다. 로그인 후 후기를 작성해주세요.");
+              return;
+            }
+            setShowAddForm(!showAddForm);
+          }}
+          disabled={!user}
         >
-          후기 작성하기
+          {user ? "후기 작성하기" : "로그인 후 작성"}
         </button>
         <button
           className="action-button my-reviews-btn"

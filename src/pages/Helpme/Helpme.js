@@ -4,20 +4,33 @@
 //
 
 import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
+import { useTeacherSearch } from "../../contexts/TeacherSearchContext";
+import { searchRegionLocal, searchTeacher } from "../../config/api";
 import "./Helpme.css";
 
 const Helpme = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user } = useUser();
+  const { setSearchData } = useTeacherSearch();
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editApplicationId, setEditApplicationId] = useState(null);
   // 🧠 'selectedItems'라는 상태(state)를 만들고, 초깃값으로 빈 배열([])을 넣어줘.
   // 이 배열에 선택된 항목들의 이름이 저장될 거야.
   const [selectedItems, setSelectedItems] = useState([]);
   const [address, setAddress] = useState("");
   const [searchResult, setSearchResult] = useState("");
+  const [showAddressSearch, setShowAddressSearch] = useState(false);
+  const [addressResults, setAddressResults] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [startDate, setStartDate] = useState("2025-07-30");
   const [endDate, setEndDate] = useState("2026-07-30");
   const [selectedDays, setSelectedDays] = useState([]);
   const [startTime, setStartTime] = useState("11:00");
   const [endTime, setEndTime] = useState("19:00");
-  const [minAge, setMinAge] = useState(20);
+  const [minAge, setMinAge] = useState(18);
   const [maxAge, setMaxAge] = useState(45);
   const [selectedGender, setSelectedGender] = useState("");
   const [teacherName, setTeacherName] = useState("");
@@ -26,7 +39,9 @@ const Helpme = () => {
   const [selectedChild, setSelectedChild] = useState("boy");
   const [selectedGrade, setSelectedGrade] = useState("1");
   const [minWage, setMinWage] = useState("11000");
-  const [maxWage, setMaxWage] = useState("15000");
+  const [maxWage, setMaxWage] = useState("");
+  const [isNegotiable, setIsNegotiable] = useState(false);
+  const [showWageDropdown, setShowWageDropdown] = useState(false);
   const [requests, setRequests] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
 
@@ -48,6 +63,35 @@ const Helpme = () => {
   const isItemSelected = (item) => {
     return selectedItems.includes(item);
   };
+
+  // 수정 모드일 때 기존 데이터 불러오기
+  useEffect(() => {
+    if (location.state?.editMode && location.state?.applicationData) {
+      const applicationData = location.state.applicationData;
+      setIsEditMode(true);
+      setEditApplicationId(applicationData.id);
+
+      // 기존 데이터로 폼 초기화
+      setSelectedItems(applicationData.selectedItems || []);
+      setAddress(applicationData.address || "");
+      setStartDate(applicationData.startDate || "2025-07-30");
+      setEndDate(applicationData.endDate || "2026-07-30");
+      setSelectedDays(applicationData.selectedDays || []);
+      setStartTime(applicationData.startTime || "11:00");
+      setEndTime(applicationData.endTime || "19:00");
+      setMinAge(applicationData.minAge || 18);
+      setMaxAge(applicationData.maxAge || 45);
+      setSelectedGender(applicationData.selectedGender || "");
+      setTeacherName(applicationData.teacherName || "");
+      setSelectedChild(applicationData.selectedChild || "boy");
+      setSelectedGrade(applicationData.selectedGrade || "1");
+      setMinWage(applicationData.minWage || "11000");
+      setMaxWage(applicationData.maxWage || "");
+      setIsNegotiable(applicationData.isNegotiable || false);
+      setRequests(applicationData.requests || "");
+      setAdditionalInfo(applicationData.additionalInfo || "");
+    }
+  }, [location.state]);
 
   // 요일 버튼 클릭 핸들러
   const handleDayClick = (day) => {
@@ -75,45 +119,85 @@ const Helpme = () => {
 
   // 최저 시급 입력 핸들러
   const handleMinWageChange = (value) => {
-    const numValue = parseInt(value);
+    // 쉼표 제거 후 숫자만 추출
+    const cleanValue = value.replace(/,/g, "");
+    const numValue = parseInt(cleanValue);
     if (numValue >= 11000) {
-      setMinWage(value);
+      setMinWage(cleanValue);
       // 최저 시급이 최고 시급보다 높으면 최고 시급을 최저 시급으로 설정
-      if (numValue > parseInt(maxWage)) {
-        setMaxWage(value);
+      if (numValue > parseInt(maxWage.replace(/,/g, ""))) {
+        setMaxWage(cleanValue);
       }
     }
   };
 
   // 최고 시급 입력 핸들러
   const handleMaxWageChange = (value) => {
-    const numValue = parseInt(value);
+    // 쉼표 제거 후 숫자만 추출
+    const cleanValue = value.replace(/,/g, "");
+
+    // 빈 값이거나 숫자가 아닌 경우
+    if (!cleanValue || isNaN(parseInt(cleanValue))) {
+      setMaxWage("");
+      return;
+    }
+
+    const numValue = parseInt(cleanValue);
     if (numValue >= 11000) {
-      setMaxWage(value);
+      setMaxWage(cleanValue);
       // 최고 시급이 최저 시급보다 낮으면 최저 시급을 최고 시급으로 설정
-      if (numValue < parseInt(minWage)) {
-        setMinWage(value);
+      if (numValue < parseInt(minWage.replace(/,/g, ""))) {
+        setMinWage(cleanValue);
       }
     }
+  };
+
+  // 시급 협의 가능 토글 핸들러
+  const handleNegotiableToggle = () => {
+    setIsNegotiable(!isNegotiable);
+  };
+
+  // 시급 드롭다운 토글 핸들러
+  const handleWageDropdownToggle = () => {
+    setShowWageDropdown(!showWageDropdown);
+  };
+
+  // 시급 선택 핸들러
+  const handleWageSelect = (wage) => {
+    setMaxWage(wage.toString());
+    setShowWageDropdown(false);
   };
 
   // 연령 범위 핸들러
   const handleAgeChange = (type, value) => {
     const numValue = parseInt(value);
+
     if (type === "min") {
-      if (numValue >= 20 && numValue <= 80 && numValue <= maxAge) {
-        setMinAge(numValue);
-        updateSliderRange(numValue, maxAge);
+      // 최소값 슬라이더: 최대값보다 클 수 없도록 제한
+      if (numValue >= 18 && numValue <= 80) {
+        if (numValue <= maxAge) {
+          setMinAge(numValue);
+        } else {
+          // 최소값이 최대값보다 커지면 최대값을 최소값으로 설정
+          setMinAge(numValue);
+          setMaxAge(numValue);
+        }
       }
     } else {
-      if (numValue >= 20 && numValue <= 80 && numValue >= minAge) {
-        setMaxAge(numValue);
-        updateSliderRange(minAge, numValue);
+      // 최대값 슬라이더: 최소값보다 작을 수 없도록 제한
+      if (numValue >= 18 && numValue <= 80) {
+        if (numValue >= minAge) {
+          setMaxAge(numValue);
+        } else {
+          // 최대값이 최소값보다 작아지면 최소값을 최대값으로 설정
+          setMaxAge(numValue);
+          setMinAge(numValue);
+        }
       }
     }
   };
 
-  // 슬라이더 범위 업데이트 함수
+  // 슬라이더 범위 업데이트 함수 (사용하지 않음)
   const updateSliderRange = (min, max) => {
     const minPercent = ((min - 20) / (80 - 20)) * 100;
     const maxPercent = ((max - 20) / (80 - 20)) * 100;
@@ -125,27 +209,163 @@ const Helpme = () => {
     }
   };
 
-  // 컴포넌트 마운트 시 초기 범위 설정
+  // 컴포넌트 마운트 시 초기 범위 설정 (사용하지 않음)
+  // useEffect(() => {
+  //   updateSliderRange(minAge, maxAge);
+  // }, [minAge, maxAge]);
+
+  // 드롭다운 외부 클릭 시 닫기
   useEffect(() => {
-    updateSliderRange(minAge, maxAge);
-  }, [minAge, maxAge]);
+    const handleClickOutside = (event) => {
+      if (
+        showWageDropdown &&
+        !event.target.closest(".wage-dropdown-container")
+      ) {
+        setShowWageDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showWageDropdown]);
 
   // 숫자에 쉼표 추가하는 함수
   const formatNumber = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  // 저장 핸들러
+  const handleAddressSearch = async () => {
+    console.log("Helpme 주소 검색 버튼 클릭됨");
+    console.log("검색어:", searchQuery);
+
+    if (!searchQuery.trim()) {
+      alert("검색어를 입력해주세요.");
+      return;
+    }
+
+    try {
+      console.log("API 호출 시작...");
+      const results = await searchRegionLocal(searchQuery);
+      console.log("API 응답:", results);
+
+      if (results && results.length > 0) {
+        setAddressResults(results);
+        setShowAddressSearch(true);
+        console.log("검색 결과 설정 완료");
+      } else {
+        alert("검색 결과가 없습니다.");
+        setAddressResults([]);
+        setShowAddressSearch(false);
+      }
+    } catch (error) {
+      console.error("주소 검색 오류:", error);
+      alert("주소 검색에 실패했습니다.");
+    }
+  };
+
+  const handleAddressSelect = (selectedAddress) => {
+    setAddress(selectedAddress);
+    setSearchResult(selectedAddress);
+    setShowAddressSearch(false);
+    setSearchQuery("");
+    setAddressResults([]);
+  };
+
+  const handleTeacherSearch = async () => {
+    console.log("지정 쌤 검색 버튼 클릭됨");
+    console.log("검색할 쌤 이름:", teacherName);
+
+    if (!teacherName.trim()) {
+      alert("쌤 이름을 입력해주세요.");
+      return;
+    }
+
+    try {
+      console.log("API 호출 시작...");
+      const results = await searchTeacher(teacherName);
+      console.log("API 응답:", results);
+
+      if (results && results.length > 0) {
+        // Context에 검색 결과 저장
+        setSearchData(results, teacherName);
+
+        // 모달 열기
+        navigate("/teacher-search");
+      } else {
+        alert(`${teacherName} 쌤을 찾을 수 없습니다.`);
+      }
+    } catch (error) {
+      console.error("쌤 검색 오류:", error);
+      alert("쌤 검색에 실패했습니다.");
+    }
+  };
+
+  // 시급 옵션 배열
+  const wageOptions = [
+    11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000, 25000,
+    30000, 35000, 40000,
+  ];
+
   const handleSave = () => {
-    console.log("아동 분류 정보 저장:", {
+    if (!user) {
+      alert("로그인이 필요합니다. 로그인 후 이용해주세요.");
+      return;
+    }
+
+    if (selectedItems.length === 0) {
+      alert("돌봄 분야를 선택해주세요.");
+      return;
+    }
+
+    if (!address.trim()) {
+      alert("주소를 입력해주세요.");
+      return;
+    }
+
+    if (selectedDays.length === 0) {
+      alert("활동 요일을 선택해주세요.");
+      return;
+    }
+
+    const applicationData = {
+      id: isEditMode ? editApplicationId : Date.now().toString(),
+      parentId: user.id,
+      selectedItems,
+      address,
+      searchResult,
+      startDate,
+      endDate,
+      selectedDays,
+      startTime,
+      endTime,
+      minAge,
+      maxAge,
+      selectedGender,
+      teacherName,
       selectedChild,
       selectedGrade,
       minWage,
       maxWage,
+      isNegotiable,
       requests,
       additionalInfo,
-    });
-    alert("아동 분류 정보가 저장되었습니다!");
+      createdAt: isEditMode
+        ? new Date().toISOString()
+        : new Date().toISOString(),
+      updatedAt: isEditMode ? new Date().toISOString() : null,
+    };
+
+    console.log(isEditMode ? "공고 수정:" : "공고 등록:", applicationData);
+
+    if (isEditMode) {
+      alert("공고가 수정되었습니다!");
+      navigate("/applications");
+    } else {
+      alert("공고가 등록되었습니다!");
+      navigate("/applications");
+    }
   };
 
   // 학년별 나이 계산
@@ -164,8 +384,12 @@ const Helpme = () => {
   return (
     <div className="helpme-container">
       <div className="helpme-header">
-        <h1>도와줘요 쌤</h1>
-        <p>어느 분야를 돌봐드리면 될까요?</p>
+        <h1>{isEditMode ? "공고 수정" : "도와줘요 쌤"}</h1>
+        <p>
+          {isEditMode
+            ? "공고 정보를 수정해주세요"
+            : "어느 분야를 돌봐드리면 될까요?"}
+        </p>
       </div>
 
       <div className="category-wrapper">
@@ -375,8 +599,37 @@ const Helpme = () => {
               className="search-input"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
+              readOnly
             />
-            <button className="search-button">검색</button>
+            <input
+              type="text"
+              placeholder="지역명을 입력하세요 (예: 관악구)"
+              className="search-input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleAddressSearch();
+                }
+              }}
+            />
+            <button className="search-button" onClick={handleAddressSearch}>
+              검색
+            </button>
+            {showAddressSearch && addressResults.length > 0 && (
+              <div className="address-search-results">
+                {addressResults.map((result, index) => (
+                  <div
+                    key={index}
+                    className="address-result-item"
+                    onClick={() => handleAddressSelect(result.title)}
+                  >
+                    {result.title}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div className="search-result">
             <p>{searchResult || "선택 지역"}</p>
@@ -445,7 +698,7 @@ const Helpme = () => {
             <div className="age-slider-container">
               <input
                 type="range"
-                min="20"
+                min="18"
                 max="80"
                 value={minAge}
                 onChange={(e) => handleAgeChange("min", e.target.value)}
@@ -453,7 +706,7 @@ const Helpme = () => {
               />
               <input
                 type="range"
-                min="20"
+                min="18"
                 max="80"
                 value={maxAge}
                 onChange={(e) => handleAgeChange("max", e.target.value)}
@@ -461,7 +714,7 @@ const Helpme = () => {
               />
             </div>
             <div className="age-range-label">
-              20세 ~ 80세 범위에서 선택해주세요
+              18세 ~ 80세 범위에서 선택해주세요
             </div>
           </div>
         </div>
@@ -488,18 +741,33 @@ const Helpme = () => {
           </div>
         </div>
 
-        <div className="search-row-bottom">
-          <p className="filter-title">지정 쌤 검색</p>
-          <input
-            type="text"
-            placeholder="쌤 이름을 입력하세요"
-            className="search-input-bottom"
-            value={teacherName}
-            onChange={(e) => setTeacherName(e.target.value)}
-          />
-          <button className="magnifying-glass-button">
-            <img src="/img/magnifying_glass.png" alt="검색" />
-          </button>
+        {/* 지정 쌤 검색 섹션 */}
+        <div className="teacher-search-section">
+          <div className="teacher-search-header">
+            <h3 className="teacher-search-title">지정 쌤 검색</h3>
+          </div>
+
+          <div className="teacher-search-input-group">
+            <input
+              type="text"
+              placeholder="쌤 이름을 입력하세요"
+              className="teacher-search-input"
+              value={teacherName}
+              onChange={(e) => setTeacherName(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleTeacherSearch();
+                }
+              }}
+            />
+            <button
+              className="teacher-search-button"
+              onClick={handleTeacherSearch}
+            >
+              검색
+            </button>
+          </div>
         </div>
       </div>
       {/* 새로 추가한 검색 필터 UI 끝! */}
@@ -575,30 +843,61 @@ const Helpme = () => {
           <div className="wage-input-group">
             <div className="wage-input-field">
               <label>최저 시급</label>
-              <div className="wage-fixed">
-                <span>{formatNumber(11000)}원</span>
-              </div>
-            </div>
-            <div className="wage-separator">~</div>
-            <div className="wage-input-field">
-              <label>최고 시급(입력)</label>
               <div className="wage-input-container">
                 <input
-                  type="number"
-                  value={maxWage}
-                  onChange={(e) => handleMaxWageChange(e.target.value)}
-                  min="11000"
-                  step="1000"
+                  type="text"
+                  value={formatNumber(minWage)}
+                  onChange={(e) => handleMinWageChange(e.target.value)}
                   className="wage-input"
-                  placeholder="최고 시급 입력"
+                  placeholder="최저 시급 입력"
                 />
                 <span className="wage-unit">원</span>
               </div>
             </div>
+            <div className="wage-separator">~</div>
+            <div className="wage-input-field">
+              <label>최고 시급</label>
+              <div className="wage-dropdown-container">
+                <div
+                  className="wage-dropdown-button"
+                  onClick={handleWageDropdownToggle}
+                >
+                  <span className="wage-display">
+                    {maxWage ? formatNumber(maxWage) : "최고 시급 선택"}
+                  </span>
+                  <span className="wage-unit">원</span>
+                  <span
+                    className={`dropdown-arrow ${
+                      showWageDropdown ? "up" : "down"
+                    }`}
+                  >
+                    ▼
+                  </span>
+                </div>
+                {showWageDropdown && (
+                  <div className="wage-dropdown-options">
+                    {wageOptions.map((wage) => (
+                      <div
+                        key={wage}
+                        className={`wage-option ${
+                          maxWage === wage.toString() ? "selected" : ""
+                        }`}
+                        onClick={() => handleWageSelect(wage)}
+                      >
+                        {formatNumber(wage)}원
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-          <div className="negotiation-info">
+          <div
+            className={`negotiation-info ${isNegotiable ? "selected" : ""}`}
+            onClick={handleNegotiableToggle}
+          >
             <div className="negotiation-icon">
-              <span>✓</span>
+              <span>{isNegotiable ? "✓" : ""}</span>
             </div>
             <span>시급 협의 가능</span>
           </div>
@@ -645,8 +944,12 @@ const Helpme = () => {
 
         {/* 저장 버튼 */}
         <div className="save-section">
-          <button className="save-button" onClick={handleSave}>
-            저장
+          <button
+            className={`save-button ${!user ? "disabled" : ""}`}
+            onClick={handleSave}
+            disabled={!user}
+          >
+            {user ? (isEditMode ? "수정 완료" : "저장") : "로그인 후 저장"}
           </button>
         </div>
       </div>

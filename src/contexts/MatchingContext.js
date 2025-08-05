@@ -11,290 +11,206 @@ export const useMatching = () => {
 };
 
 export const MatchingProvider = ({ children }) => {
-  const [matchings, setMatchings] = useState([
+  const [matchingRequests, setMatchingRequests] = useState([
+    // 테스트용 샘플 매칭 데이터
     {
       id: "matching_001",
-      parentId: "user_001", // 김가정 부모님
-      teacherId: "teacher_001", // 양연희쌤
-      applicationId: "app_001", // 김가정 부모님의 피아노, 미술지도 공고
-      status: "accepted", // pending, accepted, rejected, completed
-      createdAt: "2025-01-27",
-      updatedAt: "2025-01-28",
-      messages: [
-        {
-          id: "msg_001",
-          senderId: "teacher_001",
-          senderName: "양연희",
-          content:
-            "안녕하세요! 관악구에서 활동하고 있는 양연희입니다. 피아노와 미술 지도 경험이 있어서 도움이 될 것 같습니다. 어떤 활동을 주로 원하시나요?",
-          timestamp: "2025-01-27T10:30:00Z",
-        },
-        {
-          id: "msg_002",
-          senderId: "user_001",
-          senderName: "김가정",
-          content:
-            "안녕하세요! 우리 아이는 피아노에 관심이 많아요. 미술도 좋아하고요. 체계적으로 지도해주실 수 있으시겠어요?",
-          timestamp: "2025-01-27T11:15:00Z",
-        },
-        {
-          id: "msg_003",
-          senderId: "teacher_001",
-          senderName: "양연희",
-          content:
-            "네, 피아노와 미술 모두 체계적으로 지도해드릴 수 있습니다. 아이의 수준에 맞춰 단계별로 진행하겠습니다. 언제부터 시작하시겠어요?",
-          timestamp: "2025-01-27T14:20:00Z",
-        },
-        {
-          id: "msg_004",
-          senderId: "user_001",
-          senderName: "김가정",
-          content:
-            "8월 1일부터 시작하고 싶어요. 월,수,금 오후 2시부터 7시까지 가능하신가요?",
-          timestamp: "2025-01-27T16:45:00Z",
-        },
-        {
-          id: "msg_005",
-          senderId: "teacher_001",
-          senderName: "양연희",
-          content:
-            "네, 그 시간대 완전 가능합니다! 8월 1일부터 월,수,금 오후 2시~7시로 진행하겠습니다. 첫 날은 아이와 인사하고 수준을 파악하는 시간으로 하겠습니다.",
-          timestamp: "2025-01-28T09:30:00Z",
-        },
-      ],
-    },
-  ]);
-
-  const [notifications, setNotifications] = useState([
-    {
-      id: "notif_001",
-      userId: "user_001", // 김가정 부모님
-      type: "matching_request",
-      title: "새로운 매칭 요청",
-      message: "양연희 쌤이 매칭을 요청했습니다.",
-      relatedId: "matching_001",
-      isRead: false,
-      createdAt: "2025-01-27T10:30:00Z",
-    },
-    {
-      id: "notif_002",
-      userId: "teacher_001", // 양연희쌤
-      type: "matching_request",
-      title: "새로운 공고 발견",
-      message: "관악구에서 새로운 공고가 등록되었습니다.",
-      relatedId: "app_001",
-      isRead: false,
-      createdAt: "2025-01-27T09:00:00Z",
-    },
-    {
-      id: "notif_003",
-      userId: "teacher_001", // 양연희쌤
-      type: "matching_response",
-      title: "매칭 응답",
-      message: "김가정님이 매칭 요청에 응답했습니다.",
-      relatedId: "matching_001",
-      isRead: false,
-      createdAt: "2025-01-27T11:15:00Z",
-    },
-    {
-      id: "notif_004",
-      userId: "user_001", // 김가정 부모님
-      type: "matching_accepted",
-      title: "매칭 수락됨",
-      message: "양연희 쌤이 매칭을 수락했습니다.",
-      relatedId: "matching_001",
-      isRead: false,
-      createdAt: "2025-01-28T09:30:00Z",
-    },
-    {
-      id: "notif_005",
-      userId: "teacher_001", // 양연희쌤
-      type: "matching_accepted",
-      title: "매칭 수락됨",
-      message: "김가정님의 매칭이 수락되었습니다.",
-      relatedId: "matching_001",
-      isRead: false,
-      createdAt: "2025-01-28T09:30:00Z",
-    },
-  ]);
-
-  // 매칭 생성
-  const createMatching = (
-    parentId,
-    teacherId,
-    applicationId,
-    parentMessage
-  ) => {
-    const newMatching = {
-      id: `match_${Date.now()}`,
-      parentId,
-      teacherId,
-      parentName: "부모님", // 실제로는 사용자 정보에서 가져와야 함
-      teacherName: "쌤", // 실제로는 사용자 정보에서 가져와야 함
+      parentId: "user_001", // 김가정
+      teacherId: "teacher_001", // 김영희
+      parentName: "김가정",
+      teacherName: "김영희 쌤",
+      message:
+        "안녕하세요! 우리 아이 방과후 돌봄이 필요합니다. 체계적으로 잘 가르쳐주시는 분을 찾고 있어요.",
       status: "pending",
+      createdAt: "2025-08-15T10:30:00.000Z",
+    },
+    {
+      id: "matching_002",
+      parentId: "user_001", // 김가정
+      teacherId: "teacher_002", // 박민수
+      parentName: "김가정",
+      teacherName: "박민수 쌤",
+      message: "영어 학습도 함께 하고 싶어요. 체계적으로 가르쳐주실 수 있나요?",
+      status: "accepted",
+      contractStatus: "progress", // 계약 진행중
+      createdAt: "2025-08-14T14:20:00.000Z",
+      respondedAt: "2025-08-14T15:30:00.000Z",
+    },
+    {
+      id: "matching_003",
+      parentId: "user_002", // 박영희
+      teacherId: "teacher_002", // 박민수
+      applicationId: "app_003", // 박영희 부모님의 공고
+      parentName: "박영희",
+      teacherName: "박민수 쌤",
+      message: "따뜻한 마음으로 아이를 돌봐주실 분을 찾고 있습니다.",
+      status: "accepted",
+      contractStatus: "completed", // 계약 완료
+      createdAt: "2025-08-13T09:15:00.000Z",
+      respondedAt: "2025-08-13T10:30:00.000Z",
+    },
+    // 추가 매칭 요청들
+    {
+      id: "matching_004",
+      parentId: "user_003", // 이민수
+      teacherId: "teacher_001", // 김영희
+      parentName: "이민수",
+      teacherName: "김영희 쌤",
+      message: "수학과 영어를 함께 가르쳐주실 수 있는 분을 찾고 있어요.",
+      status: "pending",
+      createdAt: "2025-08-12T16:45:00.000Z",
+    },
+    {
+      id: "matching_005",
+      parentId: "user_004", // 최지영
+      teacherId: "teacher_002", // 박민수
+      parentName: "최지영",
+      teacherName: "박민수 쌤",
+      message: "체육 활동도 함께 해주실 수 있는 분을 찾고 있습니다.",
+      status: "accepted",
+      contractStatus: "progress", // 계약 진행중
+      createdAt: "2025-08-11T11:20:00.000Z",
+      respondedAt: "2025-08-11T14:30:00.000Z",
+    },
+    {
+      id: "matching_006",
+      parentId: "user_005", // 한미영
+      teacherId: "teacher_004", // 최지영
+      parentName: "한미영",
+      teacherName: "최지영 쌤",
+      message: "미술과 음악을 가르쳐주실 수 있는 분을 찾고 있어요.",
+      status: "pending",
+      createdAt: "2025-08-10T09:30:00.000Z",
+    },
+    {
+      id: "matching_007",
+      parentId: "user_006", // 정성훈
+      teacherId: "teacher_005", // 한미영
+      parentName: "정성훈",
+      teacherName: "한미영 쌤",
+      message: "과학 실험도 함께 해주실 수 있는 분을 찾고 있습니다.",
+      status: "rejected",
+      createdAt: "2025-08-09T13:15:00.000Z",
+      respondedAt: "2025-08-09T15:45:00.000Z",
+    },
+    {
+      id: "matching_008",
+      parentId: "user_007", // 김태현
+      teacherId: "teacher_006", // 정성훈
+      parentName: "김태현",
+      teacherName: "정성훈 쌤",
+      message: "컴퓨터 프로그래밍도 가르쳐주실 수 있는 분을 찾고 있어요.",
+      status: "pending",
+      createdAt: "2025-08-08T10:00:00.000Z",
+    },
+  ]);
+
+  // 매칭 요청 생성
+  const createMatchingRequest = (request) => {
+    const newRequest = {
+      id: Date.now().toString(),
+      ...request,
+      status: "pending", // pending, accepted, rejected
       createdAt: new Date().toISOString(),
-      parentMessage,
-      teacherMessage: "",
-      applicationId,
-      applicationTitle: "공고 제목", // 실제로는 공고 정보에서 가져와야 함
-      region: "관악구",
-      hourlyWage: "협의",
-      workingHours: "협의",
-      startDate: new Date().toISOString().split("T")[0],
     };
-
-    setMatchings((prev) => [...prev, newMatching]);
-
-    // 알림 생성
-    const parentNotification = {
-      id: `notif_${Date.now()}_parent`,
-      userId: parentId,
-      type: "matching_request",
-      title: "매칭 요청 전송됨",
-      message: "매칭 요청을 전송했습니다.",
-      matchingId: newMatching.id,
-      isRead: false,
-      createdAt: new Date().toISOString(),
-    };
-
-    const teacherNotification = {
-      id: `notif_${Date.now()}_teacher`,
-      userId: teacherId,
-      type: "matching_request",
-      title: "새로운 매칭 요청",
-      message: "새로운 매칭 요청이 도착했습니다.",
-      matchingId: newMatching.id,
-      isRead: false,
-      createdAt: new Date().toISOString(),
-    };
-
-    setNotifications((prev) => [
-      ...prev,
-      parentNotification,
-      teacherNotification,
-    ]);
-
-    return newMatching;
+    setMatchingRequests((prev) => [newRequest, ...prev]);
+    return newRequest;
   };
 
-  // 매칭 상태 업데이트
-  const updateMatchingStatus = (matchingId, status, teacherMessage = "") => {
-    setMatchings((prev) =>
-      prev.map((matching) =>
-        matching.id === matchingId
-          ? { ...matching, status, teacherMessage }
-          : matching
+  // 매칭 요청 수락
+  const acceptMatchingRequest = (requestId) => {
+    setMatchingRequests((prev) =>
+      prev.map((request) =>
+        request.id === requestId
+          ? {
+              ...request,
+              status: "accepted",
+              respondedAt: new Date().toISOString(),
+            }
+          : request
       )
     );
-
-    // 상태 변경에 따른 알림 생성
-    const matching = matchings.find((m) => m.id === matchingId);
-    if (matching) {
-      let notificationTitle, notificationMessage;
-
-      if (status === "accepted") {
-        notificationTitle = "매칭 수락됨";
-        notificationMessage = "매칭이 수락되었습니다.";
-      } else if (status === "rejected") {
-        notificationTitle = "매칭 거절됨";
-        notificationMessage = "매칭이 거절되었습니다.";
-      } else if (status === "completed") {
-        notificationTitle = "매칭 완료";
-        notificationMessage = "매칭이 완료되었습니다.";
-      }
-
-      if (notificationTitle) {
-        const parentNotification = {
-          id: `notif_${Date.now()}_parent_${status}`,
-          userId: matching.parentId,
-          type: `matching_${status}`,
-          title: notificationTitle,
-          message: notificationMessage,
-          matchingId,
-          isRead: false,
-          createdAt: new Date().toISOString(),
-        };
-
-        const teacherNotification = {
-          id: `notif_${Date.now()}_teacher_${status}`,
-          userId: matching.teacherId,
-          type: `matching_${status}`,
-          title: notificationTitle,
-          message: notificationMessage,
-          matchingId,
-          isRead: false,
-          createdAt: new Date().toISOString(),
-        };
-
-        setNotifications((prev) => [
-          ...prev,
-          parentNotification,
-          teacherNotification,
-        ]);
-      }
-    }
   };
 
-  // 사용자의 매칭 목록 조회
-  const getUserMatchings = (userId) => {
-    return matchings.filter(
-      (matching) =>
-        matching.parentId === userId || matching.teacherId === userId
+  // 매칭 요청 거절
+  const rejectMatchingRequest = (requestId) => {
+    setMatchingRequests((prev) =>
+      prev.map((request) =>
+        request.id === requestId
+          ? {
+              ...request,
+              status: "rejected",
+              respondedAt: new Date().toISOString(),
+            }
+          : request
+      )
     );
   };
 
-  // 사용자의 알림 조회
-  const getUserNotifications = (userId) => {
-    return notifications
-      .filter((notification) => notification.userId === userId)
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  // 계약 진행 상태로 변경
+  const startContract = (requestId) => {
+    setMatchingRequests((prev) =>
+      prev.map((request) =>
+        request.id === requestId
+          ? {
+              ...request,
+              contractStatus: "progress",
+            }
+          : request
+      )
+    );
   };
 
-  // 읽지 않은 알림 개수
-  const getUnreadNotificationCount = (userId) => {
-    return notifications.filter(
-      (notification) => notification.userId === userId && !notification.isRead
+  // 계약 완료 상태로 변경
+  const completeContract = (requestId) => {
+    setMatchingRequests((prev) =>
+      prev.map((request) =>
+        request.id === requestId
+          ? {
+              ...request,
+              contractStatus: "completed",
+            }
+          : request
+      )
+    );
+  };
+
+  // 특정 쌤의 매칭 요청 가져오기
+  const getMatchingRequestsForTeacher = (teacherId) => {
+    return matchingRequests.filter(
+      (request) => request.teacherId === teacherId
+    );
+  };
+
+  // 특정 부모의 매칭 요청 가져오기
+  const getMatchingRequestsForParent = (parentId) => {
+    return matchingRequests.filter((request) => request.parentId === parentId);
+  };
+
+  // 대기 중인 매칭 요청 개수
+  const getPendingRequestsCount = (teacherId) => {
+    return matchingRequests.filter(
+      (request) =>
+        request.teacherId === teacherId && request.status === "pending"
     ).length;
   };
 
-  // 알림 읽음 처리
-  const markNotificationAsRead = (notificationId) => {
-    setNotifications((prev) =>
-      prev.map((notification) =>
-        notification.id === notificationId
-          ? { ...notification, isRead: true }
-          : notification
-      )
-    );
-  };
-
-  // 모든 알림 읽음 처리
-  const markAllNotificationsAsRead = (userId) => {
-    setNotifications((prev) =>
-      prev.map((notification) =>
-        notification.userId === userId
-          ? { ...notification, isRead: true }
-          : notification
-      )
-    );
-  };
-
-  // 특정 매칭 조회
-  const getMatchingById = (matchingId) => {
-    return matchings.find((matching) => matching.id === matchingId);
+  // 모든 매칭 요청 가져오기 (관리자용)
+  const getAllMatchingRequests = () => {
+    return matchingRequests;
   };
 
   const value = {
-    matchings,
-    notifications,
-    createMatching,
-    updateMatchingStatus,
-    getUserMatchings,
-    getUserNotifications,
-    getUnreadNotificationCount,
-    markNotificationAsRead,
-    markAllNotificationsAsRead,
-    getMatchingById,
+    matchingRequests,
+    createMatchingRequest,
+    acceptMatchingRequest,
+    rejectMatchingRequest,
+    startContract,
+    completeContract,
+    getMatchingRequestsForTeacher,
+    getMatchingRequestsForParent,
+    getPendingRequestsCount,
+    getAllMatchingRequests,
   };
 
   return (

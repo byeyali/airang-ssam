@@ -20,7 +20,17 @@ function Header() {
   // 사용자 역할 텍스트 반환
   const getUserRoleText = () => {
     if (!user) return "";
-    return user.type === "parent" ? "부모님" : "쌤";
+
+    switch (user.type) {
+      case "parent":
+        return "부모님";
+      case "teacher":
+        return "쌤";
+      case "admin":
+        return "관리자";
+      default:
+        return "";
+    }
   };
 
   return (
@@ -49,6 +59,11 @@ function Header() {
             <div className="user-info-section">
               <div className="user-role-display">
                 <span className="user-role">{getUserRoleText()}</span>
+                {user.type === "admin" && (
+                  <Link to="/admin-dashboard" className="admin-dashboard-link">
+                    대시보드
+                  </Link>
+                )}
               </div>
               <Notifications />
             </div>

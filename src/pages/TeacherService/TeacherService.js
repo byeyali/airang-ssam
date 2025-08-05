@@ -1,8 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./TeacherService.css";
 
 function TeacherService() {
+  const navigate = useNavigate();
+
+  const handleNavigate = (path) => {
+    // 페이지 이동 시 스크롤을 상단으로 이동
+    window.scrollTo(0, 0);
+    navigate(path);
+  };
+
   return (
     <div className="teacher-service-page">
       <div className="service-container">
@@ -162,12 +170,18 @@ function TeacherService() {
           <h3>지금 시작해보세요</h3>
           <p>아이들과 함께하는 의미 있는 일을 시작하세요</p>
           <div className="cta-buttons">
-            <Link to="/teacher-profile" className="cta-button primary">
+            <button
+              onClick={() => handleNavigate("/teacher-profile")}
+              className="cta-button primary"
+            >
               프로필 등록하기
-            </Link>
-            <Link to="/teacher-applications" className="cta-button secondary">
+            </button>
+            <button
+              onClick={() => handleNavigate("/teacher-applications")}
+              className="cta-button secondary"
+            >
               공고 찾아보기
-            </Link>
+            </button>
           </div>
         </div>
       </div>

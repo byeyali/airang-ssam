@@ -6,7 +6,7 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 80vmin;
   pointer-events: none;
 }
 
@@ -55,13 +55,20 @@
 
 /* 🧠 푸터 스타일 (App.js에 Footer 컴포넌트가 통합될 경우) */
 .main-footer {
-    width: 100%;
-    text-align: center;
-    padding: 30px 20px;
-    background-color: #f0f2f5; /* App.js의 body 배경색과 동일하게 */
-    color: #888;
-    font-size: 14px;
-    margin-top: auto; /* 내용이 적어도 항상 아래에 붙도록 */
+  width: 100%;
+  text-align: center;
+  padding: 30px 20px;
+  background-color: #f0f2f5; /* App.js의 body 배경색과 동일하게 */
+  color: #888;
+  font-size: 14px;
+  margin-top: auto; /* 내용이 적어도 항상 아래에 붙도록 */
 }
 
-
+/* 인증 페이지 전용 스타일 */
+.auth-content {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}

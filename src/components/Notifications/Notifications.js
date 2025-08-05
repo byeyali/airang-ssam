@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
 import { useMatching } from "../../contexts/MatchingContext";
+import { useNotification } from "../../contexts/NotificationContext";
 import "./Notifications.css";
 
 function Notifications() {
@@ -13,7 +14,7 @@ function Notifications() {
     getUnreadNotificationCount,
     markNotificationAsRead,
     markAllNotificationsAsRead,
-  } = useMatching();
+  } = useNotification();
   const navigate = useNavigate();
 
   const notifications = user ? getUserNotifications(user.id) : [];
@@ -40,12 +41,29 @@ function Notifications() {
   };
 
   const handleTeacherProfile = () => {
-    navigate("/teacher-profile");
+    console.log("프로필 관리 클릭됨", user);
+    // 현재 로그인한 쌤의 상세 페이지로 이동
+    if (user && user.type === "teacher") {
+      console.log("쌤 상세 페이지로 이동:", `/teacher-detail/${user.id}`);
+      navigate(`/teacher-detail/${user.id}`);
+    } else {
+      console.log("사용자 정보 없음 또는 쌤이 아님");
+    }
     setIsOpen(false);
   };
 
   const handleMatchings = () => {
     navigate("/matchings");
+    setIsOpen(false);
+  };
+
+  const handleTeacherPaymentStatus = () => {
+    navigate("/teacher/payment-status");
+    setIsOpen(false);
+  };
+
+  const handleParentPaymentHistory = () => {
+    navigate("/parent/payment-history");
     setIsOpen(false);
   };
 
@@ -134,20 +152,36 @@ function Notifications() {
 
           <div className="notification-links">
             {user.type === "parent" && (
-              <button
-                onClick={handleMyApplications}
-                className="notification-link"
-              >
-                내 공고 관리
-              </button>
+              <>
+                <button
+                  onClick={handleMyApplications}
+                  className="notification-link"
+                >
+                  내 공고 관리
+                </button>
+                <button
+                  onClick={handleParentPaymentHistory}
+                  className="notification-link"
+                >
+                  내 지출 내역
+                </button>
+              </>
             )}
             {user.type === "teacher" && (
-              <button
-                onClick={handleTeacherProfile}
-                className="notification-link"
-              >
-                프로필 관리
-              </button>
+              <>
+                <button
+                  onClick={handleTeacherProfile}
+                  className="notification-link"
+                >
+                  프로필 관리
+                </button>
+                <button
+                  onClick={handleTeacherPaymentStatus}
+                  className="notification-link"
+                >
+                  내 수당 현황
+                </button>
+              </>
             )}
             <button onClick={handleMatchings} className="notification-link">
               매칭 관리

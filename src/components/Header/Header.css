@@ -32,19 +32,20 @@
 }
 
 .logo-img {
-  width: 40px;
-  height: 40px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
-  border: 2px solid #ff6b6b;
+  box-shadow: 0 4px 15px rgba(21, 101, 192, 0.2);
 }
 
 .logo-text {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  color: #ff6b6b;
-  text-shadow: 0 2px 4px rgba(255, 107, 107, 0.1);
+  color: #1565c0;
+  text-shadow: 0 2px 4px rgba(21, 101, 192, 0.1);
+  font-family: "Jua", "Do Hyeon", sans-serif;
+  letter-spacing: 1px;
 }
 
 /* 헤더 우측 영역 */
@@ -61,7 +62,7 @@
 }
 
 .signup-header-button {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
   color: white;
   border: none;
   padding: 8px 16px;
@@ -70,12 +71,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 4px 15px rgba(21, 101, 192, 0.3);
 }
 
 .signup-header-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 6px 20px rgba(21, 101, 192, 0.4);
 }
 
 /* 로그인 후 사용자 정보 섹션 */
@@ -103,6 +104,25 @@
   box-shadow: 0 2px 8px rgba(255, 107, 107, 0.1);
 }
 
+.admin-dashboard-link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #4a90e2;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  padding: 4px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  border: 1px solid rgba(74, 144, 226, 0.2);
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.1);
+  transition: all 0.3s ease;
+}
+
+.admin-dashboard-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+  background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%);
+}
+
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .app-header {
@@ -110,7 +130,7 @@
   }
 
   .logo-text {
-    font-size: 1.3rem;
+    font-size: 1.6rem;
   }
 
   .logo-img {
@@ -125,6 +145,11 @@
   .user-role {
     font-size: 0.8rem;
     padding: 3px 10px;
+  }
+
+  .admin-dashboard-link {
+    font-size: 0.7rem;
+    padding: 3px 8px;
   }
 
   .signup-header-button {
@@ -143,7 +168,7 @@
   }
 
   .logo-text {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
   }
 
   .logo-img {
@@ -162,6 +187,11 @@
   .user-role {
     font-size: 0.75rem;
     padding: 2px 8px;
+  }
+
+  .admin-dashboard-link {
+    font-size: 0.65rem;
+    padding: 2px 6px;
   }
 }
 

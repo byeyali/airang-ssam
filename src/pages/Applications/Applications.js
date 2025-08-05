@@ -12,12 +12,36 @@ function Applications() {
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
 
-  const applications =
-    user?.type === "parent" ? getMyApplications(user.id) : getAllApplications();
+  // 사용자 타입에 따른 데이터 필터링
+  const getFilteredApplications = () => {
+    if (!user) return [];
+
+    if (user.type === "parent") {
+      return getMyApplications(user.id);
+    } else if (user.type === "teacher") {
+      // 쌤은 부모 공고만 볼 수 있고, 지역이 매칭되는 것만
+      const allApplications = getAllApplications();
+      return allApplications.filter((app) =>
+        user.regions.some((region) => app.region.title.includes(region))
+      );
+    } else if (user.type === "admin") {
+      // 관리자는 모든 공고를 볼 수 있음
+      return getAllApplications();
+    }
+
+    return [];
+  };
+
+  const applications = getFilteredApplications();
 
   const handleEdit = (application) => {
-    // 공고 수정 로직
-    console.log("공고 수정:", application);
+    // 공고 수정을 위해 Helpme 페이지로 이동
+    navigate("/Helpme", {
+      state: {
+        editMode: true,
+        applicationData: application,
+      },
+    });
   };
 
   const handleDelete = (applicationId) => {
@@ -75,9 +99,15 @@ function Applications() {
                   <div className="application-summary-card">
                     <div className="child-avatar-section">
                       <div className="child-avatar">
-                        <img src="/img/child-avatar.png" alt="아이 아바타" />
+                        <img
+                          src={
+                            application.target.includes("남아")
+                              ? "/img/boy.png"
+                              : "/img/girl.png"
+                          }
+                          alt="아이 아바타"
+                        />
                       </div>
-                      <div className="child-avatar-text">아이 아바타</div>
                     </div>
 
                     <div className="application-basic-info">
@@ -174,20 +204,7 @@ function Applications() {
                           삭제
                         </button>
                       </>
-                    ) : user?.type === "teacher" ? (
-                      <button
-                        className="proceed-matching-button"
-                        onClick={() => handleViewDetail(application)}
-                      >
-                        매칭 진행...
-                      </button>
                     ) : null}
-                    <button
-                      className="view-details-button"
-                      onClick={() => handleApplicationDetail(application.id)}
-                    >
-                      상세 내역 보기
-                    </button>
                   </div>
                 </div>
               </div>

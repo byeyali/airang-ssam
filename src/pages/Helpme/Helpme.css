@@ -47,7 +47,7 @@
 }
 
 .category-title {
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   font-weight: 700;
   color: #2f0005;
   margin-bottom: 30px;
@@ -101,8 +101,8 @@
 
 /* 아이템 이미지 */
 .item-image {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   margin: 0 auto 20px;
   border-radius: 20px;
   background-size: cover;
@@ -113,9 +113,9 @@
 
 /* 아이템 텍스트 */
 .item-text {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #2f0005;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #4a4a4a;
   margin-bottom: 15px;
 }
 
@@ -167,34 +167,35 @@
 
 .search-input-group {
   display: flex;
-  gap: 15px;
-  margin-bottom: 15px;
+  gap: 10px;
+  align-items: center;
+  position: relative;
 }
 
 .search-input {
   flex: 1;
-  padding: 15px 20px;
-  border: 2px solid #e1e5e9;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-family: "Pretendard", sans-serif;
+  padding: 12px 16px;
+  border: 2px solid #e1e8ed;
+  border-radius: 15px;
+  font-size: 1rem;
   transition: all 0.3s ease;
+  background: #f8f9fa;
 }
 
 .search-input:focus {
   outline: none;
   border-color: #4a90e2;
   box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  background: white;
 }
 
 .search-button {
+  padding: 12px 20px;
   background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
   color: white;
   border: none;
-  padding: 15px 25px;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 700;
+  border-radius: 15px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
@@ -203,6 +204,38 @@
 .search-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+}
+
+.address-search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #e1e8ed;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  margin-top: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.address-result-item {
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.9rem;
+}
+
+.address-result-item:last-child {
+  border-bottom: none;
+}
+
+.address-result-item:hover {
+  background: rgba(74, 144, 226, 0.1);
+  color: #4a90e2;
 }
 
 .search-result {
@@ -687,6 +720,7 @@
   background: transparent;
   outline: none;
   text-align: center;
+  font-family: "Pretendard", sans-serif;
 }
 
 .wage-input:focus {
@@ -713,6 +747,93 @@
   margin-left: 5px;
 }
 
+/* 시급 드롭다운 스타일 */
+.wage-dropdown-container {
+  position: relative;
+  width: 100%;
+}
+
+.wage-dropdown-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2f0005;
+}
+
+.wage-dropdown-button:hover {
+  border-color: #4a90e2;
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.1);
+}
+
+.wage-dropdown-button:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.wage-display {
+  flex: 1;
+  text-align: center;
+}
+
+.dropdown-arrow {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+  margin-left: 10px;
+}
+
+.dropdown-arrow.up {
+  transform: rotate(180deg);
+}
+
+.wage-dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #e1e5e9;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.wage-option {
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4a4a4a;
+  text-align: center;
+}
+
+.wage-option:hover {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  color: #2f0005;
+}
+
+.wage-option.selected {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+}
+
+.wage-option:last-child {
+  border-bottom: none;
+}
+
 .wage-separator {
   font-size: 1.5rem;
   font-weight: 700;
@@ -723,19 +844,55 @@
 }
 
 .negotiation-info {
-  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-  border-radius: 15px;
-  padding: 20px;
-  margin-top: 25px;
-  border-left: 5px solid #ffc107;
-  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 12px;
+  padding: 15px 20px;
+  margin-top: 20px;
+  border: 2px solid #e1e5e9;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.negotiation-info:hover {
+  border-color: #4a90e2;
+  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.15);
+}
+
+.negotiation-info.selected {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-color: #4a90e2;
+  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.2);
 }
 
 .negotiation-icon {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 15px;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #e1e5e9;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.negotiation-info.selected .negotiation-icon {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+}
+
+.negotiation-info span:last-child {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #4a4a4a;
 }
 
 .negotiation-icon img {
@@ -856,6 +1013,19 @@
   box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
 }
 
+.save-button.disabled {
+  background: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.save-button.disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
 /* 반응형 디자인 */
 @media (max-width: 1200px) {
   .item-list {
@@ -881,14 +1051,18 @@
     padding: 30px 20px;
   }
 
+  .category-title {
+    font-size: 1.8rem;
+  }
+
   .item-list {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
   }
 
   .item-image {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
   }
 
   .search-filter-section {
@@ -1036,18 +1210,22 @@
     padding: 20px 15px;
   }
 
+  .category-title {
+    font-size: 1.6rem;
+  }
+
   .item-list {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 15px;
   }
 
   .item-image {
-    width: 60px;
-    height: 60px;
+    width: 120px;
+    height: 120px;
   }
 
   .item-text {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   .search-filter-section {
@@ -1103,6 +1281,26 @@
   .wage-input-group {
     flex-direction: column;
     gap: 15px;
+  }
+
+  .wage-dropdown-button {
+    padding: 10px 12px;
+    font-size: 1rem;
+  }
+
+  .wage-option {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .wage-dropdown-button {
+    padding: 12px 15px;
+    font-size: 1.1rem;
+  }
+
+  .wage-option {
+    padding: 12px 15px;
+    font-size: 1rem;
   }
 
   .wage-input-field {
@@ -1195,6 +1393,8 @@
   display: flex;
   align-items: center;
   padding: 0 10px;
+  background: #f0f0f0;
+  border-radius: 8px;
 }
 
 .age-slider {
@@ -1209,6 +1409,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   pointer-events: auto;
+  z-index: 2;
 }
 
 .age-slider:hover {
@@ -1252,11 +1453,11 @@
 }
 
 .min-slider {
-  z-index: 1;
+  z-index: 3;
 }
 
 .max-slider {
-  z-index: 2;
+  z-index: 4;
 }
 
 /* 슬라이더 오버랩 처리 - 선택된 범위만 파란색으로 표시 */
@@ -1306,4 +1507,165 @@
   color: #666;
   margin-top: 10px;
   font-weight: 500;
+}
+
+/* 지정 쌤 검색 섹션 */
+.teacher-search-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 15px;
+  padding: 25px;
+  margin: 20px 0;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.teacher-search-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.teacher-search-title {
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.teacher-search-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  margin: 0 0 15px 0;
+  font-weight: 500;
+}
+
+.gender-selector-centered {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.gender-selector-centered .gender-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.gender-selector-centered .gender-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.gender-selector-centered .gender-button.active {
+  background: rgba(255, 255, 255, 0.9);
+  color: #667eea;
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.teacher-search-input-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.teacher-search-input {
+  flex: 0 1 250px;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.teacher-search-input:focus {
+  outline: none;
+  background: white;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.teacher-search-input::placeholder {
+  color: #999;
+  font-weight: 500;
+}
+
+.teacher-search-button {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(238, 90, 36, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.teacher-search-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(238, 90, 36, 0.4);
+}
+
+.teacher-search-button:active {
+  transform: translateY(0);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .teacher-search-section {
+    padding: 20px;
+    margin: 15px 0;
+  }
+
+  .teacher-search-title {
+    font-size: 20px;
+  }
+
+  .teacher-search-subtitle {
+    font-size: 14px;
+  }
+
+  .gender-selector-centered {
+    gap: 10px;
+  }
+
+  .gender-selector-centered .gender-button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .teacher-search-input-group {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .teacher-search-input {
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+
+  .teacher-search-button {
+    padding: 12px 25px;
+    font-size: 14px;
+    width: 100%;
+  }
 }

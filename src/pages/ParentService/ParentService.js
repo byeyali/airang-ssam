@@ -1,8 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./ParentService.css";
 
 function ParentService() {
+  const navigate = useNavigate();
+
+  const handleNavigate = (path) => {
+    // 페이지 이동 시 스크롤을 상단으로 이동
+    window.scrollTo(0, 0);
+    navigate(path);
+  };
+
   return (
     <div className="parent-service-page">
       <div className="service-container">
@@ -149,12 +157,18 @@ function ParentService() {
           <h3>지금 시작해보세요</h3>
           <p>우리 아이에게 최고의 쌤을 연결해드립니다</p>
           <div className="cta-buttons">
-            <Link to="/Helpme" className="cta-button primary">
+            <button
+              onClick={() => handleNavigate("/Helpme")}
+              className="cta-button primary"
+            >
               공고 등록하기
-            </Link>
-            <Link to="/teacher-applications" className="cta-button secondary">
+            </button>
+            <button
+              onClick={() => handleNavigate("/teacher-applications")}
+              className="cta-button secondary"
+            >
               쌤 찾아보기
-            </Link>
+            </button>
           </div>
         </div>
       </div>

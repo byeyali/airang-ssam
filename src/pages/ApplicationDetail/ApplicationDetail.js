@@ -54,80 +54,77 @@ function ApplicationDetail() {
         </div>
 
         <div className="detail-content">
-          <div className="detail-left">
-            <div className="application-summary-card">
-              <div className="child-avatar-section">
-                <div className="child-avatar">
-                  <img src="/img/child-avatar.png" alt="아이 아바타" />
-                </div>
-                <div className="child-avatar-text">아이 아바타</div>
+          <div className="application-summary-card">
+            <div className="child-avatar-section">
+              <div className="child-avatar">
+                <img
+                  src={
+                    application.target.includes("여아")
+                      ? "/img/girl.png"
+                      : "/img/boy.png"
+                  }
+                  alt="아이 아바타"
+                />
               </div>
+              <div className="child-avatar-text">아이 아바타</div>
+            </div>
 
-              <div className="application-basic-info">
-                <div className="application-target">
-                  {application.target} ({application.region.title})
+            <div className="application-basic-info">
+              <div className="application-target">
+                {application.target} ({application.region.title})
+              </div>
+              <div className="application-title">{application.title}</div>
+              <div className="application-details">
+                <div className="application-date">
+                  {application.startDate} 시작
                 </div>
-                <div className="application-title">{application.title}</div>
-                <div className="application-details">
-                  <div className="application-date">
-                    {application.startDate} 시작
-                  </div>
-                  <div className="application-schedule">{application.type}</div>
-                  <div className="application-payment">
-                    {application.payment}
-                  </div>
-                </div>
+                <div className="application-schedule">{application.type}</div>
+                <div className="application-payment">{application.payment}</div>
               </div>
             </div>
           </div>
 
-          <div className="detail-right">
-            <div className="detail-info-box">
-              <h2>상세 정보</h2>
+          <div className="detail-info-box">
+            <h2>상세 정보</h2>
 
-              <div className="detail-row">
-                <span className="detail-label">대상:</span>
-                <span className="detail-value">{application.target}</span>
-              </div>
+            <div className="detail-row">
+              <span className="detail-label">대상:</span>
+              <span className="detail-value">{application.target}</span>
+            </div>
 
-              <div className="detail-row">
-                <span className="detail-label">목적:</span>
-                <span className="detail-value">{application.purpose}</span>
-              </div>
+            <div className="detail-row">
+              <span className="detail-label">목적:</span>
+              <span className="detail-value">{application.purpose}</span>
+            </div>
 
-              <div className="detail-row">
-                <span className="detail-label">유형:</span>
-                <span className="detail-value">{application.type}</span>
-              </div>
+            <div className="detail-row">
+              <span className="detail-label">유형:</span>
+              <span className="detail-value">{application.type}</span>
+            </div>
 
-              <div className="detail-row">
-                <span className="detail-label">기간:</span>
-                <span className="detail-value">{application.period}</span>
-              </div>
+            <div className="detail-row">
+              <span className="detail-label">기간:</span>
+              <span className="detail-value">{application.period}</span>
+            </div>
 
-              <div className="detail-row">
-                <span className="detail-label">근무시간:</span>
-                <span className="detail-value">{application.workingHours}</span>
-              </div>
+            <div className="detail-row">
+              <span className="detail-label">근무시간:</span>
+              <span className="detail-value">{application.workingHours}</span>
+            </div>
 
-              <div className="detail-row">
-                <span className="detail-label">가족 구성:</span>
-                <span className="detail-value">
-                  {application.familyDetails}
-                </span>
-              </div>
+            <div className="detail-row">
+              <span className="detail-label">가족 구성:</span>
+              <span className="detail-value">{application.familyDetails}</span>
+            </div>
 
-              <div className="detail-row">
-                <span className="detail-label">부모님 메시지:</span>
-                <span className="detail-value">
-                  {application.parentMessage}
-                </span>
-              </div>
+            <div className="detail-row">
+              <span className="detail-label">부모님 메시지:</span>
+              <span className="detail-value">{application.parentMessage}</span>
+            </div>
 
-              <div className="detail-row">
-                <span className="detail-label">지급액:</span>
-                <span className="detail-value">{application.payment}</span>
-              </div>
+            <div className="detail-row">
+              <span className="detail-label">지급액:</span>
+              <span className="detail-value">{application.payment}</span>
             </div>
           </div>
         </div>

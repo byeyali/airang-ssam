@@ -1,8 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
 import "./Footer.css";
 
 function Footer() {
+  const { user } = useUser();
+  const navigate = useNavigate();
+
+  const handleReviewClick = (e) => {
+    if (!user) {
+      e.preventDefault();
+      alert("로그인이 필요합니다. 로그인 후 후기를 작성해주세요.");
+      navigate("/login");
+      return;
+    }
+  };
+
   return (
     <footer className="footer">
       <div className="footer-content">
@@ -22,7 +35,9 @@ function Footer() {
               <Link to="/matchings">매칭 현황</Link>
             </li>
             <li>
-              <Link to="/reviews">후기 작성하기</Link>
+              <Link to="/reviews" onClick={handleReviewClick}>
+                후기 작성하기
+              </Link>
             </li>
           </ul>
         </div>
@@ -40,7 +55,9 @@ function Footer() {
               <Link to="/matchings">매칭 현황</Link>
             </li>
             <li>
-              <Link to="/reviews">후기 확인하기</Link>
+              <Link to="/reviews" onClick={handleReviewClick}>
+                후기 확인하기
+              </Link>
             </li>
             <li>
               <Link to="/feedback">문의하기</Link>

@@ -3,12 +3,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  padding: 25px 30px;
+  gap: 15px;
+  padding: 8px 20px;
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 10px auto;
   max-width: 1200px;
   flex-wrap: wrap;
   position: relative;
@@ -19,8 +19,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 18px 22px;
+  gap: 8px;
+  padding: 10px 15px;
   border-radius: 15px;
   text-decoration: none;
   color: #333;
@@ -32,27 +32,28 @@
 }
 
 .nav-item:hover {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
   color: white;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
-  border-color: #ff6b6b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(25, 118, 210, 0.2);
+  border-color: #1976d2;
 }
 
 .nav-item:active {
   transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.15);
 }
 
 .nav-icon {
-  width: 48px;
-  height: 48px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
+  border-radius: 12px;
   transition: all 0.3s ease;
 }
 
 .nav-item:hover .nav-icon {
-  transform: scale(1.1);
-  filter: brightness(0) invert(1);
+  transform: scale(1.05);
 }
 
 .nav-text {
@@ -66,14 +67,14 @@
 
 /* 활성 상태 스타일 */
 .nav-item.active {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
   color: white;
-  border-color: #ff6b6b;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  border-color: #1976d2;
+  box-shadow: 0 4px 15px rgba(25, 118, 210, 0.2);
 }
 
 .nav-item.active .nav-icon {
-  filter: brightness(0) invert(1);
+  transform: scale(1.02);
 }
 
 /* 사용자 역할별 구분 */
@@ -123,17 +124,38 @@
 @media (max-width: 1200px) {
   .main-navigation {
     gap: 15px;
-    padding: 20px 25px;
+    padding: 8px 20px;
   }
 
   .nav-item {
-    padding: 15px 18px;
+    padding: 8px 12px;
     min-width: 90px;
   }
 
   .nav-icon {
-    width: 42px;
-    height: 42px;
+    width: 70px;
+    height: 70px;
+  }
+
+  .nav-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .main-navigation {
+    gap: 12px;
+    padding: 6px 15px;
+  }
+
+  .nav-item {
+    padding: 6px 10px;
+    min-width: 85px;
+  }
+
+  .nav-icon {
+    width: 65px;
+    height: 65px;
   }
 
   .nav-text {
@@ -141,32 +163,11 @@
   }
 }
 
-@media (max-width: 1024px) {
-  .main-navigation {
-    gap: 12px;
-    padding: 18px 20px;
-  }
-
-  .nav-item {
-    padding: 12px 15px;
-    min-width: 85px;
-  }
-
-  .nav-icon {
-    width: 38px;
-    height: 38px;
-  }
-
-  .nav-text {
-    font-size: 0.8rem;
-  }
-}
-
 @media (max-width: 768px) {
   .main-navigation {
     flex-direction: column;
     gap: 10px;
-    padding: 18px;
+    padding: 15px;
     border-radius: 15px;
     max-width: 100%;
   }
@@ -175,14 +176,14 @@
     width: 100%;
     flex-direction: row;
     justify-content: flex-start;
-    padding: 15px 18px;
+    padding: 10px 15px;
     min-width: auto;
-    gap: 15px;
+    gap: 12px;
   }
 
   .nav-icon {
-    width: 36px;
-    height: 36px;
+    width: 55px;
+    height: 55px;
     flex-shrink: 0;
   }
 
@@ -192,18 +193,23 @@
   }
 
   .nav-item:hover {
-    transform: translateX(5px);
+    transform: translateX(3px);
   }
 }
 
 @media (max-width: 480px) {
   .main-navigation {
     margin: 10px;
-    padding: 15px;
+    padding: 12px;
   }
 
   .nav-item {
-    padding: 12px 15px;
+    padding: 8px 12px;
+  }
+
+  .nav-icon {
+    width: 50px;
+    height: 50px;
   }
 
   .nav-text {
@@ -223,14 +229,14 @@
   }
 
   .nav-item:hover {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+    background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
     color: white;
   }
 }
 
 /* 접근성 개선 */
 .nav-item:focus {
-  outline: 2px solid #ff6b6b;
+  outline: 2px solid #1976d2;
   outline-offset: 2px;
 }
 
@@ -252,7 +258,7 @@
   width: 18px;
   height: 18px;
   margin: -9px 0 0 -9px;
-  border: 2px solid #ff6b6b;
+  border: 2px solid #1976d2;
   border-top-color: transparent;
   border-radius: 50%;
   animation: spin 1s linear infinite;

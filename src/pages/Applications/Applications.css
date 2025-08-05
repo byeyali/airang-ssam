@@ -159,10 +159,10 @@
 }
 
 .application-title {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  color: #2f0005;
-  margin-bottom: 15px;
+  color: #333;
+  margin-bottom: 10px;
   line-height: 1.4;
 }
 
@@ -175,7 +175,7 @@
 .application-date,
 .application-schedule,
 .application-payment {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #666;
   font-weight: 500;
 }
@@ -189,23 +189,30 @@
 .detail-info-box {
   background: linear-gradient(135deg, #ffe3e3 0%, #ffc9c9 100%);
   border-radius: 20px;
-  padding: 30px;
+  padding: 40px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .detail-info-box h2 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #333;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
   text-align: center;
 }
 
 .detail-row {
   display: flex;
-  margin-bottom: 15px;
-  padding: 10px 0;
+  margin-bottom: 20px;
+  padding: 15px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
 }
 
 .detail-row:last-child {
@@ -216,13 +223,25 @@
   font-weight: 600;
   color: #333;
   min-width: 120px;
-  margin-right: 15px;
+  max-width: 140px;
+  margin-right: 20px;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  text-align: center;
 }
 
 .detail-value {
   color: #666;
   flex: 1;
-  line-height: 1.5;
+  line-height: 1.6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: keep-all;
+  font-size: 1.05rem;
+  text-align: center;
+  max-width: calc(100% - 40px);
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .application-actions {
@@ -235,10 +254,10 @@
 .delete-button,
 .proceed-matching-button,
 .view-details-button {
-  padding: 8px 16px;
+  padding: 10px 18px;
   border: none;
   border-radius: 8px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -375,10 +394,37 @@
   .application-summary-card,
   .detail-info-box {
     max-width: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
   }
 
   .application-actions {
     flex-direction: column;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .detail-label {
+    min-width: auto;
+    max-width: none;
+    margin-right: 0;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .detail-value {
+    font-size: 1rem;
+    text-align: center;
+    max-width: calc(100% - 30px);
+    padding: 0 15px;
+  }
+
+  .detail-info-box h2 {
+    font-size: 1.8rem;
   }
 }
 
@@ -392,10 +438,41 @@
   }
 
   .application-title {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 
   .detail-content {
     padding: 15px;
+  }
+
+  .detail-info-box {
+    padding: 25px;
+    overflow: hidden;
+    word-wrap: break-word;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .detail-label {
+    min-width: auto;
+    max-width: none;
+    margin-right: 0;
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .detail-value {
+    font-size: 0.95rem;
+    text-align: center;
+    max-width: calc(100% - 20px);
+    padding: 0 10px;
+  }
+
+  .detail-info-box h2 {
+    font-size: 1.6rem;
   }
 }
