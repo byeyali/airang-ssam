@@ -12,8 +12,8 @@ export const useTeacher = () => {
 
 // 쌤 이름 마스킹 함수
 const maskTeacherName = (name) => {
-  if (name.length <= 2) return name + " 쌤";
-  return name.charAt(0) + "O" + name.charAt(name.length - 1) + " 쌤";
+  if (name.length <= 2) return name;
+  return name.charAt(0) + "O" + name.charAt(name.length - 1);
 };
 
 export const TeacherProvider = ({ children }) => {
@@ -131,23 +131,23 @@ export const TeacherProvider = ({ children }) => {
     },
     {
       id: "teacher_003",
-      name: "이수진",
-      maskedName: maskTeacherName("이수진"),
+      name: "김지영",
+      maskedName: maskTeacherName("김지영"),
       age: 26,
       rating: 4.7,
-      hourlyWage: "14,000원",
-      regions: ["마포구", "영등포구"],
+      hourlyWage: "16,000원",
+      regions: ["관악구", "동작구"],
       certification: "보육교사 2급",
-      qualifications: ["보육교사 2급", "영양사"],
-      skills: ["돌봄", "음식"],
-      preferences: ["초등학생", "영양 간식", "따뜻한 돌봄"],
-      experience: "3년",
+      qualifications: ["보육교사 2급", "과학지도사"],
+      skills: ["과학 실험", "보드게임", "음악", "미술"],
+      preferences: ["초등학생", "과학 실험", "창의적 놀이"],
+      experience: "4년",
       introduction:
-        "영양가 있는 간식과 따뜻한 돌봄을 제공하는 쌤입니다. 아이들의 건강한 성장을 돕겠습니다.",
-      profileImage: "/img/teacher-kimjiyoung.jpg", // 이수진
-      birthYear: "1997",
+        "과학 실험과 보드게임을 통해 아이들의 창의력을 키우는 쌤입니다. 음악과 미술도 함께 가르쳐드립니다.",
+      profileImage: "/img/teacher-kimjiyoung.jpg", // 김지영
+      birthYear: "1992",
       gender: "female",
-      selectedFields: ["foodCare", "afterSchool", "art"],
+      selectedFields: ["science", "boardGame", "music", "art"],
       uploadedFiles: {
         photo: {
           name: "profile_photo_3.jpg",

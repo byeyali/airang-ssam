@@ -22,19 +22,20 @@ export const MatchingProvider = ({ children }) => {
       message:
         "안녕하세요! 우리 아이 방과후 돌봄이 필요합니다. 체계적으로 잘 가르쳐주시는 분을 찾고 있어요.",
       status: "pending",
-      createdAt: "2025-08-15T10:30:00.000Z",
+      createdAt: "2024-08-15T10:30:00.000Z",
     },
     {
       id: "matching_002",
       parentId: "user_001", // 김가정
       teacherId: "teacher_002", // 박민수
+      applicationId: "app_002", // 김가정 부모님의 공고
       parentName: "김가정",
       teacherName: "박민수 쌤",
       message: "영어 학습도 함께 하고 싶어요. 체계적으로 가르쳐주실 수 있나요?",
       status: "accepted",
-      contractStatus: "progress", // 계약 진행중
-      createdAt: "2025-08-14T14:20:00.000Z",
-      respondedAt: "2025-08-14T15:30:00.000Z",
+      contractStatus: "completed", // 계약 완료
+      createdAt: "2024-08-14T14:20:00.000Z",
+      respondedAt: "2024-08-14T15:30:00.000Z",
     },
     {
       id: "matching_003",
@@ -46,8 +47,8 @@ export const MatchingProvider = ({ children }) => {
       message: "따뜻한 마음으로 아이를 돌봐주실 분을 찾고 있습니다.",
       status: "accepted",
       contractStatus: "completed", // 계약 완료
-      createdAt: "2025-08-13T09:15:00.000Z",
-      respondedAt: "2025-08-13T10:30:00.000Z",
+      createdAt: "2024-01-15T09:15:00.000Z", // 1월부터 시작
+      respondedAt: "2024-01-15T10:30:00.000Z",
     },
     // 추가 매칭 요청들
     {
@@ -58,19 +59,20 @@ export const MatchingProvider = ({ children }) => {
       teacherName: "김영희 쌤",
       message: "수학과 영어를 함께 가르쳐주실 수 있는 분을 찾고 있어요.",
       status: "pending",
-      createdAt: "2025-08-12T16:45:00.000Z",
+      createdAt: "2024-08-12T16:45:00.000Z",
     },
     {
       id: "matching_005",
       parentId: "user_004", // 최지영
       teacherId: "teacher_002", // 박민수
+      applicationId: "app_007", // 최지영 부모님의 공고
       parentName: "최지영",
       teacherName: "박민수 쌤",
       message: "체육 활동도 함께 해주실 수 있는 분을 찾고 있습니다.",
       status: "accepted",
-      contractStatus: "progress", // 계약 진행중
-      createdAt: "2025-08-11T11:20:00.000Z",
-      respondedAt: "2025-08-11T14:30:00.000Z",
+      contractStatus: "completed", // 계약 완료
+      createdAt: "2024-08-11T11:20:00.000Z",
+      respondedAt: "2024-08-11T14:30:00.000Z",
     },
     {
       id: "matching_006",
@@ -80,7 +82,7 @@ export const MatchingProvider = ({ children }) => {
       teacherName: "최지영 쌤",
       message: "미술과 음악을 가르쳐주실 수 있는 분을 찾고 있어요.",
       status: "pending",
-      createdAt: "2025-08-10T09:30:00.000Z",
+      createdAt: "2024-08-10T09:30:00.000Z",
     },
     {
       id: "matching_007",
@@ -90,18 +92,33 @@ export const MatchingProvider = ({ children }) => {
       teacherName: "한미영 쌤",
       message: "과학 실험도 함께 해주실 수 있는 분을 찾고 있습니다.",
       status: "rejected",
-      createdAt: "2025-08-09T13:15:00.000Z",
-      respondedAt: "2025-08-09T15:45:00.000Z",
+      createdAt: "2024-08-09T13:15:00.000Z",
+      respondedAt: "2024-08-09T15:45:00.000Z",
     },
     {
       id: "matching_008",
       parentId: "user_007", // 김태현
-      teacherId: "teacher_006", // 정성훈
+      teacherId: "teacher_005", // 한미영
       parentName: "김태현",
-      teacherName: "정성훈 쌤",
-      message: "컴퓨터 프로그래밍도 가르쳐주실 수 있는 분을 찾고 있어요.",
+      teacherName: "한미영 쌤",
+      message: "영어 회화를 가르쳐주실 수 있는 분을 찾고 있어요.",
       status: "pending",
-      createdAt: "2025-08-08T10:00:00.000Z",
+      createdAt: "2024-08-08T10:20:00.000Z",
+    },
+    // 김지영 쌤의 4월 계약 시나리오 추가
+    {
+      id: "matching_011",
+      parentId: "user_010", // 김미영
+      teacherId: "teacher_003", // 김지영
+      applicationId: "app_010", // 김미영 부모님의 공고
+      parentName: "김미영",
+      teacherName: "김지영 쌤",
+      message:
+        "과학 실험과 창의적 놀이를 가르쳐주실 수 있는 분을 찾고 있습니다.",
+      status: "accepted",
+      contractStatus: "completed", // 계약 완료
+      createdAt: "2024-04-15T10:30:00.000Z",
+      respondedAt: "2024-04-15T14:00:00.000Z",
     },
   ]);
 

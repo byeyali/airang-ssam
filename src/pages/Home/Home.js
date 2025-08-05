@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useReview } from "../../contexts/ReviewContext";
 import { useApplication } from "../../contexts/ApplicationContext";
@@ -13,17 +13,45 @@ function Home() {
   const { user } = useUser();
   const { getHomeTeachers } = useTeacher();
 
+  // 동영상 로딩 상태 관리
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+
+  const handleVideoLoad = () => {
+    setVideoLoaded(true);
+    console.log("동영상 로딩 완료");
+  };
+
+  const handleVideoError = (e) => {
+    setVideoError(true);
+    console.log("동영상 로딩 실패:", e);
+    console.log("동영상 요소:", e.target);
+    console.log("동영상 에러 코드:", e.target.error);
+  };
+
+  // 이미지 로딩 상태 관리
+  const [imageLoadErrors, setImageLoadErrors] = useState({});
+
+  const handleImageError = (imageName) => {
+    console.log(`홈 이미지 로딩 실패: ${imageName}`);
+    setImageLoadErrors((prev) => ({
+      ...prev,
+      [imageName]: true,
+    }));
+  };
+
   // 쌤 이미지 매핑 함수
   const getTeacherImage = (teacherId) => {
     const imageMap = {
       teacher_001: "/img/teacher-kimyouhghee-womam.png", // 김영희
-      teacher_002: "/img/teacher-man-ball.jpg", // 박민수
-      teacher_003: "/img/teacher-kimjiyoung.jpg", // 이수진
+      teacher_002: "/img/teacher-30-man.png", // 박민수
+      teacher_003: "/img/teacher-kimjiyoung.jpg", // 김지영
       teacher_004: "/img/teacher-math-english.jpg", // 최지영
       teacher_005: "/img/teacher-studing-with-2children.jpeg", // 한미영
       teacher_006: "/img/teacher-30-man.png", // 정성훈
       teacher_007: "/img/teacher-30-man.png", // 김태현
       teacher_008: "/img/teacher-30-man.png", // 박성훈
+      teacher_010: "/img/teacher-40-woman.png", // 박O영 (45세)
     };
     return imageMap[teacherId] || "/img/teacher-30-woman.png";
   };
@@ -79,20 +107,14 @@ function Home() {
   };
 
   const handleParentService = () => {
-    if (!user) {
-      alert("로그인이 필요한 서비스입니다.");
-      navigate("/login");
-      return;
-    }
+    // 페이지 상단으로 스크롤
+    window.scrollTo(0, 0);
     navigate("/parent-service");
   };
 
   const handleTeacherService = () => {
-    if (!user) {
-      alert("로그인이 필요한 서비스입니다.");
-      navigate("/login");
-      return;
-    }
+    // 페이지 상단으로 스크롤
+    window.scrollTo(0, 0);
     navigate("/teacher-service");
   };
 
@@ -167,6 +189,26 @@ function Home() {
 
   return (
     <div className="home-page">
+      {/* 이미지 로딩 에러 디버깅 정보 */}
+      {Object.keys(imageLoadErrors).length > 0 && (
+        <div
+          style={{
+            position: "fixed",
+            top: "10px",
+            right: "10px",
+            background: "rgba(255, 0, 0, 0.8)",
+            color: "white",
+            padding: "10px",
+            borderRadius: "5px",
+            zIndex: 9999,
+            fontSize: "12px",
+          }}
+        >
+          <strong>이미지 로딩 실패:</strong>
+          <br />
+          {Object.keys(imageLoadErrors).join(", ")}
+        </div>
+      )}
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
@@ -180,12 +222,20 @@ function Home() {
               muted
               loop
               playsInline
+              preload="auto"
               className="hero-video-element"
+              onLoadedData={handleVideoLoad}
+              onError={handleVideoError}
+              onCanPlay={handleVideoLoad}
+              controls={false}
             >
-              <source src="/img/home-main-mives-01.mp4" type="video/mp4" />
+              <source src="/img/video-main.mp4" type="video/mp4" />
               {/* 폴백 이미지 */}
               <img src="/img/home-main01.png" alt="메인 이미지" />
             </video>
+            {!videoLoaded && !videoError && (
+              <div className="video-loading">동영상 로딩 중...</div>
+            )}
           </div>
         </div>
 
@@ -194,51 +244,99 @@ function Home() {
           <h2>다양한 돌봄 분야</h2>
           <div className="care-fields-grid">
             <div className="care-field-item">
-              <img src="/img/afterschool.png" alt="방과후 마중" />
+              <img
+                src="/img/afterschool.png"
+                alt="방과후 마중"
+                onError={() => handleImageError("afterschool")}
+              />
               <span>방과후 마중</span>
             </div>
             <div className="care-field-item">
-              <img src="/img/food.png" alt="음식 챙김" />
+              <img
+                src="/img/food.png"
+                alt="음식 챙김"
+                onError={() => handleImageError("food")}
+              />
               <span>음식 챙김</span>
             </div>
             <div className="care-field-item">
-              <img src="/img/clean.png" alt="정리 정돈" />
+              <img
+                src="/img/clean.png"
+                alt="정리 정돈"
+                onError={() => handleImageError("clean")}
+              />
               <span>정리 정돈</span>
             </div>
             <div className="care-field-item">
-              <img src="/img/specialcare.png" alt="특수 돌봄" />
+              <img
+                src="/img/specialcare.png"
+                alt="특수 돌봄"
+                onError={() => handleImageError("specialcare")}
+              />
               <span>특수 돌봄</span>
             </div>
             <div className="care-field-item">
-              <img src="/img/sports.png" alt="스포츠" />
+              <img
+                src="/img/sports.png"
+                alt="스포츠"
+                onError={() => handleImageError("sports")}
+              />
               <span>스포츠</span>
             </div>
             <div className="care-field-item">
-              <img src="/img/music.png" alt="음악" />
+              <img
+                src="/img/music.png"
+                alt="음악"
+                onError={() => handleImageError("music")}
+              />
               <span>음악</span>
             </div>
             <div className="care-field-item">
-              <img src="/img/art.png" alt="미술" />
+              <img
+                src="/img/art.png"
+                alt="미술"
+                onError={() => handleImageError("art")}
+              />
               <span>미술</span>
             </div>
             <div className="care-field-item">
-              <img src="/img/boardgame.png" alt="보드게임" />
+              <img
+                src="/img/boardgame.png"
+                alt="보드게임"
+                onError={() => handleImageError("boardgame")}
+              />
               <span>보드게임</span>
             </div>
             <div className="care-field-item">
-              <img src="/img/math.png" alt="산수" />
+              <img
+                src="/img/math.png"
+                alt="산수"
+                onError={() => handleImageError("math")}
+              />
               <span>산수</span>
             </div>
             <div className="care-field-item">
-              <img src="/img/textbook.png" alt="교과 보충" />
+              <img
+                src="/img/textbook.png"
+                alt="교과 보충"
+                onError={() => handleImageError("textbook")}
+              />
               <span>교과 보충</span>
             </div>
             <div className="care-field-item">
-              <img src="/img/reading.png" alt="독서 대화" />
+              <img
+                src="/img/reading.png"
+                alt="독서 대화"
+                onError={() => handleImageError("reading")}
+              />
               <span>독서 대화</span>
             </div>
             <div className="care-field-item">
-              <img src="/img/secondlanguage.png" alt="제2외국어" />
+              <img
+                src="/img/secondlanguage.png"
+                alt="제2외국어"
+                onError={() => handleImageError("secondlanguage")}
+              />
               <span>제2외국어</span>
             </div>
           </div>
@@ -250,7 +348,11 @@ function Home() {
         <div className="service-links-container">
           <div className="service-link-card" onClick={handleParentService}>
             <div className="service-link-icon">
-              <img src="/img/boyandgirl.jpg" alt="부모님 서비스" />
+              <img
+                src="/img/boyandgirl.jpg"
+                alt="부모님 서비스"
+                onError={() => handleImageError("boyandgirl")}
+              />
             </div>
             <h3>부모님 서비스</h3>
             <p>우리 아이에게 맞는 쌤을 찾아보세요</p>
@@ -258,7 +360,11 @@ function Home() {
           </div>
           <div className="service-link-card" onClick={handleTeacherService}>
             <div className="service-link-icon">
-              <img src="/img/greywoman.png" alt="쌤 서비스" />
+              <img
+                src="/img/greywoman.png"
+                alt="쌤 서비스"
+                onError={() => handleImageError("greywoman")}
+              />
             </div>
             <h3>쌤 서비스</h3>
             <p>아이들과 함께하는 시간을 만들어보세요</p>
@@ -344,7 +450,11 @@ function Home() {
             <div key={review.id} className="review-card">
               <div className="review-header">
                 <div className="mom-icon">
-                  <img src="/img/mani-talk2-06.png" alt="부모님 아바타" />
+                  <img
+                    src="/img/mani-talk2-06.png"
+                    alt="부모님 아바타"
+                    onError={() => handleImageError("mani-talk2-06")}
+                  />
                 </div>
                 <div className="review-info">
                   <div className="review-location">{review.region}</div>
@@ -381,7 +491,11 @@ function Home() {
                   <img src={getTeacherImage(teacher.id)} alt="쌤 프로필" />
                 </div>
                 <div className="teacher-info">
-                  <div className="teacher-name">{teacher.maskedName}</div>
+                  <div className="teacher-name">
+                    {user && user.id === teacher.id
+                      ? teacher.name + " 쌤"
+                      : teacher.maskedName + " 쌤"}
+                  </div>
                   <div className="teacher-rating-info">
                     <span className="star-icon">⭐</span>
                     <span className="rating-score">{teacher.rating}</span>

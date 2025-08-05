@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
@@ -8,6 +8,12 @@ import "./Header.css";
 function Header() {
   const navigate = useNavigate();
   const { user } = useUser();
+  const [logoError, setLogoError] = useState(false);
+
+  const handleLogoError = () => {
+    console.log("로고 이미지 로딩 실패");
+    setLogoError(true);
+  };
 
   const goToSignUp = () => {
     navigate("/signup");
@@ -41,6 +47,7 @@ function Header() {
             src="/img/Image_fx.png"
             alt="어린이 아바타"
             className="logo-img"
+            onError={handleLogoError}
           />
           <span className="font-black-han-sans logo-text">아이랑 쌤이랑</span>
         </Link>

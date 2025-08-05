@@ -20,16 +20,20 @@ function Login() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    const result = login(formData.email, formData.password);
+    try {
+      const result = await login(formData.email, formData.password);
 
-    if (result.success) {
-      navigate("/");
-    } else {
-      setError(result.message);
+      if (result.success) {
+        navigate("/");
+      } else {
+        setError(result.message);
+      }
+    } catch (error) {
+      setError("로그인 중 오류가 발생했습니다.");
     }
   };
 

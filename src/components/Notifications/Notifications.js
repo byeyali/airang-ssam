@@ -36,6 +36,8 @@ function Notifications() {
   };
 
   const handleMyApplications = () => {
+    // 페이지 상단으로 스크롤
+    window.scrollTo(0, 0);
     navigate("/applications");
     setIsOpen(false);
   };
@@ -58,6 +60,8 @@ function Notifications() {
   };
 
   const handleTeacherPaymentStatus = () => {
+    // 페이지 상단으로 스크롤
+    window.scrollTo(0, 0);
     navigate("/teacher/payment-status");
     setIsOpen(false);
   };

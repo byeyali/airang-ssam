@@ -25,13 +25,14 @@ function TeacherDetail() {
   const getTeacherImage = useCallback((teacherId) => {
     const imageMap = {
       teacher_001: "/img/teacher-kimyouhghee-womam.png", // 김영희
-      teacher_002: "/img/teacher-man-ball.jpg", // 박민수
-      teacher_003: "/img/teacher-kimjiyoung.jpg", // 이수진
+      teacher_002: "/img/teacher-30-man.png", // 박민수
+      teacher_003: "/img/teacher-kimjiyoung.jpg", // 김지영
       teacher_004: "/img/teacher-math-english.jpg", // 최지영
       teacher_005: "/img/teacher-studing-with-2children.jpeg", // 한미영
       teacher_006: "/img/teacher-30-man.png", // 정성훈
       teacher_007: "/img/teacher-30-man.png", // 김태현
       teacher_008: "/img/teacher-30-man.png", // 박성훈
+      teacher_010: "/img/teacher-40-woman.png", // 박O영 (45세)
     };
     return imageMap[teacherId] || "/img/teacher-30-woman.png";
   }, []);
@@ -250,7 +251,11 @@ function TeacherDetail() {
               <img src={getTeacherImage(teacher.id)} alt="쌤 프로필" />
             </div>
             <div className="profile-info">
-              <h2>{teacher.maskedName} 쌤</h2>
+              <h2>
+                {user && user.id === teacher.id
+                  ? teacher.name + " 쌤"
+                  : teacher.maskedName + " 쌤"}
+              </h2>
               <div className="profile-rating">
                 {renderStars(teacher.rating)} {teacher.rating}
               </div>
@@ -350,34 +355,36 @@ function TeacherDetail() {
             </section>
           )}
 
-        {/* 액션 섹션 */}
-        <section className="action-section">
-          {user && user.type === "teacher" && user.id === teacher.id ? (
-            // 쌤 본인이 보는 경우 - 수정하기 버튼
-            <div className="edit-card">
-              <h3>프로필 관리</h3>
-              <p>내 프로필 정보를 수정하시겠습니까?</p>
-              <button
-                className="edit-profile-button"
-                onClick={() => navigate("/teacher-profile")}
-              >
-                프로필 수정하기
-              </button>
-            </div>
-          ) : (
-            // 부모가 보는 경우 - 매칭 요청 버튼
-            <div className="matching-card">
-              <h3>매칭 요청</h3>
-              <p>이 쌤과 매칭을 원하시나요? 메시지를 보내보세요!</p>
-              <button
-                className="matching-request-button"
-                onClick={handleOpenMatchingModal}
-              >
-                매칭 요청하기
-              </button>
-            </div>
-          )}
-        </section>
+        {/* 액션 섹션 - 로그인한 사용자만 표시 */}
+        {user && (
+          <section className="action-section">
+            {user.type === "teacher" && user.id === teacher.id ? (
+              // 쌤 본인이 보는 경우 - 수정하기 버튼
+              <div className="edit-card">
+                <h3>프로필 관리</h3>
+                <p>내 프로필 정보를 수정하시겠습니까?</p>
+                <button
+                  className="edit-profile-button"
+                  onClick={() => navigate("/teacher-profile")}
+                >
+                  프로필 수정하기
+                </button>
+              </div>
+            ) : user.type === "parent" ? (
+              // 부모가 보는 경우 - 매칭 요청 버튼
+              <div className="matching-card">
+                <h3>매칭 요청</h3>
+                <p>이 쌤과 매칭을 원하시나요? 메시지를 보내보세요!</p>
+                <button
+                  className="matching-request-button"
+                  onClick={handleOpenMatchingModal}
+                >
+                  매칭 요청하기
+                </button>
+              </div>
+            ) : null}
+          </section>
+        )}
       </div>
 
       {/* 매칭 요청 모달 */}
@@ -398,7 +405,11 @@ function TeacherDetail() {
                 <div className="teacher-matching-profile">
                   <img src={getTeacherImage(teacher.id)} alt="쌤 프로필" />
                   <div className="teacher-matching-details">
-                    <h3>{teacher.maskedName} 쌤</h3>
+                    <h3>
+                      {user && user.id === teacher.id
+                        ? teacher.name + " 쌤"
+                        : teacher.maskedName + " 쌤"}
+                    </h3>
                     <p>
                       ⭐ {teacher.rating} ({teacher.experience} 경력)
                     </p>

@@ -26,24 +26,34 @@ function PaymentStatusPage() {
     const allMatchings = getAllMatchingRequests();
     const allApplications = getAllApplications();
 
-    // 계약 수락 완료된 매칭만 필터링
+    // 계약 수락 완료된 매칭만 필터링 (진행중 제외)
     const acceptedMatchings = allMatchings.filter(
-      (m) => m.status === "accepted" && m.contractStatus
+      (m) => m.status === "accepted" && m.contractStatus === "completed"
     );
 
     const paymentStatus = acceptedMatchings.map((matching) => {
       let application;
-      if (matching.id === "matching_002") {
-        application = allApplications.find((app) => app.id === "app_002");
-      } else if (matching.id === "matching_003") {
-        application = allApplications.find((app) => app.id === "app_003");
-      } else if (matching.id === "matching_005") {
-        // 박민수 쌤의 두 번째 매칭
-        application = allApplications.find((app) => app.id === "app_007");
-      } else {
+
+      // 매칭 ID에 따른 하드코딩 제거하고 applicationId로 찾기
+      if (matching.applicationId) {
         application = allApplications.find(
           (app) => app.id === matching.applicationId
         );
+      } else {
+        // applicationId가 없는 경우 매칭 ID로 찾기
+        application = allApplications.find(
+          (app) => app.id === `app_${matching.id.split("_")[1]}`
+        );
+      }
+
+      // application을 찾지 못한 경우 기본값 설정
+      if (!application) {
+        application = {
+          id: matching.id,
+          payment: "시간 당 18,000 (협의가능)",
+          workingHours: "오후 2시~5시",
+          type: "정기 매주 월,수,금 (주3회)",
+        };
       }
 
       // 시급 파싱 개선
@@ -66,22 +76,48 @@ function PaymentStatusPage() {
       const sessionsPerWeek = calculateSessionsPerWeek(application?.type || "");
       const totalHours = hoursPerSession * sessionsPerWeek * 4;
       const monthlyEarnings = hourlyWage * totalHours;
-      const contractMonths = 5;
+
+      // 계약 기간 설정 (박민수 쌤은 12개월, 나머지는 5개월)
+      const contractMonths = matching.id === "matching_003" ? 12 : 5;
       const teacherTotalEarnings = monthlyEarnings * contractMonths;
       const parentTotalPayment = teacherTotalEarnings * 1.05;
       const monthlyParentPayment = parentTotalPayment / contractMonths;
 
+      // 계약 시작일과 종료일 계산
+      const contractStartDate = new Date(matching.createdAt);
+      const contractEndDate = new Date(contractStartDate);
+      contractEndDate.setMonth(contractEndDate.getMonth() + contractMonths - 1);
+
+      // 현재 진행 상황 계산
+      const currentDate = new Date();
+      const completedMonths = Math.min(
+        Math.max(
+          0,
+          currentDate.getMonth() -
+            contractStartDate.getMonth() +
+            (currentDate.getFullYear() - contractStartDate.getFullYear()) * 12
+        ),
+        contractMonths
+      );
+      const remainingMonths = Math.max(0, contractMonths - completedMonths);
+
       const months = [];
       for (let i = 1; i <= contractMonths; i++) {
-        const monthName = `${i}월`;
-        const dueDate = new Date();
-        dueDate.setMonth(dueDate.getMonth() + i - 1);
+        const monthDate = new Date(contractStartDate);
+        monthDate.setMonth(monthDate.getMonth() + i - 1);
+
+        let status = "미입금";
+        if (i <= completedMonths) {
+          status = i === 1 ? "입금완료" : "입금완료";
+        } else if (i === completedMonths + 1) {
+          status = "입금예정";
+        }
 
         months.push({
-          month: monthName,
+          month: `${i}월`,
           amount: monthlyParentPayment,
-          dueDate: dueDate.toLocaleDateString("ko-KR"),
-          status: i === 1 ? "입금완료" : i === 2 ? "입금예정" : "미입금",
+          dueDate: monthDate.toLocaleDateString("ko-KR"),
+          status: status,
         });
       }
 
@@ -92,6 +128,11 @@ function PaymentStatusPage() {
         totalAmount: parentTotalPayment,
         monthlyAmount: monthlyParentPayment,
         contractStatus: matching.contractStatus,
+        contractMonths: contractMonths,
+        contractStartDate: contractStartDate.toLocaleDateString("ko-KR"),
+        contractEndDate: contractEndDate.toLocaleDateString("ko-KR"),
+        completedMonths: completedMonths,
+        remainingMonths: remainingMonths,
         months: months,
         createdAt: matching.createdAt,
       };
@@ -122,7 +163,14 @@ function PaymentStatusPage() {
   };
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("ko-KR").format(amount);
+    if (isNaN(amount) || amount === undefined || amount === null) {
+      return "0원";
+    }
+    const numAmount = Number(amount);
+    if (isNaN(numAmount)) {
+      return "0원";
+    }
+    return new Intl.NumberFormat("ko-KR").format(numAmount) + "원";
   };
 
   const handleSearch = (e) => {
@@ -173,8 +221,6 @@ function PaymentStatusPage() {
         break;
       case "lowest":
         filtered.sort((a, b) => a.monthlyAmount - b.monthlyAmount);
-        break;
-      default:
         break;
     }
 
@@ -341,6 +387,8 @@ function PaymentStatusPage() {
           <div className="table-header">
             <div className="table-cell">부모님</div>
             <div className="table-cell">쌤</div>
+            <div className="table-cell">계약 기간</div>
+            <div className="table-cell">진행 상황</div>
             <div className="table-cell">월별 입금액</div>
             <div className="table-cell">입금 현황</div>
             <div className="table-cell">계약 상태</div>
@@ -353,6 +401,26 @@ function PaymentStatusPage() {
               <div className="table-row">
                 <div className="table-cell">{payment.parentName}</div>
                 <div className="table-cell">{payment.teacherName}</div>
+                <div className="table-cell">
+                  <div className="contract-period">
+                    <div className="period-dates">
+                      {payment.contractStartDate} ~ {payment.contractEndDate}
+                    </div>
+                    <div className="period-months">
+                      ({payment.contractMonths}개월)
+                    </div>
+                  </div>
+                </div>
+                <div className="table-cell">
+                  <div className="progress-info">
+                    <div className="progress-text">
+                      {payment.completedMonths}/{payment.contractMonths} 완료
+                    </div>
+                    <div className="remaining-text">
+                      남은 {payment.remainingMonths}개월
+                    </div>
+                  </div>
+                </div>
                 <div className="table-cell">
                   {formatCurrency(payment.monthlyAmount)}원/월
                   <br />
@@ -400,7 +468,17 @@ function PaymentStatusPage() {
                       <div className="detail-item">
                         <span className="detail-label">계약 기간:</span>
                         <span className="detail-value">
-                          {payment.contractMonths}개월
+                          {payment.contractStartDate} ~{" "}
+                          {payment.contractEndDate}
+                          <br />
+                          <small>({payment.contractMonths}개월)</small>
+                        </span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="detail-label">진행 상황:</span>
+                        <span className="detail-value">
+                          {payment.completedMonths}개월 완료 /{" "}
+                          {payment.remainingMonths}개월 남음
                         </span>
                       </div>
                       <div className="detail-item">

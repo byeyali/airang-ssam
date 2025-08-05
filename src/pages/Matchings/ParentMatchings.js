@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useMatching } from "../../contexts/MatchingContext";
 import { useUser } from "../../contexts/UserContext";
@@ -26,19 +26,20 @@ function ParentMatchings() {
   const [contractStatus, setContractStatus] = useState({});
 
   // 쌤 이미지 매핑 함수
-  const getTeacherImage = (teacherId) => {
+  const getTeacherImage = useCallback((teacherId) => {
     const imageMap = {
       teacher_001: "/img/teacher-kimyouhghee-womam.png", // 김영희
-      teacher_002: "/img/teacher-man-ball.jpg", // 박민수
-      teacher_003: "/img/teacher-kimjiyoung.jpg", // 이수진
+      teacher_002: "/img/teacher-30-man.png", // 박민수
+      teacher_003: "/img/teacher-kimjiyoung.jpg", // 김지영
       teacher_004: "/img/teacher-math-english.jpg", // 최지영
       teacher_005: "/img/teacher-studing-with-2children.jpeg", // 한미영
       teacher_006: "/img/teacher-30-man.png", // 정성훈
       teacher_007: "/img/teacher-30-man.png", // 김태현
       teacher_008: "/img/teacher-30-man.png", // 박성훈
+      teacher_010: "/img/teacher-40-woman.png", // 박O영 (45세)
     };
     return imageMap[teacherId] || "/img/teacher-30-woman.png";
-  };
+  }, []);
 
   const matchings = user ? getMatchingRequestsForParent(user.id) : [];
 

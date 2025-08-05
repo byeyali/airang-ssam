@@ -1,3 +1,7 @@
+// 백엔드 서버 URL
+const BACKEND_URL =
+  process.env.REACT_APP_BACKEND_URL || "http://localhost:4000";
+
 // VWorld API 설정
 const VWORLD_API_KEY =
   process.env.REACT_APP_VWORLD_API_KEY ||
@@ -278,4 +282,37 @@ export const calculateRegionMatchScore = (parentRegion, teacherRegions) => {
   }
 
   return 0.0; // 불일치
+};
+
+// 백엔드 API 호출 함수들
+export const apiCall = async (endpoint, options = {}) => {
+  try {
+    const response = await fetch(`${BACKEND_URL}${endpoint}`, {
+      headers: {
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
+      ...options,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("API 호출 오류:", error);
+    throw error;
+  }
+};
+
+// 백엔드 서버 상태 확인
+export const checkBackendStatus = async () => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/health`);
+    return response.ok;
+  } catch (error) {
+    console.error("백엔드 서버 연결 실패:", error);
+    return false;
+  }
 };

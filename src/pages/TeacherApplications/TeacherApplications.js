@@ -14,16 +14,14 @@ function TeacherApplications() {
   const getTeacherImage = (teacherId) => {
     const imageMap = {
       teacher_001: "/img/teacher-kimyouhghee-womam.png", // 김영희 (28세 여성)
-      teacher_002: "/img/teacher-man-ball.jpg", // 박민수 (32세 남성)
-      teacher_003: "/img/teacher-kimjiyoung.jpg", // 이수진 (26세 여성)
+      teacher_002: "/img/teacher-30-man.png", // 박민수 (32세 남성)
+      teacher_003: "/img/teacher-kimjiyoung.jpg", // 김지영 (26세 여성)
       teacher_004: "/img/teacher-math-english.jpg", // 최지영 (29세 여성)
       teacher_005: "/img/teacher-studing-with-2children.jpeg", // 한미영 (31세 여성)
-      teacher_006: "/img/teacher-man-readingbook.png", // 정성훈 (35세 남성)
-      teacher_007: "/img/kimtashyeon-man.png", // 김태현 (27세 남성)
-      teacher_008: "/img/teacher-30-man.png", // 박성훈 (30세 남성)
-      teacher_009: "/img/teacher-20-woman.png", // 이미영 (22세 여성)
-      teacher_010: "/img/teacher-40-woman.png", // 박지영 (45세 여성)
-      teacher_011: "/img/teacher-60-woman.png", // 최영희 (55세 여성)
+      teacher_006: "/img/teacher-30-man.png", // 정성훈 (35세 남성)
+      teacher_007: "/img/teacher-30-man.png", // 김태현 (33세 남성)
+      teacher_008: "/img/teacher-30-man.png", // 박성훈 (37세 남성)
+      teacher_010: "/img/teacher-40-woman.png", // 박O영 (45세 여성)
     };
     return imageMap[teacherId] || "/img/teacher-30-woman.png";
   };
@@ -40,7 +38,21 @@ function TeacherApplications() {
       );
     } else if (user.type === "teacher") {
       // 쌤은 간략한 쌤 프로필만 볼 수 있음 (상세보기/매칭 제한)
-      return getAllTeachers();
+      const allTeachers = getAllTeachers();
+      // 쌤이 본인을 볼 때는 원래 이름을 표시하도록 데이터 가공
+      return allTeachers.map((teacher) => {
+        if (user.id === teacher.id) {
+          return {
+            ...teacher,
+            displayName: teacher.name + " 쌤",
+          };
+        } else {
+          return {
+            ...teacher,
+            displayName: teacher.maskedName + " 쌤",
+          };
+        }
+      });
     } else if (user.type === "admin") {
       // 관리자는 모든 쌤 정보를 볼 수 있음
       return getAllTeachers();
@@ -278,7 +290,11 @@ function TeacherApplications() {
                     </div>
                     <div className="teacher-info">
                       <div className="teacher-name">
-                        {teacher.maskedName} ({teacher.age}세)
+                        {teacher.displayName ||
+                          (user && user.id === teacher.id
+                            ? teacher.name + " 쌤"
+                            : teacher.maskedName + " 쌤")}{" "}
+                        ({teacher.age}세)
                       </div>
                       <div className="teacher-rating">
                         ⭐ {teacher.rating} ({teacher.experience} 경력)

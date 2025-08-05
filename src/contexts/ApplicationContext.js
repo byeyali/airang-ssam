@@ -56,19 +56,19 @@ export const ApplicationProvider = ({ children }) => {
         title: "강남구",
         address: "서울특별시 강남구",
       },
-      startDate: "2025-08-01",
-      endDate: "2025-12-31",
+      startDate: "2024-08-01",
+      endDate: "2024-12-31",
       status: "active",
-      createdAt: "2025-01-25",
+      createdAt: "2024-01-25",
     },
     {
-      id: "app_003", // 계약 완료 시나리오 - 이수진 쌤과 매칭
+      id: "app_003", // 계약 완료 시나리오 - 박민수 쌤과 매칭 (1년 계약)
       parentId: "user_002", // 박영희 부모님
       title: "따뜻한 돌봄, 학습지도 아이쌤 찾습니다",
       target: "초등학교 1학년, 7세, 여아",
       purpose: "돌봄, 학습지도, 놀이활동",
       type: "정기 매주 월,수,금 (주3회)",
-      period: "2025년 8월 1일 ~ 12월 31일 (약 5개월)",
+      period: "2024년 1월 15일 ~ 12월 31일 (약 12개월)",
       workingHours: "오후 2시~5시",
       familyDetails: "엄마, 아빠 / 엄마는 파트타임, 아빠는 회사 근무",
       parentMessage:
@@ -79,10 +79,10 @@ export const ApplicationProvider = ({ children }) => {
         title: "서초구",
         address: "서울특별시 서초구",
       },
-      startDate: "2025-08-01",
-      endDate: "2025-12-31",
+      startDate: "2024-01-15",
+      endDate: "2024-12-31",
       status: "active",
-      createdAt: "2025-01-26",
+      createdAt: "2024-01-10",
     },
     {
       id: "app_004",
@@ -223,6 +223,29 @@ export const ApplicationProvider = ({ children }) => {
       createdAt: "2025-02-01",
     },
     {
+      id: "app_007", // 최지영 부모님의 공고 (matching_005와 연결)
+      parentId: "user_004", // 최지영
+      title: "체육 활동, 운동 지도 아이쌤 찾습니다",
+      target: "초등학교 4학년, 10세, 남아",
+      purpose: "체육 활동, 운동 지도, 건강 관리",
+      type: "정기 매주 화,목,토 (주3회)",
+      period: "2024년 8월 1일 ~ 12월 31일 (약 5개월)",
+      workingHours: "오후 3시~6시",
+      familyDetails: "엄마, 아빠 / 둘 다 회사 근무",
+      parentMessage:
+        "활발한 아이입니다. 체육 활동을 좋아하니 운동을 함께 해주세요. 건강한 몸을 만드는 데 도움이 되면 좋겠어요.",
+      payment: "시간 당 25,000 (협의가능)",
+      region: {
+        id: "11680",
+        title: "관악구",
+        address: "서울특별시 관악구",
+      },
+      startDate: "2024-08-01",
+      endDate: "2024-12-31",
+      status: "active",
+      createdAt: "2024-01-27",
+    },
+    {
       id: "app_010",
       parentId: "user_004",
       title: "방과후 돌봄, 숙제지도 아이쌤 찾습니다",
@@ -244,6 +267,30 @@ export const ApplicationProvider = ({ children }) => {
       endDate: "2025-12-31",
       status: "active",
       createdAt: "2025-01-28",
+    },
+    // 김미영 부모님의 공고 (matching_011과 연결)
+    {
+      id: "app_010",
+      parentId: "user_010", // 김미영
+      title: "과학 실험, 창의적 놀이 아이쌤 찾습니다",
+      target: "초등학교 1학년, 7세, 남아",
+      purpose: "과학 실험, 창의적 놀이, 보드게임",
+      type: "정기 매주 화,목,토 (주3회)",
+      period: "2024년 4월 15일 ~ 9월 30일 (약 5개월)",
+      workingHours: "오후 2시~5시",
+      familyDetails: "엄마, 아빠 / 엄마는 회사 근무, 아빠는 자영업",
+      parentMessage:
+        "과학 실험을 좋아하는 아이입니다. 안전한 실험을 함께 해주시고, 창의적인 놀이와 보드게임도 가르쳐주세요.",
+      payment: "시간 당 17,000 (협의가능)",
+      region: {
+        id: "11680",
+        title: "관악구",
+        address: "서울특별시 관악구",
+      },
+      startDate: "2024-04-15",
+      endDate: "2024-09-30",
+      status: "active",
+      createdAt: "2024-04-10",
     },
   ]);
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
 import { searchRegionLocal } from "../../config/api";
+import { searchAddress, formatAddressData } from "../../services/kakaoAPI";
 import "./SignUp.css";
 
 const SignUp = () => {
@@ -132,14 +133,15 @@ const SignUp = () => {
     }
 
     try {
-      console.log("API 호출 시작...");
-      const results = await searchRegionLocal(searchQuery);
-      console.log("API 응답:", results);
+      console.log("카카오 API 호출 시작...");
+      const response = await searchAddress(searchQuery);
+      console.log("카카오 API 응답:", response);
 
-      if (results && results.length > 0) {
-        setAddressResults(results);
+      if (response.documents && response.documents.length > 0) {
+        const formattedResults = formatAddressData(response);
+        setAddressResults(formattedResults);
         setShowAddressSearch(true);
-        console.log("검색 결과 설정 완료");
+        console.log("검색 결과 설정 완료:", formattedResults);
       } else {
         alert("검색 결과가 없습니다.");
         setAddressResults([]);
@@ -151,10 +153,11 @@ const SignUp = () => {
     }
   };
 
-  const handleAddressSelect = (address) => {
+  const handleAddressSelect = (addressData) => {
+    const fullAddress = addressData.full_address || addressData.address_name;
     setFormData((prev) => ({
       ...prev,
-      address: address,
+      address: fullAddress,
     }));
     setShowAddressSearch(false);
     setSearchQuery("");
@@ -412,9 +415,12 @@ const SignUp = () => {
                   <div
                     key={index}
                     className="address-result-item"
-                    onClick={() => handleAddressSelect(result.title)}
+                    onClick={() => handleAddressSelect(result)}
                   >
-                    {result.title}
+                    <div className="address-title">{result.full_address}</div>
+                    {result.place_name && (
+                      <div className="address-detail">{result.place_name}</div>
+                    )}
                   </div>
                 ))}
               </div>
