@@ -36,7 +36,7 @@ function TeacherApplications() {
       return allTeachers.filter((teacher) =>
         teacher.regions.some((region) => user.region.includes(region))
       );
-    } else if (user.type === "teacher") {
+    } else if (user.type === "tutor") {
       // 쌤은 간략한 쌤 프로필만 볼 수 있음 (상세보기/매칭 제한)
       const allTeachers = getAllTeachers();
       // 쌤이 본인을 볼 때는 원래 이름을 표시하도록 데이터 가공
@@ -75,7 +75,7 @@ function TeacherApplications() {
 
   const handleViewDetail = (teacher) => {
     // 쌤 회원은 상세보기 제한
-    if (user && user.type === "teacher") {
+    if (user && user.type === "tutor") {
       showNotification("쌤 회원은 상세보기를 이용할 수 없습니다.", "warning");
       return;
     }
@@ -89,7 +89,7 @@ function TeacherApplications() {
     }
 
     // 쌤 회원은 매칭 요청 제한
-    if (user.type === "teacher") {
+    if (user.type === "tutor") {
       showNotification("쌤 회원은 매칭 요청을 이용할 수 없습니다.", "warning");
       return;
     }
@@ -211,13 +211,13 @@ function TeacherApplications() {
       <div className="teacher-applications-container">
         <div className="teacher-applications-header">
           <h1>
-            {user?.type === "teacher"
+            {user?.type === "tutor"
               ? "부모님들의 공고 확인"
               : location.state?.fromHome
               ? "우리 아이 쌤 찾기"
               : "지역 공고"}
           </h1>
-          {user?.type === "teacher" && (
+          {user?.type === "tutor" && (
             <button
               className="setup-profile-button"
               onClick={() => navigate("/teacher-profile")}

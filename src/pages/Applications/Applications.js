@@ -18,7 +18,7 @@ function Applications() {
 
     if (user.type === "parent") {
       return getMyApplications(user.id);
-    } else if (user.type === "teacher") {
+    } else if (user.type === "tutor") {
       // 쌤은 부모 공고만 볼 수 있고, 지역이 매칭되는 것만
       const allApplications = getAllApplications();
       return allApplications.filter((app) =>

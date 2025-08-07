@@ -21,7 +21,7 @@ function Matchings() {
   // 사용자 타입에 따라 적절한 컴포넌트 렌더링
   if (user.type === "parent") {
     return <ParentMatchings />;
-  } else if (user.type === "teacher") {
+  } else if (user.type === "tutor") {
     return <TeacherMatchings />;
   } else if (user.type === "admin") {
     return <AdminMatchings />;

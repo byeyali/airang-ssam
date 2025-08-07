@@ -76,7 +76,7 @@ function Navigation() {
 
       {/* 쌤 회원 전용 메뉴 */}
       {user &&
-        user.type === "teacher" &&
+        user.type === "tutor" &&
         !location.pathname.includes("/teacher-detail/") && (
           <>
             <Link to="/applications" className="nav-item">

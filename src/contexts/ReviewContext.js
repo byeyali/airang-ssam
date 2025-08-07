@@ -100,6 +100,78 @@ export const ReviewProvider = ({ children }) => {
         date: "2025.01.03",
         region: "양천구",
       },
+      {
+        id: "review_007",
+        userId: "user_007",
+        teacherId: "teacher_007",
+        teacherName: "김미영",
+        maskedName: "송*현",
+        rating: 5,
+        content:
+          "김미영 쌤은 영어를 정말 재미있게 가르쳐주시는 분이에요. 게임을 통해 자연스럽게 영어를 배울 수 있도록 해주시고, 아이가 영어에 대한 흥미를 갖게 되었어요. 정말 감사합니다!",
+        date: "2025.01.01",
+        region: "서초구",
+      },
+      {
+        id: "review_008",
+        userId: "user_008",
+        teacherId: "teacher_008",
+        teacherName: "박현우",
+        maskedName: "임*수",
+        rating: 4,
+        content:
+          "박현우 쌤은 체육과 음악을 함께 가르쳐주시는 분이에요. 아이들이 즐겁게 운동하면서 음악도 배울 수 있어서 아이가 정말 좋아했어요. 체계적으로 가르쳐주셔서 감사합니다.",
+        date: "2024.12.30",
+        region: "강서구",
+      },
+      {
+        id: "review_009",
+        userId: "user_009",
+        teacherId: "teacher_009",
+        teacherName: "이수진",
+        maskedName: "강*영",
+        rating: 5,
+        content:
+          "이수진 쌤은 미술과 요리를 정말 잘 가르쳐주시는 분이에요. 아이의 창의력을 키워주시고, 안전하게 요리 활동을 할 수 있도록 도와주셨어요. 아이가 요리를 좋아하게 되었어요!",
+        date: "2024.12.28",
+        region: "광진구",
+      },
+      {
+        id: "review_010",
+        userId: "user_010",
+        teacherId: "teacher_010",
+        teacherName: "최동현",
+        maskedName: "조*민",
+        rating: 4,
+        content:
+          "최동현 쌤은 수학과 과학을 재미있게 가르쳐주시는 분이에요. 실험을 통해 과학의 원리를 쉽게 이해할 수 있도록 해주시고, 아이가 과학에 대한 관심을 갖게 되었어요.",
+        date: "2024.12.25",
+        region: "동대문구",
+      },
+      {
+        id: "review_011",
+        userId: "user_011",
+        teacherId: "teacher_011",
+        teacherName: "정미라",
+        maskedName: "윤*희",
+        rating: 5,
+        content:
+          "정미라 쌤은 아이들을 정말 따뜻하게 돌봐주시는 분이에요. 학습뿐만 아니라 생활습관까지 체계적으로 가르쳐주시고, 아이가 건강하게 성장할 수 있도록 도와주셨어요.",
+        date: "2024.12.22",
+        region: "중랑구",
+      },
+      {
+        id: "review_012",
+        userId: "user_012",
+        teacherId: "teacher_012",
+        teacherName: "김태현",
+        maskedName: "백*우",
+        rating: 4,
+        content:
+          "김태현 쌤은 체육 활동을 정말 잘 가르쳐주시는 분이에요. 축구와 농구를 재미있게 가르쳐주시고, 아이들이 건강하게 운동할 수 있도록 도와주셨어요. 아이가 운동을 좋아하게 되었어요!",
+        date: "2024.12.20",
+        region: "성북구",
+      },
     ];
   });
 

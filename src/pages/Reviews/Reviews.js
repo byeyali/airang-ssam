@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useReview } from "../../contexts/ReviewContext";
 import { useUser } from "../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,10 @@ function Reviews() {
     rating: 5,
     content: "",
   });
+
+  // 페이지네이션 상태
+  const [currentPage, setCurrentPage] = useState(1);
+  const reviewsPerPage = 6; // 한 페이지당 보여줄 후기 개수
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,6 +42,40 @@ function Reviews() {
     setFormData((prev) => ({ ...prev, rating: starRating }));
   };
 
+  // 최신 후기부터 정렬하고 페이지네이션 적용
+  const sortedReviews = useMemo(() => {
+    return [...reviews].sort((a, b) => {
+      // date 필드를 기준으로 정렬 (최신순)
+      const dateA = new Date(a.date.replace(/\./g, "-"));
+      const dateB = new Date(b.date.replace(/\./g, "-"));
+      return dateB - dateA;
+    });
+  }, [reviews]);
+
+  // 현재 페이지의 후기들
+  const indexOfLastReview = currentPage * reviewsPerPage;
+  const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
+  const currentReviews = sortedReviews.slice(
+    indexOfFirstReview,
+    indexOfLastReview
+  );
+
+  // 총 페이지 수
+  const totalPages = Math.ceil(sortedReviews.length / reviewsPerPage);
+
+  // 디버깅용 콘솔 로그
+  console.log("총 후기 수:", sortedReviews.length);
+  console.log("페이지당 후기 수:", reviewsPerPage);
+  console.log("총 페이지 수:", totalPages);
+  console.log("현재 페이지:", currentPage);
+
+  // 페이지 변경 핸들러
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    // 페이지 상단으로 스크롤
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div className="reviews-page">
       <div className="reviews-header">
@@ -45,29 +83,25 @@ function Reviews() {
         <p>다른 부모님들의 생생한 후기를 확인해보세요</p>
       </div>
 
-      <div className="reviews-actions">
-        <button
-          className={`action-button write-review-btn ${
-            !user ? "disabled" : ""
-          }`}
-          onClick={() => {
-            if (!user) {
-              alert("로그인이 필요합니다. 로그인 후 후기를 작성해주세요.");
-              return;
-            }
-            setShowAddForm(!showAddForm);
-          }}
-          disabled={!user}
-        >
-          {user ? "후기 작성하기" : "로그인 후 작성"}
-        </button>
-        <button
-          className="action-button my-reviews-btn"
-          onClick={handleMyReviews}
-        >
-          내 후기 관리
-        </button>
-      </div>
+      {/* 부모 회원만 후기 작성/관리 버튼 표시 */}
+      {user && user.type === "parent" && (
+        <div className="reviews-actions">
+          <button
+            className="action-button write-review-btn"
+            onClick={() => {
+              setShowAddForm(!showAddForm);
+            }}
+          >
+            후기 작성하기
+          </button>
+          <button
+            className="action-button my-reviews-btn"
+            onClick={handleMyReviews}
+          >
+            내 후기 관리
+          </button>
+        </div>
+      )}
 
       {showAddForm && (
         <div className="add-review-form">
@@ -137,8 +171,8 @@ function Reviews() {
       )}
 
       <div className="reviews-grid">
-        {reviews.length > 0 ? (
-          reviews.map((review) => (
+        {currentReviews.length > 0 ? (
+          currentReviews.map((review) => (
             <div key={review.id} className="review-card">
               <div className="review-header">
                 <div className="mom-icon">👩‍👧‍👦</div>
@@ -160,6 +194,43 @@ function Reviews() {
           </div>
         )}
       </div>
+
+      {/* 페이지네이션 */}
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button
+            className="pagination-btn"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            이전
+          </button>
+
+          <div className="page-numbers">
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+              (pageNumber) => (
+                <button
+                  key={pageNumber}
+                  className={`page-number ${
+                    currentPage === pageNumber ? "active" : ""
+                  }`}
+                  onClick={() => handlePageChange(pageNumber)}
+                >
+                  {pageNumber}
+                </button>
+              )
+            )}
+          </div>
+
+          <button
+            className="pagination-btn"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            다음
+          </button>
+        </div>
+      )}
     </div>
   );
 }

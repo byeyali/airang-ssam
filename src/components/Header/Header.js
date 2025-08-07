@@ -30,7 +30,7 @@ function Header() {
     switch (user.type) {
       case "parent":
         return "부모님";
-      case "teacher":
+      case "tutor":
         return "쌤";
       case "admin":
         return "관리자";
