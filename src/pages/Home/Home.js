@@ -373,73 +373,6 @@ function Home() {
         </div>
       </section>
 
-      {/* NEW 도와줘요 쌤! Section */}
-      <section className="applications-section">
-        <div className="applications-title-section">
-          <h2>
-            <span className="new-text">NEW</span> 도와줘요 쌤!
-          </h2>
-        </div>
-        <div className="applications-grid">
-          {sampleApplications.map((application, index) => (
-            <div key={application.id} className="application-card">
-              <div className="application-header">
-                <div className="child-avatar">
-                  <img
-                    src={index % 2 === 0 ? "/img/boy.png" : "/img/girl.png"}
-                    alt="아이 아바타"
-                  />
-                </div>
-              </div>
-              <div className="application-content">
-                <div className="application-target">
-                  {application.target} ({application.region.title})
-                </div>
-                <div className="application-title">{application.title}</div>
-                <div className="application-details">
-                  <div className="application-date">
-                    {application.startDate} 시작
-                  </div>
-                  <div className="application-schedule">{application.type}</div>
-                  <div className="application-payment">
-                    {application.payment}
-                  </div>
-                </div>
-                <button
-                  className={`view-details-button ${!user ? "disabled" : ""}`}
-                  onClick={() => handleApplicationDetail(application.id)}
-                  disabled={!user}
-                >
-                  공고 자세히 보기
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="applications-cta">
-          {user && user.type === "parent" ? (
-            // 부모가 로그인한 경우 - 공고 작성하기 버튼
-            <button
-              className="create-application-button"
-              onClick={() => {
-                window.scrollTo(0, 0); // 스크롤을 맨 위로 이동
-                navigate("/Helpme");
-              }}
-            >
-              공고 작성하기
-            </button>
-          ) : (
-            // 다른 사용자 - 공고 더보기 버튼
-            <button
-              className="view-more-applications-button"
-              onClick={handleViewMoreApplicationsForTeachers}
-            >
-              공고 더보기
-            </button>
-          )}
-        </div>
-      </section>
-
       {/* Reviews Section */}
       <section className="reviews-section">
         <div className="reviews-title-section">
@@ -540,6 +473,73 @@ function Home() {
           >
             아이 쌤 더보기
           </button>
+        </div>
+      </section>
+
+      {/* NEW 도와줘요 쌤! Section */}
+      <section className="applications-section">
+        <div className="applications-title-section">
+          <h2>
+            <span className="new-text">NEW</span> 도와줘요 쌤!
+          </h2>
+        </div>
+        <div className="applications-grid">
+          {sampleApplications.map((application, index) => (
+            <div key={application.id} className="application-card">
+              <div className="application-header">
+                <div className="child-avatar">
+                  <img
+                    src={index % 2 === 0 ? "/img/boy.png" : "/img/girl.png"}
+                    alt="아이 아바타"
+                  />
+                </div>
+              </div>
+              <div className="application-content">
+                <div className="application-target">
+                  {application.target} ({application.region.title})
+                </div>
+                <div className="application-title">{application.title}</div>
+                <div className="application-details">
+                  <div className="application-date">
+                    {application.startDate} 시작
+                  </div>
+                  <div className="application-schedule">{application.type}</div>
+                  <div className="application-payment">
+                    {application.payment}
+                  </div>
+                </div>
+                <button
+                  className={`view-details-button ${!user ? "disabled" : ""}`}
+                  onClick={() => handleApplicationDetail(application.id)}
+                  disabled={!user}
+                >
+                  공고 자세히 보기
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="applications-cta">
+          {user && user.type === "parent" ? (
+            // 부모가 로그인한 경우 - 공고 작성하기 버튼
+            <button
+              className="create-application-button"
+              onClick={() => {
+                window.scrollTo(0, 0); // 스크롤을 맨 위로 이동
+                navigate("/Helpme");
+              }}
+            >
+              공고 작성하기
+            </button>
+          ) : (
+            // 다른 사용자 - 공고 더보기 버튼
+            <button
+              className="view-more-applications-button"
+              onClick={handleViewMoreApplicationsForTeachers}
+            >
+              공고 더보기
+            </button>
+          )}
         </div>
       </section>
     </div>

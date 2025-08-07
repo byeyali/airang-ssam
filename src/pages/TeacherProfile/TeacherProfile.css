@@ -577,6 +577,11 @@
     width: 100%;
     text-align: center;
   }
+
+  .self-introduction-textarea {
+    width: calc(100% - 30px);
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -615,4 +620,95 @@
   .field-name {
     font-size: 0.8rem;
   }
+
+  .self-introduction-textarea {
+    width: calc(100% - 20px);
+    max-width: 100%;
+  }
+}
+
+/* 자기 소개 섹션 */
+.self-introduction-section {
+  max-width: 800px;
+  margin: 0 auto 50px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.self-introduction-section h3 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2f0005;
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+}
+
+.self-introduction-section h3::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  border-radius: 2px;
+}
+
+.self-introduction-textarea {
+  width: calc(100% - 40px);
+  max-width: 600px;
+  min-height: 120px;
+  padding: 20px;
+  border: 2px solid #e1e5e9;
+  border-radius: 15px;
+  font-size: 1rem;
+  font-family: "Pretendard", sans-serif;
+  resize: vertical;
+  transition: all 0.3s ease;
+  background: #ffffff;
+  margin: 0 auto;
+  display: block;
+}
+
+.self-introduction-textarea:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.self-introduction-textarea::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* 파일 업로드 액션 버튼 */
+.file-upload-action {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #e1e5e9;
+}
+
+.file-upload-action .upload-button {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+.file-upload-action .upload-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
 }

@@ -33,7 +33,8 @@ import MyReviews from "./pages/MyReviews/MyReviews";
 import TeacherDetail from "./pages/TeacherDetail/TeacherDetail";
 import TeacherNotifications from "./pages/TeacherNotifications/TeacherNotifications";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
-import PaymentStatusPage from "./pages/AdminDashboard/PaymentStatusPage";
+import PaymentStatusPage from "./pages/PaymentStatusPage/PaymentStatusPage";
+import PaymentHistoryPage from "./pages/PaymentHistoryPage/PaymentHistoryPage";
 import SalaryStatusPage from "./pages/AdminDashboard/SalaryStatusPage";
 import TeacherPaymentStatus from "./pages/TeacherPaymentStatus/TeacherPaymentStatus";
 import ParentPaymentHistory from "./pages/ParentPaymentHistory/ParentPaymentHistory";
@@ -111,6 +112,8 @@ function AppContent() {
             element={<TeacherNotifications />}
           />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/payment-status" element={<PaymentStatusPage />} />
+          <Route path="/payment-history" element={<PaymentHistoryPage />} />
           <Route path="/admin/payment-status" element={<PaymentStatusPage />} />
           <Route path="/admin/salary-status" element={<SalaryStatusPage />} />
           <Route

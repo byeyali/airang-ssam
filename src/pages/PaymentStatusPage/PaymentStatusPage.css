@@ -1,0 +1,302 @@
+/* 수당 상세 내역 페이지 스타일 */
+.payment-status-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.payment-status-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 40px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-header p {
+  font-size: 1.2rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* 수당 요약 */
+.earnings-summary {
+  margin-bottom: 30px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.summary-card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.summary-item {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.summary-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.summary-label {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.summary-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+/* 수당 상세 테이블 */
+.earnings-details {
+  margin-bottom: 30px;
+}
+
+.earnings-details h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.earnings-table {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.earnings-table .table-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.5fr 1.2fr 1.5fr 2fr 1fr 1fr 0.8fr;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.earnings-table .table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.5fr 1.2fr 1.5fr 2fr 1fr 1fr 0.8fr;
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.2s ease;
+}
+
+.earnings-table .table-row:hover {
+  background: #f8f9fa;
+}
+
+.earnings-table .table-row:last-child {
+  border-bottom: none;
+}
+
+.earnings-table .table-cell {
+  padding: 15px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #333;
+  border-right: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.earnings-table .table-cell:last-child {
+  border-right: none;
+}
+
+.contract-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.parent-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.contract-date {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.hours-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hours-info small {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.total-earnings {
+  font-weight: 700;
+  color: #28a745;
+}
+
+.commission {
+  font-weight: 600;
+  color: #dc3545;
+}
+
+.actual-earnings {
+  font-weight: 700;
+  color: #007bff;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.status-badge.completed {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+}
+
+.status-badge.progress {
+  background: linear-gradient(135deg, #ffc107 0%, #ffca2c 100%);
+  color: #333;
+}
+
+/* 접근 거부 */
+.access-denied {
+  text-align: center;
+  padding: 100px 20px;
+  color: #666;
+}
+
+.access-denied h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.access-denied p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* 데이터 없음 */
+.no-data {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.no-data p {
+  font-size: 1.1rem;
+  margin: 10px 0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1024px) {
+  .earnings-table .table-header,
+  .earnings-table .table-row {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
+
+  .earnings-table .table-cell {
+    font-size: 0.75rem;
+    padding: 8px 4px;
+  }
+}
+
+@media (max-width: 768px) {
+  .payment-status-page {
+    padding: 10px;
+  }
+
+  .page-header {
+    padding: 30px 20px;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .page-header p {
+    font-size: 1rem;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .earnings-table .table-header,
+  .earnings-table .table-row {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
+
+  .earnings-table .table-cell {
+    font-size: 0.7rem;
+    padding: 6px 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .page-header p {
+    font-size: 0.9rem;
+  }
+
+  .summary-card {
+    padding: 20px;
+  }
+
+  .earnings-details h3 {
+    font-size: 1.1rem;
+  }
+}

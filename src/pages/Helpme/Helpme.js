@@ -385,11 +385,7 @@ const Helpme = () => {
     <div className="helpme-container">
       <div className="helpme-header">
         <h1>{isEditMode ? "공고 수정" : "도와줘요 쌤"}</h1>
-        <p>
-          {isEditMode
-            ? "공고 정보를 수정해주세요"
-            : "어느 분야를 돌봐드리면 될까요?"}
-        </p>
+        <p>{isEditMode ? "공고 정보를 수정해주세요" : "무엇을?"}</p>
       </div>
 
       <div className="category-wrapper">
@@ -591,7 +587,7 @@ const Helpme = () => {
       {/* ✨✨✨ 여기부터 새로운 검색 필터 UI를 추가합니다. */}
       <div className="search-filter-section">
         <div className="search-row">
-          <p className="search-title">어느 지역에 살고 계시나요?</p>
+          <p className="search-title">어디서?</p>
           <div className="search-input-group">
             <input
               type="text"
@@ -637,7 +633,7 @@ const Helpme = () => {
         </div>
 
         <div className="filter-group">
-          <p className="filter-title">원하시는 돌봄기간</p>
+          <p className="filter-title">얼마 동안?</p>
           <div className="date-picker-row">
             <input
               type="date"
@@ -654,7 +650,7 @@ const Helpme = () => {
         </div>
 
         <div className="filter-group">
-          <p className="filter-title">원하시는 돌봄요일</p>
+          <p className="filter-title">언제?</p>
           <div className="day-selector">
             {["월", "화", "수", "목", "금", "토", "일"].map((day) => (
               <button
@@ -671,7 +667,7 @@ const Helpme = () => {
         </div>
 
         <div className="filter-group">
-          <p className="filter-title">원하시는 돌봄시간</p>
+          <p className="filter-title">몇 시에?</p>
           <div className="time-selector">
             <input
               type="time"
@@ -688,7 +684,33 @@ const Helpme = () => {
         </div>
 
         <div className="filter-group-inline">
-          <p className="filter-title">연령 범위</p>
+          <p className="filter-title">누가?</p>
+        </div>
+
+        <div className="filter-group-inline">
+          <p className="filter-title-small">원하시는 쌤 성별</p>
+          <div className="gender-selector">
+            <button
+              className={`gender-button ${
+                selectedGender === "여성" ? "active" : ""
+              }`}
+              onClick={() => handleGenderClick("여성")}
+            >
+              여성
+            </button>
+            <button
+              className={`gender-button ${
+                selectedGender === "남성" ? "active" : ""
+              }`}
+              onClick={() => handleGenderClick("남성")}
+            >
+              남성
+            </button>
+          </div>
+        </div>
+
+        <div className="filter-group-inline">
+          <p className="filter-title-small">쌤 연령 범위</p>
           <div className="age-range-container">
             <div className="age-display">
               <span>{minAge}세</span>
@@ -716,28 +738,6 @@ const Helpme = () => {
             <div className="age-range-label">
               18세 ~ 80세 범위에서 선택해주세요
             </div>
-          </div>
-        </div>
-
-        <div className="filter-group-inline">
-          <p className="filter-title">원하시는 쌤 성별</p>
-          <div className="gender-selector">
-            <button
-              className={`gender-button ${
-                selectedGender === "여성" ? "active" : ""
-              }`}
-              onClick={() => handleGenderClick("여성")}
-            >
-              여성
-            </button>
-            <button
-              className={`gender-button ${
-                selectedGender === "남성" ? "active" : ""
-              }`}
-              onClick={() => handleGenderClick("남성")}
-            >
-              남성
-            </button>
           </div>
         </div>
 
@@ -774,7 +774,7 @@ const Helpme = () => {
 
       {/* 아동 분류 폼 섹션 */}
       <div className="child-classification-section">
-        <h2 className="classification-title">아동 분류</h2>
+        <h2 className="classification-title">누구를?</h2>
 
         {/* 아동 선택 */}
         <div className="child-selection">
@@ -839,7 +839,7 @@ const Helpme = () => {
 
         {/* 시급 정보 */}
         <div className="wage-section">
-          <p className="wage-label">희망 시급을 적어주세요</p>
+          <p className="wage-label">시급</p>
           <div className="wage-input-group">
             <div className="wage-input-field">
               <label>최저 시급</label>
@@ -906,24 +906,6 @@ const Helpme = () => {
           </p>
         </div>
 
-        {/* 요청사항 */}
-        <div className="requests-section">
-          <div className="section-icon">
-            <div className="checklist-icon">
-              <img src="/img/ask.png" alt="요청사항" />
-            </div>
-          </div>
-          <div className="content-area">
-            <h3>요청사항</h3>
-            <textarea
-              placeholder="예) 낯을 좀 가리는 편이지만 금방 친해져요.&#10;알러지, 먹으면 안되는 음식이 있어요."
-              value={requests}
-              onChange={(e) => setRequests(e.target.value)}
-              rows="4"
-            />
-          </div>
-        </div>
-
         {/* 알려주고 싶은 것 */}
         <div className="additional-info-section">
           <div className="section-icon">
@@ -932,9 +914,9 @@ const Helpme = () => {
             </div>
           </div>
           <div className="content-area">
-            <h3>알려주고 싶은 것</h3>
+            <h3>이렇게 해주세요!</h3>
             <textarea
-              placeholder="직접 책을 읽어주세요&#10;아이가 잘 읽는지 옆에서 봐주세요&#10;가끔 다른 놀이를 해도 괜찮아요"
+              placeholder="예시) 직접 책을 읽어주세요&#10;아이가 잘 읽는지 옆에서 봐주세요&#10;가끔 다른 놀이를 해도 괜찮아요"
               value={additionalInfo}
               onChange={(e) => setAdditionalInfo(e.target.value)}
               rows="4"

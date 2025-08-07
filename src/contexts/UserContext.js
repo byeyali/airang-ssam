@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { userAPI } from "../services/api";
 
 const UserContext = createContext();
@@ -31,7 +37,7 @@ export const UserProvider = ({ children }) => {
   };
 
   // 현재 사용자 정보 가져오기 (백엔드 연동 시)
-  const fetchCurrentUser = async () => {
+  const fetchCurrentUser = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -45,7 +51,7 @@ export const UserProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const login = async (email, password) => {
     try {
@@ -81,6 +87,325 @@ export const UserProvider = ({ children }) => {
                 grade: "초등학교 2학년",
                 gender: "male",
                 interests: ["피아노", "미술", "독서"],
+                specialNeeds: "없음",
+              },
+            ],
+          },
+          profileCompleted: true,
+        };
+        setUser(userData);
+        return { success: true, user: userData };
+      } else if (email === "user002@abc.com" && password === "password") {
+        const userData = {
+          id: "user_002",
+          name: "박영희",
+          email: "user002@abc.com",
+          type: "parent",
+          region: "강남구",
+          selectedRegions: ["강남구", "서초구"],
+          birthYear: "1988",
+          gender: "female",
+          phone: "010-2345-6789",
+          address: "서울특별시 강남구 역삼동",
+          familyInfo: {
+            children: [
+              {
+                id: "child_002",
+                name: "박지영",
+                age: 9,
+                grade: "초등학교 3학년",
+                gender: "female",
+                interests: ["영어", "체육", "독서"],
+                specialNeeds: "없음",
+              },
+            ],
+          },
+          profileCompleted: true,
+        };
+        setUser(userData);
+        return { success: true, user: userData };
+      } else if (email === "user003@abc.com" && password === "password") {
+        const userData = {
+          id: "user_003",
+          name: "이민수",
+          email: "user003@abc.com",
+          type: "parent",
+          region: "마포구",
+          selectedRegions: ["마포구", "서대문구"],
+          birthYear: "1983",
+          gender: "male",
+          phone: "010-3456-7890",
+          address: "서울특별시 마포구 합정동",
+          familyInfo: {
+            children: [
+              {
+                id: "child_003",
+                name: "이준호",
+                age: 10,
+                grade: "초등학교 4학년",
+                gender: "male",
+                interests: ["음악", "미술", "창작활동"],
+                specialNeeds: "없음",
+              },
+            ],
+          },
+          profileCompleted: true,
+        };
+        setUser(userData);
+        return { success: true, user: userData };
+      } else if (email === "user004@abc.com" && password === "password") {
+        const userData = {
+          id: "user_004",
+          name: "최지영",
+          email: "user004@abc.com",
+          type: "parent",
+          region: "성동구",
+          selectedRegions: ["성동구", "광진구"],
+          birthYear: "1987",
+          gender: "female",
+          phone: "010-4567-8901",
+          address: "서울특별시 성동구 성수동",
+          familyInfo: {
+            children: [
+              {
+                id: "child_004",
+                name: "최민수",
+                age: 8,
+                grade: "초등학교 2학년",
+                gender: "female",
+                interests: ["체육활동", "건강관리", "놀이활동"],
+                specialNeeds: "없음",
+              },
+            ],
+          },
+          profileCompleted: true,
+        };
+        setUser(userData);
+        return { success: true, user: userData };
+      } else if (email === "user005@abc.com" && password === "password") {
+        const userData = {
+          id: "user_005",
+          name: "한미영",
+          email: "user005@abc.com",
+          type: "parent",
+          region: "도봉구",
+          selectedRegions: ["도봉구", "강북구"],
+          birthYear: "1986",
+          gender: "female",
+          phone: "010-5678-9012",
+          address: "서울특별시 도봉구 도봉동",
+          familyInfo: {
+            children: [
+              {
+                id: "child_005",
+                name: "한지영",
+                age: 6,
+                grade: "유치원",
+                gender: "male",
+                interests: ["기초학습", "생활습관", "놀이활동"],
+                specialNeeds: "없음",
+              },
+            ],
+          },
+          profileCompleted: true,
+        };
+        setUser(userData);
+        return { success: true, user: userData };
+      } else if (email === "user006@abc.com" && password === "password") {
+        const userData = {
+          id: "user_006",
+          name: "정성훈",
+          email: "user006@abc.com",
+          type: "parent",
+          region: "양천구",
+          selectedRegions: ["양천구", "강서구"],
+          birthYear: "1984",
+          gender: "male",
+          phone: "010-6789-0123",
+          address: "서울특별시 양천구 신월동",
+          familyInfo: {
+            children: [
+              {
+                id: "child_006",
+                name: "정민수",
+                age: 11,
+                grade: "초등학교 5학년",
+                gender: "male",
+                interests: ["수학", "과학", "학습지도"],
+                specialNeeds: "없음",
+              },
+            ],
+          },
+          profileCompleted: true,
+        };
+        setUser(userData);
+        return { success: true, user: userData };
+      } else if (email === "user007@abc.com" && password === "password") {
+        const userData = {
+          id: "user_007",
+          name: "김태현",
+          email: "user007@abc.com",
+          type: "parent",
+          region: "관악구",
+          selectedRegions: ["관악구", "동작구"],
+          birthYear: "1989",
+          gender: "male",
+          phone: "010-7890-1234",
+          address: "서울특별시 관악구 봉천동",
+          familyInfo: {
+            children: [
+              {
+                id: "child_007",
+                name: "김지영",
+                age: 9,
+                grade: "초등학교 3학년",
+                gender: "female",
+                interests: ["영어", "수학", "학습지도"],
+                specialNeeds: "없음",
+              },
+            ],
+          },
+          profileCompleted: true,
+        };
+        setUser(userData);
+        return { success: true, user: userData };
+      } else if (email === "user008@abc.com" && password === "password") {
+        const userData = {
+          id: "user_008",
+          name: "박성훈",
+          email: "user008@abc.com",
+          type: "parent",
+          region: "강남구",
+          selectedRegions: ["강남구", "서초구"],
+          birthYear: "1982",
+          gender: "male",
+          phone: "010-8901-2345",
+          address: "서울특별시 강남구 삼성동",
+          familyInfo: {
+            children: [
+              {
+                id: "child_008",
+                name: "박준호",
+                age: 10,
+                grade: "초등학교 4학년",
+                gender: "male",
+                interests: ["과학", "영어", "학습지도"],
+                specialNeeds: "없음",
+              },
+            ],
+          },
+          profileCompleted: true,
+        };
+        setUser(userData);
+        return { success: true, user: userData };
+      } else if (email === "user009@abc.com" && password === "password") {
+        const userData = {
+          id: "user_009",
+          name: "이지영",
+          email: "user009@abc.com",
+          type: "parent",
+          region: "마포구",
+          selectedRegions: ["마포구", "서대문구"],
+          birthYear: "1985",
+          gender: "female",
+          phone: "010-9012-3456",
+          address: "서울특별시 마포구 상암동",
+          familyInfo: {
+            children: [
+              {
+                id: "child_009",
+                name: "이미영",
+                age: 8,
+                grade: "초등학교 2학년",
+                gender: "female",
+                interests: ["요리", "창작활동", "놀이활동"],
+                specialNeeds: "없음",
+              },
+            ],
+          },
+          profileCompleted: true,
+        };
+        setUser(userData);
+        return { success: true, user: userData };
+      } else if (email === "user010@abc.com" && password === "password") {
+        const userData = {
+          id: "user_010",
+          name: "김미영",
+          email: "user010@abc.com",
+          type: "parent",
+          region: "성동구",
+          selectedRegions: ["성동구", "광진구"],
+          birthYear: "1987",
+          gender: "female",
+          phone: "010-0123-4567",
+          address: "서울특별시 성동구 왕십리동",
+          familyInfo: {
+            children: [
+              {
+                id: "child_010",
+                name: "김성훈",
+                age: 9,
+                grade: "초등학교 3학년",
+                gender: "male",
+                interests: ["축구", "농구", "스포츠활동"],
+                specialNeeds: "없음",
+              },
+            ],
+          },
+          profileCompleted: true,
+        };
+        setUser(userData);
+        return { success: true, user: userData };
+      } else if (email === "user011@abc.com" && password === "password") {
+        const userData = {
+          id: "user_011",
+          name: "최민수",
+          email: "user011@abc.com",
+          type: "parent",
+          region: "도봉구",
+          selectedRegions: ["도봉구", "강북구"],
+          birthYear: "1986",
+          gender: "male",
+          phone: "010-1234-5678",
+          address: "서울특별시 도봉구 방학동",
+          familyInfo: {
+            children: [
+              {
+                id: "child_011",
+                name: "최지영",
+                age: 6,
+                grade: "유치원",
+                gender: "female",
+                interests: ["독서", "한글", "학습지도"],
+                specialNeeds: "없음",
+              },
+            ],
+          },
+          profileCompleted: true,
+        };
+        setUser(userData);
+        return { success: true, user: userData };
+      } else if (email === "user012@abc.com" && password === "password") {
+        const userData = {
+          id: "user_012",
+          name: "한지영",
+          email: "user012@abc.com",
+          type: "parent",
+          region: "양천구",
+          selectedRegions: ["양천구", "강서구"],
+          birthYear: "1988",
+          gender: "female",
+          phone: "010-2345-6789",
+          address: "서울특별시 양천구 목동",
+          familyInfo: {
+            children: [
+              {
+                id: "child_012",
+                name: "한준호",
+                age: 10,
+                grade: "초등학교 4학년",
+                gender: "male",
+                interests: ["수학", "과학", "학습지도"],
                 specialNeeds: "없음",
               },
             ],
@@ -565,26 +890,6 @@ export const UserProvider = ({ children }) => {
       const response = await userAPI.register(userData);
       setUser(response.user);
       return { success: true, user: response.user };
-
-      // 현재는 하드코딩된 회원가입 로직 유지
-      /*
-      const newUser = {
-        id: `user_${Date.now()}`,
-        name: userData.name,
-        email: userData.email,
-        type: userData.userType === "parents" ? "parent" : "teacher",
-        region: "관악구", // 기본값
-        selectedRegions: ["관악구"],
-        birthYear: "1990",
-        gender: "female",
-        phone: userData.phone || "",
-        address: userData.address || "",
-        profileCompleted: false, // 프로필 미완성 상태
-      };
-
-      setUser(newUser);
-      return { success: true, user: newUser };
-      */
     } catch (error) {
       console.error("Signup failed:", error);
       setError(error.message);
@@ -607,11 +912,6 @@ export const UserProvider = ({ children }) => {
       const updatedUser = await userAPI.updateProfile(profileData);
       setUser(updatedUser);
       return { success: true, user: updatedUser };
-
-      // 현재는 로컬 업데이트
-      const updatedUserData = { ...user, ...profileData };
-      setUser(updatedUserData);
-      return { success: true, user: updatedUserData };
     } catch (error) {
       console.error("Profile update failed:", error);
       setError(error.message);
@@ -630,7 +930,7 @@ export const UserProvider = ({ children }) => {
     if (token && !user) {
       fetchCurrentUser();
     }
-  }, []);
+  }, [fetchCurrentUser, user]);
 
   return (
     <UserContext.Provider

@@ -217,7 +217,210 @@
   font-weight: 500;
 }
 
-/* 수입 통계 */
+/* 부모 지출 내역 */
+.parent-payment-section {
+  margin-bottom: 30px;
+}
+
+.payment-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #dc3545;
+}
+
+.payment-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.payment-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.payment-item {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.payment-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.payment-item.total {
+  border-left: 4px solid #dc3545;
+}
+
+.payment-item.progress {
+  border-left: 4px solid #ffc107;
+}
+
+.payment-item.completed {
+  border-left: 4px solid #28a745;
+}
+
+.payment-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.payment-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* 쌤 수입 내역 */
+.teacher-earnings-section {
+  margin-bottom: 30px;
+}
+
+.teacher-earnings-section .earnings-card {
+  border-left: 4px solid #28a745;
+}
+
+.teacher-earnings-section .earnings-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.teacher-earnings-section .earnings-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.teacher-earnings-section .earnings-item {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.teacher-earnings-section .earnings-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-earnings-section .earnings-item.total {
+  border-left: 4px solid #28a745;
+}
+
+.teacher-earnings-section .earnings-item.average {
+  border-left: 4px solid #17a2b8;
+}
+
+.teacher-earnings-section .earnings-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.teacher-earnings-section .earnings-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.teacher-earnings-section .earnings-detail {
+  font-size: 0.8rem;
+  color: #888;
+  line-height: 1.4;
+}
+
+/* 회사 수입 통계 */
+.company-revenue-section {
+  margin-bottom: 30px;
+}
+
+.revenue-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #ffc107;
+}
+
+.revenue-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.revenue-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.revenue-item {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.revenue-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.revenue-item.total {
+  border-left: 4px solid #ffc107;
+}
+
+.revenue-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.revenue-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.revenue-detail {
+  font-size: 0.8rem;
+  color: #888;
+  line-height: 1.4;
+}
+
+/* 수입 통계 (기존 스타일 유지) */
 .earnings-section {
   margin-bottom: 30px;
 }
@@ -294,7 +497,7 @@
 
 .earnings-table .table-header {
   display: grid;
-  grid-template-columns: 2fr 1fr 1.5fr 1fr 1.5fr 1.5fr 1.5fr 1.5fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1.5fr 1.5fr 1fr;
   background: rgba(255, 255, 255, 0.2);
   color: white;
   font-weight: 600;
@@ -303,7 +506,7 @@
 
 .earnings-table .table-row {
   display: grid;
-  grid-template-columns: 2fr 1fr 1.5fr 1fr 1.5fr 1.5fr 1.5fr 1.5fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1.5fr 1.5fr 1fr;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: background-color 0.2s ease;
 }
@@ -1546,4 +1749,274 @@
   font-size: 1rem;
   font-weight: 600;
   color: #333;
+}
+
+/* 새로운 스타일 추가 */
+.teacher-link {
+  color: #4a90e2;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.teacher-link:hover {
+  color: #357abd;
+  text-decoration: underline;
+}
+
+.sessions-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sessions-count {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #28a745;
+}
+
+.parent-payment-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.payment-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+}
+
+.total-amount {
+  color: #495057;
+  font-weight: 600;
+}
+
+.paid-amount {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.remaining-amount {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.payment-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.payment-progress .progress-bar {
+  flex: 1;
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.payment-progress .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+  transition: width 0.3s ease;
+}
+
+.payment-progress .progress-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #495057;
+  min-width: 35px;
+}
+
+.detail-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.detail-link {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.detail-link.teacher-detail {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+}
+
+.detail-link.teacher-detail:hover {
+  background: linear-gradient(135deg, #357abd 0%, #2c5aa0 100%);
+  transform: translateY(-1px);
+}
+
+.detail-link.parent-detail {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+}
+
+.detail-link.parent-detail:hover {
+  background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
+  transform: translateY(-1px);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1024px) {
+  .earnings-table .table-header,
+  .earnings-table .table-row {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
+
+  .earnings-table .table-cell {
+    font-size: 0.75rem;
+    padding: 8px 4px;
+  }
+
+  .detail-links {
+    flex-direction: row;
+    gap: 4px;
+  }
+
+  .detail-link {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .earnings-table .table-header,
+  .earnings-table .table-row {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
+
+  .earnings-table .table-cell {
+    font-size: 0.7rem;
+    padding: 6px 3px;
+  }
+
+  .payment-summary {
+    font-size: 0.75rem;
+  }
+
+  .sessions-count {
+    font-size: 1rem;
+  }
+}
+
+/* 새로운 스타일 추가 */
+.matching-status-section {
+  margin-bottom: 30px;
+}
+
+.matching-overview {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.matching-chart {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.contract-overview {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.contract-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.line-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.revenue-stats-section {
+  margin-bottom: 30px;
+}
+
+.revenue-stats-section h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.revenue-table {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.revenue-table .table-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.revenue-table .table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.2s ease;
+}
+
+.revenue-table .table-row:hover {
+  background: #f8f9fa;
+}
+
+.revenue-table .table-row:last-child {
+  border-bottom: none;
+}
+
+.revenue-table .table-cell {
+  padding: 15px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #333;
+  border-right: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.revenue-table .table-cell:last-child {
+  border-right: none;
+}
+
+.commission-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8rem;
+}
+
+.commission-item {
+  color: #666;
+}
+
+.commission-item span {
+  font-weight: 600;
 }

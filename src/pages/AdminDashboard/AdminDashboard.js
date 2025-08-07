@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
 import { useMatching } from "../../contexts/MatchingContext";
 import { useApplication } from "../../contexts/ApplicationContext";
@@ -69,38 +70,68 @@ function AdminDashboard() {
     const acceptedMatchingsWithEarnings = allMatchings
       .filter((m) => m.status === "accepted" && m.contractStatus) // 계약 상태가 있는 수락된 매칭만
       .map((matching) => {
-        // 매칭 ID에 따라 공고 찾기
+        // 매칭과 공고 연결 로직 개선
         let application;
-        if (matching.id === "matching_002") {
-          // 계약 진행중 - 박민수 쌤
-          application = allApplications.find((app) => app.id === "app_002");
-        } else if (matching.id === "matching_003") {
-          // 계약 완료 - 이수진 쌤
-          application = allApplications.find((app) => app.id === "app_003");
-        } else if (matching.id === "matching_005") {
-          // 박민수 쌤의 두 번째 매칭
-          application = allApplications.find((app) => app.id === "app_007");
-        } else {
-          // 기타 매칭들
-          application = allApplications.find(
-            (app) => app.id === matching.applicationId
+
+        // 매칭 ID에 따른 공고 매핑
+        const matchingToApplicationMap = {
+          matching_001: "app_001", // 양연희 - 김가정
+          matching_002: "app_002", // 김민수 - 박영희
+          matching_003: "app_003", // 박지영 - 이민수
+          matching_004: "app_004", // 이준호 - 최지영
+          matching_005: "app_005", // 최영희 - 한미영
+          matching_006: "app_006", // 정수진 - 정성훈
+          matching_007: "app_007", // 양연희 - 김태현
+          matching_008: "app_008", // 김민수 - 박성훈
+          matching_009: "app_009", // 박지영 - 이지영
+          matching_010: "app_010", // 이준호 - 김미영
+          matching_011: "app_011", // 최영희 - 최민수
+          matching_012: "app_012", // 정수진 - 한지영
+        };
+
+        const applicationId = matchingToApplicationMap[matching.id];
+        application = allApplications.find((app) => app.id === applicationId);
+
+        // 공고를 찾지 못한 경우 기본값 설정
+        if (!application) {
+          console.warn(
+            `공고를 찾을 수 없습니다: ${matching.id} -> ${applicationId}`
           );
+          application = {
+            payment: "시간 당 15,000 (협의가능)",
+            workingHours: "오후 2시~5시",
+            type: "정기 매주 월,수,금 (주3회)",
+            startDate: matching.createdAt.split("T")[0],
+            endDate: new Date(
+              new Date(matching.createdAt).getTime() +
+                5 * 30 * 24 * 60 * 60 * 1000
+            )
+              .toISOString()
+              .split("T")[0],
+          };
         }
 
         // 시급 파싱 개선
         let hourlyWage = 0;
         if (application?.payment) {
-          // 쉼표가 있는 숫자 패턴 (예: 20,000)
-          const commaMatch = application.payment.match(/\d{1,3}(?:,\d{3})*/);
-          if (commaMatch) {
-            hourlyWage = parseInt(commaMatch[0].replace(/,/g, ""));
+          // "시간 당 15,000 (협의가능)" 형태에서 숫자 추출
+          const paymentText = application.payment;
+          const numberMatch = paymentText.match(/\d{1,3}(?:,\d{3})*/);
+          if (numberMatch) {
+            hourlyWage = parseInt(numberMatch[0].replace(/,/g, ""));
           } else {
-            // 일반 숫자 패턴 (예: 20000)
-            const numberMatch = application.payment.match(/\d+/);
-            if (numberMatch) {
-              hourlyWage = parseInt(numberMatch[0]);
+            // 다른 형태의 숫자 패턴 시도
+            const simpleNumberMatch = paymentText.match(/\d+/);
+            if (simpleNumberMatch) {
+              hourlyWage = parseInt(simpleNumberMatch[0]);
             }
           }
+        }
+
+        // 시급이 0인 경우 기본값 설정
+        if (hourlyWage === 0) {
+          console.warn(`시급을 파싱할 수 없습니다: ${application?.payment}`);
+          hourlyWage = 15000; // 기본 시급
         }
         const workingHours = application?.workingHours || "";
         const hoursPerSession = calculateHoursFromWorkingHours(workingHours);
@@ -108,6 +139,13 @@ function AdminDashboard() {
           application?.type || ""
         );
         const totalHours = hoursPerSession * sessionsPerWeek * 4; // 월 4주
+
+        // 근무시간이 0인 경우 기본값 설정
+        if (totalHours === 0) {
+          console.warn(
+            `근무시간을 계산할 수 없습니다: ${workingHours}, ${application?.type}`
+          );
+        }
         const monthlyEarnings = hourlyWage * totalHours;
         const contractMonths = 5; // 5개월 계약
         const teacherTotalEarnings = monthlyEarnings * contractMonths; // 쌤이 받는 총 수당
@@ -319,23 +357,46 @@ function AdminDashboard() {
   };
 
   const calculateHoursFromWorkingHours = (workingHours) => {
-    if (!workingHours) return 0;
-    const match = workingHours.match(/(\d+)시~(\d+)시/);
-    if (match) {
-      const startHour = parseInt(match[1]);
-      const endHour = parseInt(match[2]);
+    if (!workingHours) return 3; // 기본값 3시간
+
+    // "오후 2시~7시" 형태 파싱
+    const afternoonMatch = workingHours.match(/오후\s*(\d+)시~(\d+)시/);
+    if (afternoonMatch) {
+      const startHour = parseInt(afternoonMatch[1]) + 12; // 오후는 +12
+      const endHour = parseInt(afternoonMatch[2]) + 12;
       return endHour - startHour;
     }
-    return 3;
+
+    // "오전 9시~12시" 형태 파싱
+    const morningMatch = workingHours.match(/오전\s*(\d+)시~(\d+)시/);
+    if (morningMatch) {
+      const startHour = parseInt(morningMatch[1]);
+      const endHour = parseInt(morningMatch[2]);
+      return endHour - startHour;
+    }
+
+    // "2시~7시" 형태 파싱
+    const simpleMatch = workingHours.match(/(\d+)시~(\d+)시/);
+    if (simpleMatch) {
+      const startHour = parseInt(simpleMatch[1]);
+      const endHour = parseInt(simpleMatch[2]);
+      return endHour - startHour;
+    }
+
+    console.warn(`근무시간을 파싱할 수 없습니다: ${workingHours}`);
+    return 3; // 기본값
   };
 
   const calculateSessionsPerWeek = (type) => {
-    if (!type) return 0;
+    if (!type) return 3; // 기본값 3회
+
     if (type.includes("주5회")) return 5;
     if (type.includes("주3회")) return 3;
     if (type.includes("주2회")) return 2;
     if (type.includes("주1회")) return 1;
-    return 2;
+
+    console.warn(`주간 세션 수를 파싱할 수 없습니다: ${type}`);
+    return 3; // 기본값
   };
 
   const generateMonthlyTrend = (matchings) => {
@@ -382,23 +443,24 @@ function AdminDashboard() {
     console.log("계약 수락 완료된 매칭:", acceptedMatchings);
 
     acceptedMatchings.forEach((matching) => {
-      // 매칭 ID에 따라 공고 찾기 (기존 로직과 동일하게)
-      let application;
-      if (matching.id === "matching_002") {
-        // 계약 진행중 - 박민수 쌤
-        application = applications.find((app) => app.id === "app_002");
-      } else if (matching.id === "matching_003") {
-        // 계약 완료 - 이수진 쌤
-        application = applications.find((app) => app.id === "app_003");
-      } else if (matching.id === "matching_005") {
-        // 박민수 쌤의 두 번째 매칭
-        application = applications.find((app) => app.id === "app_007");
-      } else {
-        // 기타 매칭들
-        application = applications.find(
-          (app) => app.id === matching.applicationId
-        );
-      }
+      // 매칭과 공고 연결 로직 개선
+      const matchingToApplicationMap = {
+        matching_001: "app_001", // 양연희 - 김가정
+        matching_002: "app_002", // 김민수 - 박영희
+        matching_003: "app_003", // 박지영 - 이민수
+        matching_004: "app_004", // 이준호 - 최지영
+        matching_005: "app_005", // 최영희 - 한미영
+        matching_006: "app_006", // 정수진 - 정성훈
+        matching_007: "app_007", // 양연희 - 김태현
+        matching_008: "app_008", // 김민수 - 박성훈
+        matching_009: "app_009", // 박지영 - 이지영
+        matching_010: "app_010", // 이준호 - 김미영
+        matching_011: "app_011", // 최영희 - 최민수
+        matching_012: "app_012", // 정수진 - 한지영
+      };
+
+      const applicationId = matchingToApplicationMap[matching.id];
+      const application = applications.find((app) => app.id === applicationId);
 
       console.log("매칭 ID:", matching.id, "찾은 공고:", application);
 
@@ -528,32 +590,43 @@ function AdminDashboard() {
     );
 
     acceptedMatchings.forEach((matching) => {
-      // 매칭 ID에 따라 공고 찾기
-      let application;
-      if (matching.id === "matching_002") {
-        application = applications.find((app) => app.id === "app_002");
-      } else if (matching.id === "matching_003") {
-        application = applications.find((app) => app.id === "app_003");
-      } else if (matching.id === "matching_005") {
-        application = applications.find((app) => app.id === "app_007");
-      } else {
-        application = applications.find(
-          (app) => app.id === matching.applicationId
-        );
-      }
+      // 매칭과 공고 연결 로직 개선
+      const matchingToApplicationMap = {
+        matching_001: "app_001", // 양연희 - 김가정
+        matching_002: "app_002", // 김민수 - 박영희
+        matching_003: "app_003", // 박지영 - 이민수
+        matching_004: "app_004", // 이준호 - 최지영
+        matching_005: "app_005", // 최영희 - 한미영
+        matching_006: "app_006", // 정수진 - 정성훈
+        matching_007: "app_007", // 양연희 - 김태현
+        matching_008: "app_008", // 김민수 - 박성훈
+        matching_009: "app_009", // 박지영 - 이지영
+        matching_010: "app_010", // 이준호 - 김미영
+        matching_011: "app_011", // 최영희 - 최민수
+        matching_012: "app_012", // 정수진 - 한지영
+      };
+
+      const applicationId = matchingToApplicationMap[matching.id];
+      const application = applications.find((app) => app.id === applicationId);
 
       if (application) {
         let hourlyWage = 0;
         if (application.payment) {
-          const commaMatch = application.payment.match(/\d{1,3}(?:,\d{3})*/);
-          if (commaMatch) {
-            hourlyWage = parseInt(commaMatch[0].replace(/,/g, ""));
+          const paymentText = application.payment;
+          const numberMatch = paymentText.match(/\d{1,3}(?:,\d{3})*/);
+          if (numberMatch) {
+            hourlyWage = parseInt(numberMatch[0].replace(/,/g, ""));
           } else {
-            const numberMatch = application.payment.match(/\d+/);
-            if (numberMatch) {
-              hourlyWage = parseInt(numberMatch[0]);
+            const simpleNumberMatch = paymentText.match(/\d+/);
+            if (simpleNumberMatch) {
+              hourlyWage = parseInt(simpleNumberMatch[0]);
             }
           }
+        }
+
+        // 시급이 0인 경우 기본값 설정
+        if (hourlyWage === 0) {
+          hourlyWage = 15000; // 기본 시급
         }
 
         const workingHours = application.workingHours || "";
@@ -564,7 +637,7 @@ function AdminDashboard() {
 
         // 계약 기간 동안 월별 예상 수입 분배
         const contractStartDate = new Date(matching.createdAt);
-        const contractMonths = matching.id === "matching_003" ? 12 : 5; // 박민수 쌤은 1년, 나머지는 5개월
+        const contractMonths = 5; // 모든 계약을 5개월로 통일
 
         for (let i = 0; i < contractMonths; i++) {
           const contractMonth = new Date(
@@ -654,32 +727,43 @@ function AdminDashboard() {
     );
 
     acceptedMatchings.forEach((matching) => {
-      // 매칭 ID에 따라 공고 찾기
-      let application;
-      if (matching.id === "matching_002") {
-        application = applications.find((app) => app.id === "app_002");
-      } else if (matching.id === "matching_003") {
-        application = applications.find((app) => app.id === "app_003");
-      } else if (matching.id === "matching_005") {
-        application = applications.find((app) => app.id === "app_007");
-      } else {
-        application = applications.find(
-          (app) => app.id === matching.applicationId
-        );
-      }
+      // 매칭과 공고 연결 로직 개선
+      const matchingToApplicationMap = {
+        matching_001: "app_001", // 양연희 - 김가정
+        matching_002: "app_002", // 김민수 - 박영희
+        matching_003: "app_003", // 박지영 - 이민수
+        matching_004: "app_004", // 이준호 - 최지영
+        matching_005: "app_005", // 최영희 - 한미영
+        matching_006: "app_006", // 정수진 - 정성훈
+        matching_007: "app_007", // 양연희 - 김태현
+        matching_008: "app_008", // 김민수 - 박성훈
+        matching_009: "app_009", // 박지영 - 이지영
+        matching_010: "app_010", // 이준호 - 김미영
+        matching_011: "app_011", // 최영희 - 최민수
+        matching_012: "app_012", // 정수진 - 한지영
+      };
+
+      const applicationId = matchingToApplicationMap[matching.id];
+      const application = applications.find((app) => app.id === applicationId);
 
       if (application) {
         let hourlyWage = 0;
         if (application.payment) {
-          const commaMatch = application.payment.match(/\d{1,3}(?:,\d{3})*/);
-          if (commaMatch) {
-            hourlyWage = parseInt(commaMatch[0].replace(/,/g, ""));
+          const paymentText = application.payment;
+          const numberMatch = paymentText.match(/\d{1,3}(?:,\d{3})*/);
+          if (numberMatch) {
+            hourlyWage = parseInt(numberMatch[0].replace(/,/g, ""));
           } else {
-            const numberMatch = application.payment.match(/\d+/);
-            if (numberMatch) {
-              hourlyWage = parseInt(numberMatch[0]);
+            const simpleNumberMatch = paymentText.match(/\d+/);
+            if (simpleNumberMatch) {
+              hourlyWage = parseInt(simpleNumberMatch[0]);
             }
           }
+        }
+
+        // 시급이 0인 경우 기본값 설정
+        if (hourlyWage === 0) {
+          hourlyWage = 15000; // 기본 시급
         }
 
         const workingHours = application.workingHours || "";
@@ -693,7 +777,7 @@ function AdminDashboard() {
 
         // 계약 기간 동안 월별 실제 수입 분배
         const contractStartDate = new Date(matching.createdAt);
-        const contractMonths = matching.id === "matching_003" ? 12 : 5; // 박민수 쌤은 1년, 나머지는 5개월
+        const contractMonths = 5; // 모든 계약을 5개월로 통일
 
         for (let i = 0; i < contractMonths; i++) {
           const contractMonth = new Date(
@@ -849,196 +933,224 @@ function AdminDashboard() {
           </div>
         </div>
 
-        {/* 차트 및 상세 통계 */}
-        <div className="charts-section">
-          <div className="chart-container">
-            <div className="chart-card">
+        {/* 매칭 현황 및 계약 상태 */}
+        <div className="matching-status-section">
+          <div className="matching-overview">
+            <div className="matching-chart">
               <h3>매칭 상태 분포</h3>
-              <div className="chart-content">
-                <div className="pie-chart">
-                  {chartData.statusChart.map((item, index) => (
-                    <div key={index} className="chart-item">
-                      <div className="chart-bar">
-                        <div
-                          className="chart-fill"
-                          style={{
-                            width: `${
-                              (item.value / statistics.totalMatchings) * 100
-                            }%`,
-                            backgroundColor: item.color,
-                          }}
-                        ></div>
-                      </div>
-                      <div className="chart-label">
-                        <span
-                          className="chart-color"
-                          style={{ backgroundColor: item.color }}
-                        ></span>
-                        <span>
-                          {item.label}: {item.value}
-                        </span>
-                      </div>
+              <div className="line-chart">
+                {chartData.statusChart.map((item, index) => (
+                  <div key={index} className="chart-item">
+                    <div className="chart-bar">
+                      <div
+                        className="chart-fill"
+                        style={{
+                          width: `${
+                            (item.value / statistics.totalMatchings) * 100
+                          }%`,
+                          backgroundColor: item.color,
+                        }}
+                      ></div>
                     </div>
-                  ))}
-                </div>
+                    <div className="chart-label">
+                      <span
+                        className="chart-color"
+                        style={{ backgroundColor: item.color }}
+                      ></span>
+                      <span>
+                        {item.label}: {item.value}건
+                      </span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
 
-          <div className="chart-container">
-            <div className="chart-card">
+            <div className="contract-overview">
               <h3>계약 현황</h3>
-              <div className="contract-stats">
+              <div className="contract-summary">
                 <div className="contract-item">
-                  <div className="contract-number">
-                    {statistics.contractProgress}
-                  </div>
-                  <div className="contract-label">계약 진행중</div>
+                  <span className="contract-number">
+                    {statistics.contractCompleted}
+                  </span>
+                  <span className="contract-label">계약 완료</span>
                 </div>
                 <div className="contract-item">
-                  <div className="contract-number">
-                    {statistics.contractCompleted}
-                  </div>
-                  <div className="contract-label">계약 완료</div>
+                  <span className="contract-number">
+                    {statistics.contractProgress}
+                  </span>
+                  <span className="contract-label">계약 진행중</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* 수입 통계 */}
-        <div className="earnings-section">
-          <div className="earnings-card">
-            <h3>수입 통계</h3>
-            <div className="earnings-grid">
-              <div className="earnings-item">
-                <div className="earnings-label">부모 총 지불액</div>
-                <div className="earnings-value">
-                  {formatCurrency(statistics.totalParentPayment)}원
-                </div>
-                <div className="earnings-detail">
-                  계약 진행중:{" "}
-                  {formatCurrency(
-                    statistics.contractProgressEarnings +
-                      statistics.contractProgressEarnings * 0.05
-                  )}
-                  원
-                  <br />
-                  계약 완료:{" "}
-                  {formatCurrency(
-                    statistics.contractCompletedEarnings +
-                      statistics.contractCompletedEarnings * 0.05
-                  )}
-                  원
-                </div>
-              </div>
-              <div className="earnings-item">
-                <div className="earnings-label">총 쌤 수당</div>
-                <div className="earnings-value">
-                  {formatCurrency(statistics.totalTeacherEarnings)}원
-                </div>
-                <div className="earnings-detail">
-                  쌤이 실제 받는 수당 (수수료 차감 후)
-                </div>
-              </div>
-              <div className="earnings-item">
-                <div className="earnings-label">회사 수입</div>
-                <div className="earnings-value">
-                  {formatCurrency(statistics.totalCompanyRevenue)}원
-                </div>
-                <div className="earnings-detail">
-                  부모 수수료 + 쌤 수수료 (각 5%)
-                </div>
-              </div>
-              <div className="earnings-item">
-                <div className="earnings-label">평균 시급</div>
-                <div className="earnings-value">
-                  {formatCurrency(Math.round(statistics.averageHourlyWage))}원
-                </div>
-                <div className="earnings-detail">수락된 매칭 기준</div>
-              </div>
+        {/* 수입 통계 테이블 */}
+        <div className="revenue-stats-section">
+          <h3>💰 수입 통계</h3>
+          <div className="revenue-table">
+            <div className="table-header">
+              <div className="table-cell">구분</div>
+              <div className="table-cell">총 수입</div>
+              <div className="table-cell">월별 수입</div>
+              <div className="table-cell">수수료 내역</div>
             </div>
+            <div className="table-row">
+              <div className="table-cell">부모 지출</div>
+              <div className="table-cell">
+                {formatCurrency(statistics.totalParentPayment)}원
+              </div>
+              <div className="table-cell">
+                {formatCurrency(Math.round(statistics.totalParentPayment / 12))}
+                원/월
+              </div>
+              <div className="table-cell">부모 수수료 5%</div>
+            </div>
+            <div className="table-row">
+              <div className="table-cell">쌤 수입</div>
+              <div className="table-cell">
+                {formatCurrency(statistics.totalTeacherEarnings)}원
+              </div>
+              <div className="table-cell">
+                {formatCurrency(
+                  Math.round(statistics.totalTeacherEarnings / 12)
+                )}
+                원/월
+              </div>
+              <div className="table-cell">쌤 수수료 5%</div>
+            </div>
+            <div className="table-row">
+              <div className="table-cell">회사 수입</div>
+              <div className="table-cell">
+                {formatCurrency(statistics.totalCompanyRevenue)}원
+              </div>
+              <div className="table-cell">
+                {formatCurrency(
+                  Math.round(statistics.totalCompanyRevenue / 12)
+                )}
+                원/월
+              </div>
+              <div className="table-cell">총 수수료 10%</div>
+            </div>
+          </div>
+        </div>
 
-            {/* 쌤별 상세 수입 정보 */}
-            <div className="earnings-details">
-              <h4>쌤별 수입 상세</h4>
-              <div className="earnings-table">
-                <div className="table-header">
-                  <div className="table-cell">쌤 이름</div>
-                  <div className="table-cell">시급</div>
-                  <div className="table-cell">월 근무시간</div>
-                  <div className="table-cell">계약기간</div>
-                  <div className="table-cell">기본 수당</div>
-                  <div className="table-cell">쌤 실제 수당</div>
-                  <div className="table-cell">부모 지불액</div>
-                  <div className="table-cell">회사 수입</div>
-                </div>
-                {statistics.acceptedMatchingsWithEarnings.map(
-                  (matching, index) => (
-                    <div key={index} className="table-row">
-                      <div className="table-cell">
-                        <div className="teacher-name">
-                          {matching.teacherName}
-                        </div>
-                        <div className="teacher-status">
-                          {matching.contractStatus === "progress" &&
-                            "계약 진행중"}
-                          {matching.contractStatus === "completed" &&
-                            "계약 완료"}
-                        </div>
+        {/* 쌤별 상세 수입 정보 */}
+        <div className="earnings-details">
+          <h4>쌤별 수입 상세</h4>
+          <div className="earnings-table">
+            <div className="table-header">
+              <div className="table-cell">쌤 이름</div>
+              <div className="table-cell">시급</div>
+              <div className="table-cell">수업일수</div>
+              <div className="table-cell">총 수입</div>
+              <div className="table-cell">수수료 내역</div>
+              <div className="table-cell">상세보기</div>
+            </div>
+            {statistics.acceptedMatchingsWithEarnings.map((matching, index) => {
+              // 수업일수 계산 (주3회 × 4주 × 계약개월)
+              const totalSessions =
+                matching.sessionsPerWeek * 4 * matching.contractMonths;
+
+              // 부모 지불 현황 계산
+              const totalPaymentAmount = matching.parentTotalPayment;
+              const paidAmount =
+                matching.contractStatus === "completed"
+                  ? totalPaymentAmount
+                  : Math.floor(totalPaymentAmount * 0.6); // 진행중이면 60% 지불된 것으로 가정
+              const remainingAmount = totalPaymentAmount - paidAmount;
+
+              return (
+                <div key={index} className="table-row">
+                  <div className="table-cell">
+                    <div className="teacher-name">
+                      <Link
+                        to={`/teacher-detail/${matching.teacherId}`}
+                        className="teacher-link"
+                        target="_blank"
+                      >
+                        {matching.teacherName}
+                      </Link>
+                    </div>
+                    <div className="teacher-status">
+                      {matching.contractStatus === "progress" && "계약 진행중"}
+                      {matching.contractStatus === "completed" && "계약 완료"}
+                    </div>
+                  </div>
+                  <div className="table-cell">
+                    {formatCurrency(matching.hourlyWage)}원/시간
+                  </div>
+                  <div className="table-cell">
+                    <div className="sessions-info">
+                      <span className="sessions-count">{totalSessions}일</span>
+                      <small>
+                        ({matching.sessionsPerWeek}회/주 × 4주 ×{" "}
+                        {matching.contractMonths}개월)
+                      </small>
+                    </div>
+                  </div>
+                  <div className="table-cell earnings-total">
+                    {formatCurrency(matching.teacherTotalEarnings)}원
+                  </div>
+                  <div className="table-cell">
+                    <div className="commission-info">
+                      <div className="commission-item">
+                        <span>
+                          쌤 수수료:{" "}
+                          {formatCurrency(matching.teacherCommission)}원
+                        </span>
                       </div>
-                      <div className="table-cell">
-                        {formatCurrency(matching.hourlyWage)}원/시간
-                      </div>
-                      <div className="table-cell">
-                        {matching.totalHours}시간/월
-                        <br />
-                        <small>
-                          ({matching.hoursPerSession}시간 ×{" "}
-                          {matching.sessionsPerWeek}회 × 4주)
-                        </small>
-                      </div>
-                      <div className="table-cell">
-                        {matching.contractMonths}개월
-                      </div>
-                      <div className="table-cell earnings-total">
-                        {formatCurrency(matching.teacherTotalEarnings)}원
-                      </div>
-                      <div className="table-cell teacher-actual">
-                        {formatCurrency(matching.teacherActualEarnings)}원
-                      </div>
-                      <div className="table-cell parent-payment">
-                        {formatCurrency(matching.parentTotalPayment)}원
-                      </div>
-                      <div className="table-cell company-revenue">
-                        {formatCurrency(matching.companyRevenue)}원
+                      <div className="commission-item">
+                        <span>
+                          부모 수수료:{" "}
+                          {formatCurrency(matching.parentCommission)}원
+                        </span>
                       </div>
                     </div>
-                  )
-                )}
-              </div>
+                  </div>
+                  <div className="table-cell">
+                    <div className="detail-links">
+                      <Link
+                        to={`/payment-status`}
+                        className="detail-link teacher-detail"
+                        target="_blank"
+                      >
+                        내 수당 상세
+                      </Link>
+                      <Link
+                        to={`/payment-history`}
+                        className="detail-link parent-detail"
+                        target="_blank"
+                      >
+                        내 지출 내역
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
 
-              {/* 요약 정보 */}
-              <div className="earnings-summary">
-                <div className="summary-item">
-                  <span className="summary-label">총 부모 지불액:</span>
-                  <span className="summary-value">
-                    {formatCurrency(statistics.totalParentPayment)}원
-                  </span>
-                </div>
-                <div className="summary-item">
-                  <span className="summary-label">총 쌤 실제 수당:</span>
-                  <span className="summary-value">
-                    {formatCurrency(statistics.totalTeacherEarnings)}원
-                  </span>
-                </div>
-                <div className="summary-item">
-                  <span className="summary-label">총 회사 수입:</span>
-                  <span className="summary-value">
-                    {formatCurrency(statistics.totalCompanyRevenue)}원
-                  </span>
-                </div>
-              </div>
+          {/* 요약 정보 */}
+          <div className="earnings-summary">
+            <div className="summary-item">
+              <span className="summary-label">총 부모 지불액:</span>
+              <span className="summary-value">
+                {formatCurrency(statistics.totalParentPayment)}원
+              </span>
+            </div>
+            <div className="summary-item">
+              <span className="summary-label">총 쌤 실제 수당:</span>
+              <span className="summary-value">
+                {formatCurrency(statistics.totalTeacherEarnings)}원
+              </span>
+            </div>
+            <div className="summary-item">
+              <span className="summary-label">총 회사 수입:</span>
+              <span className="summary-value">
+                {formatCurrency(statistics.totalCompanyRevenue)}원
+              </span>
             </div>
           </div>
         </div>

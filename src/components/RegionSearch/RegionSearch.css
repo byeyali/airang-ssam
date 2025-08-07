@@ -27,6 +27,17 @@
   box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
 }
 
+.region-search-input:disabled {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+.region-search-input:disabled::placeholder {
+  color: #ccc;
+}
+
 .loading-spinner {
   position: absolute;
   right: 15px;
@@ -163,4 +174,16 @@
     font-size: 0.8rem;
     padding: 6px 10px;
   }
+}
+
+.max-regions-message {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  color: #856404;
+  font-size: 0.9rem;
+  text-align: center;
+  font-weight: 500;
 }

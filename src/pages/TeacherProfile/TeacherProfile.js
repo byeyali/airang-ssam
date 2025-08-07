@@ -88,9 +88,14 @@ const TeacherProfile = () => {
     );
   };
 
-  // 지역 선택 처리
+  // 지역 선택 처리 (빈 지역 필터링)
   const handleRegionSelect = (regions) => {
-    setSelectedRegions(regions);
+    // 빈 지역 필터링
+    const validRegions = regions.filter(
+      (region) =>
+        region && region.id && region.title && region.title.trim() !== ""
+    );
+    setSelectedRegions(validRegions);
   };
 
   // 성별 선택 처리
@@ -175,16 +180,13 @@ const TeacherProfile = () => {
   return (
     <div className="teacher-profile-container">
       <div className="profile-header">
-        <h1>{isEditMode ? "쌤 프로필 수정" : "쌤 프로필 등록"}</h1>
-        <p>
-          {isEditMode
-            ? "프로필 정보를 수정해주세요"
-            : "활동하실 돌봄 분야 선택해주세요"}
-        </p>
+        <h1>쌤 프로필 등록</h1>
+        <p>자신 있는 분야는?</p>
       </div>
 
       {/* 분야 선택 섹션 */}
       <div className="field-selection-section">
+        <h3>무엇을?</h3>
         <div className="field-categories">
           {/* 돌봄 카테고리 */}
           <div className="category">
@@ -214,6 +216,7 @@ const TeacherProfile = () => {
 
       {/* 개인정보 입력 섹션 */}
       <div className="personal-info-section">
+        <h3>쌤에 대해 알려주세요</h3>
         <div className="birth-year-input">
           <label>생년</label>
           <input
@@ -250,30 +253,32 @@ const TeacherProfile = () => {
 
       {/* 지역 선택 섹션 */}
       <div className="region-selection-section">
-        <h3>어느 지역이 활동 가능하세요?</h3>
+        <h3>어디서?</h3>
         <div className="region-search-container">
-          <label>활동가능지역</label>
           <RegionSearch
             onRegionSelect={handleRegionSelect}
             selectedRegions={selectedRegions}
             multiple={true}
             placeholder="지역을 검색하세요"
+            maxRegions={4}
           />
         </div>
+      </div>
+
+      {/* 자기 소개 섹션 */}
+      <div className="self-introduction-section">
+        <h3>자기 소개</h3>
+        <textarea
+          className="self-introduction-textarea"
+          placeholder="자신에 대해 소개해주세요..."
+          rows="4"
+        />
       </div>
 
       {/* 액션 버튼 */}
       <div className="action-buttons">
         <button className="save-button" onClick={handleSave}>
-          {isEditMode ? "수정 완료" : "저장"}
-        </button>
-        <button
-          className="upload-button"
-          onClick={() =>
-            document.getElementById("file-upload-section").scrollIntoView()
-          }
-        >
-          파일 올리기
+          저장
         </button>
       </div>
 
@@ -377,6 +382,11 @@ const TeacherProfile = () => {
                 : "파일 올리기"}
             </label>
           </div>
+        </div>
+
+        {/* 파일 올리기 버튼 */}
+        <div className="file-upload-action">
+          <button className="upload-button">파일 올리기</button>
         </div>
       </div>
     </div>
