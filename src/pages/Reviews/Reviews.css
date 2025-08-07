@@ -326,10 +326,13 @@
 }
 
 .pagination-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.3;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+  background: #cccccc;
+  border-color: #cccccc;
+  color: #666666;
 }
 
 .page-numbers {

@@ -217,51 +217,58 @@ const TeacherProfile = () => {
       {/* 개인정보 입력 섹션 */}
       <div className="personal-info-section">
         <h3>쌤에 대해 알려주세요</h3>
-        <div className="birth-year-input">
-          <label>생년</label>
-          <input
-            type="number"
-            value={birthYear}
-            onChange={(e) => setBirthYear(e.target.value)}
-            placeholder="1990"
-            min="1950"
-            max="2010"
-          />
-          <span>년생</span>
-        </div>
 
-        <div className="gender-selection">
-          <label>성별</label>
-          <div className="gender-buttons">
-            <button
-              className={`gender-button ${
-                gender === "female" ? "selected" : ""
-              }`}
-              onClick={() => handleGenderSelect("female")}
-            >
-              여성
-            </button>
-            <button
-              className={`gender-button ${gender === "male" ? "selected" : ""}`}
-              onClick={() => handleGenderSelect("male")}
-            >
-              남성
-            </button>
+        {/* 생년과 성별을 한 줄로 표시 */}
+        <div className="basic-info-row">
+          <div className="birth-year-input">
+            <label>생년</label>
+            <input
+              type="number"
+              value={birthYear}
+              onChange={(e) => setBirthYear(e.target.value)}
+              placeholder="1990"
+              min="1950"
+              max="2010"
+            />
+            <span>년생</span>
+          </div>
+
+          <div className="gender-selection">
+            <label>성별</label>
+            <div className="gender-buttons">
+              <button
+                className={`gender-button ${
+                  gender === "female" ? "selected" : ""
+                }`}
+                onClick={() => handleGenderSelect("female")}
+              >
+                여성
+              </button>
+              <button
+                className={`gender-button ${
+                  gender === "male" ? "selected" : ""
+                }`}
+                onClick={() => handleGenderSelect("male")}
+              >
+                남성
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* 지역 선택 섹션 */}
-      <div className="region-selection-section">
-        <h3>어디서?</h3>
-        <div className="region-search-container">
-          <RegionSearch
-            onRegionSelect={handleRegionSelect}
-            selectedRegions={selectedRegions}
-            multiple={true}
-            placeholder="지역을 검색하세요"
-            maxRegions={4}
-          />
+        {/* 근무 가능 위치 섹션 */}
+        <div className="region-selection-container">
+          <label>근무 가능 위치</label>
+          <div className="region-hint">최대 4곳까지 구 단위로 선택하세요</div>
+          <div className="region-search-container">
+            <RegionSearch
+              onRegionSelect={handleRegionSelect}
+              selectedRegions={selectedRegions}
+              multiple={true}
+              placeholder="지역을 검색하세요"
+              maxRegions={4}
+            />
+          </div>
         </div>
       </div>
 

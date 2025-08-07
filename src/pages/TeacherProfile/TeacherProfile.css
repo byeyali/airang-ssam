@@ -228,7 +228,7 @@
 /* 개인정보 입력 섹션 */
 .personal-info-section {
   max-width: 800px;
-  margin: 0 auto 50px;
+  margin: 0 auto 80px;
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
   border-radius: 25px;
   padding: 40px;
@@ -237,11 +237,40 @@
   backdrop-filter: blur(10px);
 }
 
+.personal-info-section h3 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2f0005;
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+}
+
+.personal-info-section h3::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  border-radius: 2px;
+}
+
+/* 생년과 성별을 한 줄로 표시 */
+.basic-info-row {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 40px;
+  align-items: flex-end;
+}
+
 .birth-year-input {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-bottom: 30px;
 }
 
 .birth-year-input label {
@@ -260,6 +289,7 @@
   font-family: "Pretendard", sans-serif;
   transition: all 0.3s ease;
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  max-width: 120px;
 }
 
 .birth-year-input input:focus {
@@ -275,6 +305,7 @@
 }
 
 .gender-selection {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -318,36 +349,32 @@
   box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
 }
 
-/* 지역 선택 섹션 */
-.region-selection-section {
-  max-width: 800px;
-  margin: 0 auto 50px;
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  border-radius: 25px;
-  padding: 40px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
+/* 근무 가능 위치 섹션 */
+.region-selection-container {
+  margin-top: 30px;
 }
 
-.region-selection-section h3 {
+.region-selection-container label {
   font-size: 1.5rem;
   font-weight: 700;
   color: #2f0005;
-  margin-bottom: 25px;
-  text-align: center;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.region-hint {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 15px;
+  font-style: italic;
 }
 
 .region-search-container {
   display: flex;
   flex-direction: column;
   gap: 15px;
-}
-
-.region-search-container label {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #2f0005;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 
 /* 액션 버튼 */
@@ -528,6 +555,11 @@
     font-size: 0.9rem;
   }
 
+  .basic-info-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
   .birth-year-input {
     flex-direction: column;
     align-items: flex-start;
@@ -591,7 +623,6 @@
 
   .field-selection-section,
   .personal-info-section,
-  .region-selection-section,
   .file-upload-section {
     padding: 20px 15px;
   }
@@ -640,7 +671,7 @@
 }
 
 .self-introduction-section h3 {
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: #2f0005;
   margin-bottom: 30px;
@@ -662,7 +693,7 @@
 
 .self-introduction-textarea {
   width: calc(100% - 40px);
-  max-width: 600px;
+  max-width: 100%;
   min-height: 120px;
   padding: 20px;
   border: 2px solid #e1e5e9;

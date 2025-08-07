@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { useReview } from "../../contexts/ReviewContext";
 import { useUser } from "../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -64,17 +64,34 @@ function Reviews() {
   const totalPages = Math.ceil(sortedReviews.length / reviewsPerPage);
 
   // 디버깅용 콘솔 로그
+  console.log("=== 페이지네이션 디버깅 ===");
   console.log("총 후기 수:", sortedReviews.length);
   console.log("페이지당 후기 수:", reviewsPerPage);
   console.log("총 페이지 수:", totalPages);
   console.log("현재 페이지:", currentPage);
+  console.log("현재 페이지의 후기들:", currentReviews.length);
+  console.log("페이지네이션 표시 조건:", totalPages > 1);
+  console.log("다음 버튼 비활성화 조건:", currentPage === totalPages);
+  console.log("==========================");
 
   // 페이지 변경 핸들러
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    // 페이지 상단으로 스크롤
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const handlePageChange = useCallback(
+    (pageNumber) => {
+      console.log("페이지 변경 시도:", pageNumber);
+      console.log("총 페이지 수:", totalPages);
+
+      // 유효한 페이지 번호인지 확인
+      if (pageNumber >= 1 && pageNumber <= totalPages) {
+        setCurrentPage(pageNumber);
+        // 페이지 상단으로 스크롤
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        console.log("페이지 변경 완료:", pageNumber);
+      } else {
+        console.log("유효하지 않은 페이지 번호:", pageNumber);
+      }
+    },
+    [totalPages]
+  );
 
   return (
     <div className="reviews-page">
@@ -196,7 +213,7 @@ function Reviews() {
       </div>
 
       {/* 페이지네이션 */}
-      {totalPages > 1 && (
+      {sortedReviews.length > 0 && (
         <div className="pagination">
           <button
             className="pagination-btn"

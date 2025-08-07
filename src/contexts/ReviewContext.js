@@ -20,6 +20,9 @@ const maskName = (name) => {
 
 export const ReviewProvider = ({ children }) => {
   const [reviews, setReviews] = useState(() => {
+    // 로컬 스토리지 초기화 (강제로 새 데이터 사용)
+    localStorage.removeItem("reviews");
+
     // 로컬 스토리지에서 후기 데이터 불러오기
     const savedReviews = localStorage.getItem("reviews");
     if (savedReviews) {
@@ -171,6 +174,54 @@ export const ReviewProvider = ({ children }) => {
           "김태현 쌤은 체육 활동을 정말 잘 가르쳐주시는 분이에요. 축구와 농구를 재미있게 가르쳐주시고, 아이들이 건강하게 운동할 수 있도록 도와주셨어요. 아이가 운동을 좋아하게 되었어요!",
         date: "2024.12.20",
         region: "성북구",
+      },
+      {
+        id: "review_013",
+        userId: "user_013",
+        teacherId: "teacher_013",
+        teacherName: "박서연",
+        maskedName: "김*수",
+        rating: 5,
+        content:
+          "박서연 쌤은 영어와 수학을 정말 잘 가르쳐주시는 분이에요. 아이의 수준에 맞춰서 차근차근 가르쳐주시고, 재미있는 게임을 통해 자연스럽게 학습할 수 있도록 해주셨어요.",
+        date: "2024.12.18",
+        region: "강동구",
+      },
+      {
+        id: "review_014",
+        userId: "user_014",
+        teacherId: "teacher_014",
+        teacherName: "이민호",
+        maskedName: "이*영",
+        rating: 4,
+        content:
+          "이민호 쌤은 체육과 음악을 함께 가르쳐주시는 분이에요. 아이들이 즐겁게 운동하면서 음악도 배울 수 있어서 아이가 정말 좋아했어요. 체계적으로 가르쳐주셔서 감사합니다.",
+        date: "2024.12.15",
+        region: "송파구",
+      },
+      {
+        id: "review_015",
+        userId: "user_015",
+        teacherId: "teacher_015",
+        teacherName: "최지영",
+        maskedName: "박*민",
+        rating: 5,
+        content:
+          "최지영 쌤은 미술과 요리를 정말 잘 가르쳐주시는 분이에요. 아이의 창의력을 키워주시고, 안전하게 요리 활동을 할 수 있도록 도와주셨어요. 아이가 요리를 좋아하게 되었어요!",
+        date: "2024.12.12",
+        region: "영등포구",
+      },
+      {
+        id: "review_016",
+        userId: "user_016",
+        teacherId: "teacher_016",
+        teacherName: "정현우",
+        maskedName: "최*희",
+        rating: 4,
+        content:
+          "정현우 쌤은 수학과 과학을 재미있게 가르쳐주시는 분이에요. 실험을 통해 과학의 원리를 쉽게 이해할 수 있도록 해주시고, 아이가 과학에 대한 관심을 갖게 되었어요.",
+        date: "2024.12.10",
+        region: "구로구",
       },
     ];
   });

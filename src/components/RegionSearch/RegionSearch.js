@@ -331,9 +331,10 @@ const RegionSearch = ({
 
     if (value.trim()) {
       handleSearch(value);
+      setIsOpen(true);
     } else {
       setResults([]);
-      setIsOpen(false);
+      setIsOpen(true);
     }
   };
 
@@ -383,10 +384,12 @@ const RegionSearch = ({
           type="text"
           value={query}
           onChange={handleInputChange}
+          onClick={() => setIsOpen(true)}
+          onFocus={() => setIsOpen(true)}
           placeholder={
             maxRegions && validSelectedRegions.length >= maxRegions
               ? `최대 ${maxRegions}개까지 선택 가능`
-              : placeholder
+              : "(예: 강남구 선택, 강동구 선택...)"
           }
           className="region-search-input"
           disabled={maxRegions && validSelectedRegions.length >= maxRegions}
@@ -435,14 +438,6 @@ const RegionSearch = ({
       {isOpen && !loading && results.length === 0 && query.trim() && (
         <div className="region-dropdown">
           <div className="no-results">검색 결과가 없습니다.</div>
-        </div>
-      )}
-
-      {/* 최대 개수 도달 시 안내 메시지 */}
-      {maxRegions && validSelectedRegions.length >= maxRegions && (
-        <div className="max-regions-message">
-          최대 {maxRegions}개까지 선택 가능합니다. 지역을 제거한 후 다시
-          추가해주세요.
         </div>
       )}
     </div>

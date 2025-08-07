@@ -30,70 +30,99 @@ function SalaryStatusPage() {
       (m) => m.status === "accepted" && m.contractStatus
     );
 
-    const salaryStatus = acceptedMatchings.map((matching) => {
-      let application;
-      if (matching.id === "matching_002") {
-        application = allApplications.find((app) => app.id === "app_002");
-      } else if (matching.id === "matching_003") {
-        application = allApplications.find((app) => app.id === "app_003");
-      } else if (matching.id === "matching_005") {
-        // 박민수 쌤의 두 번째 매칭
-        application = allApplications.find((app) => app.id === "app_007");
-      } else {
-        application = allApplications.find(
-          (app) => app.id === matching.applicationId
+    const salaryStatus = acceptedMatchings
+      .map((matching) => {
+        let application;
+
+        // 매칭 ID에 따른 application 매핑
+        const matchingToApplicationMap = {
+          matching_001: "app_001",
+          matching_002: "app_002",
+          matching_003: "app_003",
+          matching_004: "app_004",
+          matching_005: "app_005",
+          matching_006: "app_006",
+          matching_007: "app_007",
+          matching_008: "app_008",
+          matching_009: "app_009",
+        };
+
+        const applicationId = matchingToApplicationMap[matching.id];
+        application = allApplications.find((app) => app.id === applicationId);
+
+        // 디버깅을 위한 로그
+        console.log(
+          `Matching ${matching.id}: looking for application ${applicationId}, found:`,
+          application?.id
         );
-      }
 
-      // 시급 파싱 개선
-      let hourlyWage = 0;
-      if (application?.payment) {
-        // 쉼표가 있는 숫자 패턴 (예: 20,000)
-        const commaMatch = application.payment.match(/\d{1,3}(?:,\d{3})*/);
-        if (commaMatch) {
-          hourlyWage = parseInt(commaMatch[0].replace(/,/g, ""));
-        } else {
-          // 일반 숫자 패턴 (예: 20000)
-          const numberMatch = application.payment.match(/\d+/);
-          if (numberMatch) {
-            hourlyWage = parseInt(numberMatch[0]);
+        // 시급 파싱 개선
+        let hourlyWage = 0;
+        if (application?.payment) {
+          // "시간 당 15,000" 형식에서 숫자 추출
+          const paymentText = application.payment;
+
+          // "시간 당" 다음에 오는 숫자 추출 (쉼표 포함)
+          const timeWageMatch = paymentText.match(/시간\s*당\s*([\d,]+)/);
+          if (timeWageMatch) {
+            hourlyWage = parseInt(timeWageMatch[1].replace(/,/g, ""));
+          } else {
+            // 일반 숫자 패턴 (예: 15000)
+            const numberMatch = paymentText.match(/(\d{1,3}(?:,\d{3})*)/);
+            if (numberMatch) {
+              hourlyWage = parseInt(numberMatch[1].replace(/,/g, ""));
+            }
           }
+
+          // 디버깅을 위한 로그
+          console.log(
+            `Application ${application?.id}: payment="${application?.payment}", parsed hourlyWage=${hourlyWage}`
+          );
         }
-      }
-      const workingHours = application?.workingHours || "";
-      const hoursPerSession = calculateHoursFromWorkingHours(workingHours);
-      const sessionsPerWeek = calculateSessionsPerWeek(application?.type || "");
-      const dailyWage = hourlyWage * hoursPerSession;
-      const monthlySalary = dailyWage * sessionsPerWeek * 4;
-      const contractMonths = 5;
-      const totalSalary = monthlySalary * contractMonths;
-      const totalSessions = sessionsPerWeek * contractMonths * 4;
 
-      const sessions = [];
-      for (let i = 1; i <= totalSessions; i++) {
-        const sessionDate = new Date();
-        sessionDate.setDate(sessionDate.getDate() + (i - 1) * 2); // 2일마다 수업
+        // application이 없는 경우 기본값 설정
+        if (!application) {
+          console.warn(`No application found for matching ${matching.id}`);
+          return null;
+        }
 
-        sessions.push({
-          sessionNumber: i,
-          date: sessionDate.toLocaleDateString("ko-KR"),
+        const workingHours = application?.workingHours || "";
+        const hoursPerSession = calculateHoursFromWorkingHours(workingHours);
+        const sessionsPerWeek = calculateSessionsPerWeek(
+          application?.type || ""
+        );
+        const dailyWage = hourlyWage * hoursPerSession;
+        const monthlySalary = dailyWage * sessionsPerWeek * 4;
+        const contractMonths = 5;
+        const totalSalary = monthlySalary * contractMonths;
+        const totalSessions = sessionsPerWeek * contractMonths * 4;
+
+        const sessions = [];
+        for (let i = 1; i <= totalSessions; i++) {
+          const sessionDate = new Date();
+          sessionDate.setDate(sessionDate.getDate() + (i - 1) * 2); // 2일마다 수업
+
+          sessions.push({
+            sessionNumber: i,
+            date: sessionDate.toLocaleDateString("ko-KR"),
+            dailyWage: dailyWage,
+            status: i <= 8 ? "지급완료" : i <= 12 ? "지급예정" : "미지급",
+          });
+        }
+
+        return {
+          matchingId: matching.id,
+          parentName: matching.parentName,
+          teacherName: matching.teacherName,
           dailyWage: dailyWage,
-          status: i <= 8 ? "지급완료" : i <= 12 ? "지급예정" : "미지급",
-        });
-      }
-
-      return {
-        matchingId: matching.id,
-        parentName: matching.parentName,
-        teacherName: matching.teacherName,
-        dailyWage: dailyWage,
-        monthlySalary: monthlySalary,
-        totalSalary: totalSalary,
-        contractStatus: matching.contractStatus,
-        sessions: sessions,
-        createdAt: matching.createdAt,
-      };
-    });
+          monthlySalary: monthlySalary,
+          totalSalary: totalSalary,
+          contractStatus: matching.contractStatus,
+          sessions: sessions,
+          createdAt: matching.createdAt,
+        };
+      })
+      .filter(Boolean); // null 값 제거
 
     setSalaryData(salaryStatus);
     setFilteredData(salaryStatus);
@@ -283,12 +312,16 @@ function SalaryStatusPage() {
 
           {filteredData.map((salary, index) => (
             <div key={index} className="table-row">
-              <div className="table-cell">{salary.teacherName}</div>
-              <div className="table-cell">{salary.parentName}</div>
-              <div className="table-cell">
+              <div className="table-cell" data-label="쌤">
+                {salary.teacherName}
+              </div>
+              <div className="table-cell" data-label="부모님">
+                {salary.parentName}
+              </div>
+              <div className="table-cell" data-label="일당">
                 {formatCurrency(salary.dailyWage)}원/일
               </div>
-              <div className="table-cell">
+              <div className="table-cell" data-label="지급 현황">
                 <div className="salary-sessions">
                   <div className="session-summary">
                     <span className="completed-sessions">
@@ -341,13 +374,13 @@ function SalaryStatusPage() {
                   </div>
                 </div>
               </div>
-              <div className="table-cell">
+              <div className="table-cell" data-label="계약 상태">
                 <span className={`contract-status ${salary.contractStatus}`}>
                   {salary.contractStatus === "progress" && "계약 진행중"}
                   {salary.contractStatus === "completed" && "계약 완료"}
                 </span>
               </div>
-              <div className="table-cell">
+              <div className="table-cell" data-label="등록일">
                 {new Date(salary.createdAt).toLocaleDateString("ko-KR")}
               </div>
             </div>
