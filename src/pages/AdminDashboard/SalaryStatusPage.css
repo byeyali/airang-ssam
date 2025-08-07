@@ -174,7 +174,7 @@
 
 .table-header {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 2fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 2fr 1.5fr;
   gap: 20px;
   padding: 20px;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
@@ -187,7 +187,7 @@
 
 .table-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 2fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 2fr 1.5fr;
   gap: 20px;
   padding: 20px;
   background: white;
@@ -221,6 +221,47 @@
   font-weight: 700;
   color: #28a745;
   font-size: 1.1rem;
+}
+
+/* 월 평균 수입 스타일 */
+.table-cell:nth-child(5) {
+  font-weight: 700;
+  color: #4a90e2;
+  font-size: 1.1rem;
+}
+
+/* 수입 정보 스타일 */
+.table-cell:nth-child(5) {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.income-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.monthly-income {
+  color: #4a90e2;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.total-income {
+  color: #ff6b35;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.wage-breakdown {
+  margin-top: 5px;
+}
+
+.wage-breakdown small {
+  color: #666;
+  font-size: 0.8rem;
+  font-weight: 400;
 }
 
 /* 지급 현황 섹션 */
@@ -350,7 +391,7 @@
 @media (max-width: 1024px) {
   .table-header,
   .table-row {
-    grid-template-columns: 1fr 1fr 1fr 1.5fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1.5fr 1.2fr;
     gap: 15px;
   }
 

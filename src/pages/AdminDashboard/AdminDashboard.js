@@ -110,9 +110,25 @@ function AdminDashboard() {
         // 시급 파싱
         let hourlyWage = 15000; // 기본값
         if (application?.payment) {
-          const numberMatch = application.payment.match(/\d{1,3}(?:,\d{3})*/);
-          if (numberMatch) {
-            hourlyWage = parseInt(numberMatch[0].replace(/,/g, ""));
+          // "시간 당 15,000" 형식에서 숫자 추출
+          const paymentText = application.payment;
+
+          // "시간 당" 다음에 오는 숫자 추출 (쉼표 포함)
+          const timeWageMatch = paymentText.match(/시간\s*당\s*([\d,]+)/);
+          if (timeWageMatch) {
+            const parsedWage = parseInt(timeWageMatch[1].replace(/,/g, ""));
+            if (!isNaN(parsedWage)) {
+              hourlyWage = parsedWage;
+            }
+          } else {
+            // 일반 숫자 패턴 (예: 15000)
+            const numberMatch = paymentText.match(/(\d{1,3}(?:,\d{3})*)/);
+            if (numberMatch) {
+              const parsedWage = parseInt(numberMatch[1].replace(/,/g, ""));
+              if (!isNaN(parsedWage)) {
+                hourlyWage = parsedWage;
+              }
+            }
           }
         }
 
@@ -122,8 +138,9 @@ function AdminDashboard() {
         const sessionsPerWeek = calculateSessionsPerWeek(
           application?.type || ""
         );
+        const dailyWage = hourlyWage * hoursPerSession; // 시간당 수당 × 시간
         const totalHours = hoursPerSession * sessionsPerWeek * 4; // 월 4주
-        const monthlyEarnings = hourlyWage * totalHours;
+        const monthlyEarnings = dailyWage * sessionsPerWeek * 4; // 일당 × 주당 횟수 × 4주
         const contractMonths = 5; // 5개월 계약
         const teacherTotalEarnings = monthlyEarnings * contractMonths;
 
@@ -501,7 +518,13 @@ function AdminDashboard() {
                     </div>
                   </div>
                   <div className="table-cell">
-                    {formatCurrency(matching.hourlyWage)}원/시간
+                    {formatCurrency(matching.dailyWage)}원/일
+                    <div className="wage-breakdown">
+                      <small>
+                        ({formatCurrency(matching.hourlyWage)}원/시간 ×{" "}
+                        {matching.hoursPerSession}시간)
+                      </small>
+                    </div>
                   </div>
                   <div className="table-cell">
                     <div className="sessions-info">
@@ -592,8 +615,7 @@ function AdminDashboard() {
               <div className="table-cell">부모님</div>
               <div className="table-cell">쌤</div>
               <div className="table-cell">월별 입금액</div>
-              <div className="table-cell">입금 현황</div>
-              <div className="table-cell">계약 상태</div>
+              <div className="table-cell">총 입금액</div>
             </div>
             {dashboardData.payments.map((payment, index) => (
               <div key={index} className="table-row">
@@ -603,23 +625,10 @@ function AdminDashboard() {
                   {formatCurrency(payment.monthlyAmount)}원/월
                 </div>
                 <div className="table-cell">
-                  <div className="payment-months">
-                    {payment.months.map((month, monthIndex) => (
-                      <div
-                        key={monthIndex}
-                        className={`month-item ${month.status}`}
-                      >
-                        <span className="month-name">{month.month}</span>
-                        <span className="month-status">{month.status}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="table-cell">
-                  <span className={`contract-status ${payment.contractStatus}`}>
-                    {payment.contractStatus === "progress" && "계약 진행중"}
-                    {payment.contractStatus === "completed" && "계약 완료"}
-                  </span>
+                  {formatCurrency(
+                    payment.monthlyAmount * payment.months.length
+                  )}
+                  원
                 </div>
               </div>
             ))}
@@ -655,32 +664,6 @@ function AdminDashboard() {
                     회
                   </span>
                 </div>
-                <div className="summary-item">
-                  <span>지급예정:</span>
-                  <span className="pending-count">
-                    {dashboardData.salaries.reduce(
-                      (sum, salary) =>
-                        sum +
-                        salary.sessions.filter((s) => s.status === "지급예정")
-                          .length,
-                      0
-                    )}
-                    회
-                  </span>
-                </div>
-                <div className="summary-item">
-                  <span>미지급:</span>
-                  <span className="unpaid-count">
-                    {dashboardData.salaries.reduce(
-                      (sum, salary) =>
-                        sum +
-                        salary.sessions.filter((s) => s.status === "미지급")
-                          .length,
-                      0
-                    )}
-                    회
-                  </span>
-                </div>
               </div>
             </div>
           </div>
@@ -689,8 +672,7 @@ function AdminDashboard() {
               <div className="table-cell">쌤</div>
               <div className="table-cell">부모님</div>
               <div className="table-cell">일당</div>
-              <div className="table-cell">지급 현황</div>
-              <div className="table-cell">계약 상태</div>
+              <div className="table-cell">총 급여</div>
             </div>
             {dashboardData.salaries.map((salary, index) => (
               <div key={index} className="table-row">
@@ -700,63 +682,7 @@ function AdminDashboard() {
                   {formatCurrency(salary.dailyWage)}원/일
                 </div>
                 <div className="table-cell">
-                  <div className="salary-sessions">
-                    <div className="session-summary">
-                      <span className="completed-sessions">
-                        지급완료:{" "}
-                        {
-                          salary.sessions.filter((s) => s.status === "지급완료")
-                            .length
-                        }
-                        회
-                      </span>
-                      <span className="pending-sessions">
-                        지급예정:{" "}
-                        {
-                          salary.sessions.filter((s) => s.status === "지급예정")
-                            .length
-                        }
-                        회
-                      </span>
-                      <span className="unpaid-sessions">
-                        미지급:{" "}
-                        {
-                          salary.sessions.filter((s) => s.status === "미지급")
-                            .length
-                        }
-                        회
-                      </span>
-                    </div>
-                    <div className="session-details">
-                      {salary.sessions
-                        .slice(0, 5)
-                        .map((session, sessionIndex) => (
-                          <div
-                            key={sessionIndex}
-                            className={`session-item ${session.status}`}
-                          >
-                            <span className="session-number">
-                              {session.sessionNumber}회
-                            </span>
-                            <span className="session-date">{session.date}</span>
-                            <span className="session-status">
-                              {session.status}
-                            </span>
-                          </div>
-                        ))}
-                      {salary.sessions.length > 5 && (
-                        <div className="more-sessions">
-                          +{salary.sessions.length - 5}회 더...
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="table-cell">
-                  <span className={`contract-status ${salary.contractStatus}`}>
-                    {salary.contractStatus === "progress" && "계약 진행중"}
-                    {salary.contractStatus === "completed" && "계약 완료"}
-                  </span>
+                  {formatCurrency(salary.totalSalary)}원
                 </div>
               </div>
             ))}

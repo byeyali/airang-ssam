@@ -12,8 +12,7 @@ function SalaryStatusPage() {
   const [salaryData, setSalaryData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("latest"); // latest, highest, lowest
-  const [statusFilter, setStatusFilter] = useState("all"); // all, completed, pending, unpaid
+  const [sortBy, setSortBy] = useState("latest"); // latest, highest, monthly, total
 
   useEffect(() => {
     if (user?.type === "admin") {
@@ -57,7 +56,7 @@ function SalaryStatusPage() {
         );
 
         // 시급 파싱 개선
-        let hourlyWage = 0;
+        let hourlyWage = 15000; // 기본값 설정
         if (application?.payment) {
           // "시간 당 15,000" 형식에서 숫자 추출
           const paymentText = application.payment;
@@ -65,12 +64,18 @@ function SalaryStatusPage() {
           // "시간 당" 다음에 오는 숫자 추출 (쉼표 포함)
           const timeWageMatch = paymentText.match(/시간\s*당\s*([\d,]+)/);
           if (timeWageMatch) {
-            hourlyWage = parseInt(timeWageMatch[1].replace(/,/g, ""));
+            const parsedWage = parseInt(timeWageMatch[1].replace(/,/g, ""));
+            if (!isNaN(parsedWage)) {
+              hourlyWage = parsedWage;
+            }
           } else {
             // 일반 숫자 패턴 (예: 15000)
             const numberMatch = paymentText.match(/(\d{1,3}(?:,\d{3})*)/);
             if (numberMatch) {
-              hourlyWage = parseInt(numberMatch[1].replace(/,/g, ""));
+              const parsedWage = parseInt(numberMatch[1].replace(/,/g, ""));
+              if (!isNaN(parsedWage)) {
+                hourlyWage = parsedWage;
+              }
             }
           }
 
@@ -91,35 +96,62 @@ function SalaryStatusPage() {
         const sessionsPerWeek = calculateSessionsPerWeek(
           application?.type || ""
         );
-        const dailyWage = hourlyWage * hoursPerSession;
+        const dailyWage = hourlyWage * hoursPerSession; // 시간당 수당 × 시간
         const monthlySalary = dailyWage * sessionsPerWeek * 4;
         const contractMonths = 5;
         const totalSalary = monthlySalary * contractMonths;
         const totalSessions = sessionsPerWeek * contractMonths * 4;
 
+        // 디버깅을 위한 로그
+        console.log(
+          `Matching ${matching.id}: hourlyWage=${hourlyWage}, hoursPerSession=${hoursPerSession}, dailyWage=${dailyWage}`
+        );
+
         const sessions = [];
+
+        // 매칭별로 다른 지급완료 횟수 설정
+        const completedSessionsMap = {
+          matching_001: 12, // 양연희 - 김가정
+          matching_002: 8, // 김민수 - 박영희
+          matching_003: 15, // 박지영 - 이민수
+          matching_004: 6, // 이준호 - 최지영
+          matching_005: 10, // 최영희 - 한미영
+          matching_006: 4, // 정수진 - 정성훈
+          matching_007: 18, // 양연희 - 김태현 (두 번째 매칭)
+        };
+
+        const completedSessions = completedSessionsMap[matching.id] || 8;
+
         for (let i = 1; i <= totalSessions; i++) {
           const sessionDate = new Date();
           sessionDate.setDate(sessionDate.getDate() + (i - 1) * 2); // 2일마다 수업
 
-          sessions.push({
-            sessionNumber: i,
-            date: sessionDate.toLocaleDateString("ko-KR"),
-            dailyWage: dailyWage,
-            status: i <= 8 ? "지급완료" : i <= 12 ? "지급예정" : "미지급",
-          });
+          // 지급완료만 포함 (지급예정 제거)
+          const status = i <= completedSessions ? "지급완료" : null;
+
+          if (status) {
+            sessions.push({
+              sessionNumber: i,
+              date: sessionDate.toLocaleDateString("ko-KR"),
+              dailyWage: dailyWage,
+              status: status,
+            });
+          }
         }
+
+        // 최신 순으로 정렬 (sessionNumber가 큰 순서대로)
+        sessions.sort((a, b) => b.sessionNumber - a.sessionNumber);
 
         return {
           matchingId: matching.id,
           parentName: matching.parentName,
           teacherName: matching.teacherName,
+          hourlyWage: hourlyWage,
+          hoursPerSession: hoursPerSession,
           dailyWage: dailyWage,
           monthlySalary: monthlySalary,
           totalSalary: totalSalary,
-          contractStatus: matching.contractStatus,
           sessions: sessions,
-          createdAt: matching.createdAt,
         };
       })
       .filter(Boolean); // null 값 제거
@@ -149,35 +181,34 @@ function SalaryStatusPage() {
   };
 
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("ko-KR").format(amount);
+    if (isNaN(amount) || amount === null || amount === undefined) {
+      return "0원";
+    }
+    const numAmount = Number(amount);
+    if (isNaN(numAmount)) {
+      return "0원";
+    }
+    return new Intl.NumberFormat("ko-KR").format(numAmount) + "원";
   };
 
   const handleSearch = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
-    filterData(term, sortBy, statusFilter);
+    filterData(term, sortBy);
   };
 
   const handleSort = (sortType) => {
     setSortBy(sortType);
-    filterData(searchTerm, sortType, statusFilter);
+    filterData(searchTerm, sortType);
   };
 
-  const handleStatusFilter = (status) => {
-    setStatusFilter(status);
-    filterData(searchTerm, sortBy, status);
-  };
-
-  const filterData = (search, sort, status) => {
+  const filterData = (search, sort) => {
     let filtered = salaryData.filter((item) => {
       const matchesSearch =
         item.parentName.toLowerCase().includes(search.toLowerCase()) ||
         item.teacherName.toLowerCase().includes(search.toLowerCase());
 
-      const matchesStatus =
-        status === "all" || item.sessions.some((s) => s.status === status);
-
-      return matchesSearch && matchesStatus;
+      return matchesSearch;
     });
 
     // 정렬
@@ -188,8 +219,11 @@ function SalaryStatusPage() {
       case "highest":
         filtered.sort((a, b) => b.dailyWage - a.dailyWage);
         break;
-      case "lowest":
-        filtered.sort((a, b) => a.dailyWage - b.dailyWage);
+      case "monthly":
+        filtered.sort((a, b) => b.monthlySalary - a.monthlySalary);
+        break;
+      case "total":
+        filtered.sort((a, b) => b.totalSalary - a.totalSalary);
         break;
       default:
         break;
@@ -247,46 +281,18 @@ function SalaryStatusPage() {
                 일당 높은순
               </button>
               <button
-                className={`sort-button ${sortBy === "lowest" ? "active" : ""}`}
-                onClick={() => handleSort("lowest")}
-              >
-                일당 낮은순
-              </button>
-            </div>
-
-            <div className="status-controls">
-              <span>상태:</span>
-              <button
-                className={`status-button ${
-                  statusFilter === "all" ? "active" : ""
+                className={`sort-button ${
+                  sortBy === "monthly" ? "active" : ""
                 }`}
-                onClick={() => handleStatusFilter("all")}
+                onClick={() => handleSort("monthly")}
               >
-                전체
+                월 평균 높은순
               </button>
               <button
-                className={`status-button ${
-                  statusFilter === "지급완료" ? "active" : ""
-                }`}
-                onClick={() => handleStatusFilter("지급완료")}
+                className={`sort-button ${sortBy === "total" ? "active" : ""}`}
+                onClick={() => handleSort("total")}
               >
-                지급완료
-              </button>
-              <button
-                className={`status-button ${
-                  statusFilter === "지급예정" ? "active" : ""
-                }`}
-                onClick={() => handleStatusFilter("지급예정")}
-              >
-                지급예정
-              </button>
-              <button
-                className={`status-button ${
-                  statusFilter === "미지급" ? "active" : ""
-                }`}
-                onClick={() => handleStatusFilter("미지급")}
-              >
-                미지급
+                총 수입 높은순
               </button>
             </div>
           </div>
@@ -306,8 +312,7 @@ function SalaryStatusPage() {
             <div className="table-cell">부모님</div>
             <div className="table-cell">일당</div>
             <div className="table-cell">지급 현황</div>
-            <div className="table-cell">계약 상태</div>
-            <div className="table-cell">등록일</div>
+            <div className="table-cell">수입 정보</div>
           </div>
 
           {filteredData.map((salary, index) => (
@@ -320,6 +325,12 @@ function SalaryStatusPage() {
               </div>
               <div className="table-cell" data-label="일당">
                 {formatCurrency(salary.dailyWage)}원/일
+                <div className="wage-breakdown">
+                  <small>
+                    ({formatCurrency(salary.hourlyWage)}원/시간 ×{" "}
+                    {salary.hoursPerSession}시간)
+                  </small>
+                </div>
               </div>
               <div className="table-cell" data-label="지급 현황">
                 <div className="salary-sessions">
@@ -328,22 +339,6 @@ function SalaryStatusPage() {
                       지급완료:{" "}
                       {
                         salary.sessions.filter((s) => s.status === "지급완료")
-                          .length
-                      }
-                      회
-                    </span>
-                    <span className="pending-sessions">
-                      지급예정:{" "}
-                      {
-                        salary.sessions.filter((s) => s.status === "지급예정")
-                          .length
-                      }
-                      회
-                    </span>
-                    <span className="unpaid-sessions">
-                      미지급:{" "}
-                      {
-                        salary.sessions.filter((s) => s.status === "미지급")
                           .length
                       }
                       회
@@ -374,14 +369,15 @@ function SalaryStatusPage() {
                   </div>
                 </div>
               </div>
-              <div className="table-cell" data-label="계약 상태">
-                <span className={`contract-status ${salary.contractStatus}`}>
-                  {salary.contractStatus === "progress" && "계약 진행중"}
-                  {salary.contractStatus === "completed" && "계약 완료"}
-                </span>
-              </div>
-              <div className="table-cell" data-label="등록일">
-                {new Date(salary.createdAt).toLocaleDateString("ko-KR")}
+              <div className="table-cell" data-label="수입 정보">
+                <div className="income-info">
+                  <div className="monthly-income">
+                    월 평균: {formatCurrency(salary.monthlySalary)}원
+                  </div>
+                  <div className="total-income">
+                    총 수입: {formatCurrency(salary.totalSalary)}원
+                  </div>
+                </div>
               </div>
             </div>
           ))}

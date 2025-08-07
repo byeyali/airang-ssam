@@ -355,6 +355,16 @@
   color: #28a745;
 }
 
+.wage-breakdown {
+  margin-top: 5px;
+}
+
+.wage-breakdown small {
+  color: #666;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
 .contract-status {
   padding: 4px 12px;
   border-radius: 20px;
