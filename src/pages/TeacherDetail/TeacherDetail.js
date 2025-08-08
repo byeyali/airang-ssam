@@ -25,14 +25,16 @@ function TeacherDetail() {
   const getTeacherImage = useCallback((teacherId) => {
     const imageMap = {
       teacher_001: "/img/teacher-kimyouhghee-womam.png", // 김영희
-      teacher_002: "/img/teacher-30-man.png", // 박민수
+      teacher_002: "/img/teacher-man-ball.jpg", // 박민수
       teacher_003: "/img/teacher-kimjiyoung.jpg", // 김지영
       teacher_004: "/img/teacher-math-english.jpg", // 최지영
-      teacher_005: "/img/teacher-studing-with-2children.jpeg", // 한미영
-      teacher_006: "/img/teacher-30-man.png", // 정성훈
-      teacher_007: "/img/teacher-30-man.png", // 김태현
+      teacher_005: "/img/teacher-woman-31-glasses.png", // 한미영
+      teacher_006: "/img/teacher-man-readingbook.png", // 정성훈
+      teacher_007: "/img/kimtashyeon-man.png", // 김태현
       teacher_008: "/img/teacher-30-man.png", // 박성훈
-      teacher_010: "/img/teacher-40-woman.png", // 박O영 (45세)
+      teacher_009: "/img/teacher-20-woman.png", // 이미영
+      teacher_010: "/img/teacher-40-woman.png", // 박지영 (45세)
+      teacher_011: "/img/teacher-60-woman.png", // 최영희 (55세)
     };
     return imageMap[teacherId] || "/img/teacher-30-woman.png";
   }, []);

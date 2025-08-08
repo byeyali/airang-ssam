@@ -9,31 +9,61 @@ import React, {
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { useTeacherSearch } from "../../contexts/TeacherSearchContext";
+import { useUser } from "../../contexts/UserContext";
+import { useApplication } from "../../contexts/ApplicationContext";
+import { getMatchingTeachersByScore } from "../../config/api";
 import "./TeacherSearchModal.css";
 
 const TeacherSearchModal = memo(({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const { searchResults, searchQuery, clearSearchData } = useTeacherSearch();
+  const { user } = useUser();
+  const { getAllApplications } = useApplication();
   const [isLoading, setIsLoading] = useState(true);
   const [hasInitialized, setHasInitialized] = useState(false);
   const initializationRef = useRef(false);
   const modalRef = useRef(null);
 
-  // 메모이제이션된 검색 결과
-  const memoizedSearchResults = useMemo(() => searchResults, [searchResults]);
+  // 메모이제이션된 검색 결과 (성별 매칭 적용)
+  const memoizedSearchResults = useMemo(() => {
+    if (!user || user.type !== "parent" || !searchResults.length) {
+      return searchResults;
+    }
+
+    // 부모의 공고 정보 가져오기
+    const applications = getAllApplications();
+    const parentApplications = applications.filter(
+      (app) => app.parentId === user.id
+    );
+
+    if (parentApplications.length === 0) {
+      return searchResults;
+    }
+
+    // 가장 최근 공고를 기준으로 성별 매칭 점수 계산
+    const latestApplication = parentApplications[0];
+    const teachersWithScores = getMatchingTeachersByScore(
+      latestApplication,
+      searchResults
+    );
+
+    return teachersWithScores;
+  }, [searchResults, user, getAllApplications]);
 
   // 쌤 이미지 매핑 함수
   const getTeacherImage = (teacherId) => {
     const imageMap = {
       teacher_001: "/img/teacher-kimyouhghee-womam.png", // 김영희
-      teacher_002: "/img/teacher-30-man.png", // 박민수
+      teacher_002: "/img/teacher-man-ball.jpg", // 박민수
       teacher_003: "/img/teacher-kimjiyoung.jpg", // 김지영
       teacher_004: "/img/teacher-math-english.jpg", // 최지영
-      teacher_005: "/img/teacher-studing-with-2children.jpeg", // 한미영
-      teacher_006: "/img/teacher-30-man.png", // 정성훈
-      teacher_007: "/img/teacher-30-man.png", // 김태현
+      teacher_005: "/img/teacher-woman-31-glasses.png", // 한미영
+      teacher_006: "/img/teacher-man-readingbook.png", // 정성훈
+      teacher_007: "/img/kimtashyeon-man.png", // 김태현
       teacher_008: "/img/teacher-30-man.png", // 박성훈
-      teacher_010: "/img/teacher-40-woman.png", // 박O영 (45세)
+      teacher_009: "/img/teacher-20-woman.png", // 이미영
+      teacher_010: "/img/teacher-40-woman.png", // 박지영 (45세)
+      teacher_011: "/img/teacher-60-woman.png", // 최영희 (55세)
     };
     return imageMap[teacherId] || "/img/teacher-30-woman.png";
   };
@@ -166,6 +196,22 @@ const TeacherSearchModal = memo(({ isOpen, onClose }) => {
                         </span>
                       ))}
                     </div>
+                    {/* 성별 매칭 점수 표시 */}
+                    {teacher.matchScore && user?.type === "parent" && (
+                      <div className="matching-score">
+                        <div className="score-label">매칭 점수</div>
+                        <div className="score-value">
+                          {Math.round(teacher.matchScore * 100)}점
+                        </div>
+                        {teacher.genderScore && (
+                          <div className="gender-match">
+                            {teacher.genderScore >= 0.8
+                              ? "✅ 성별 우선"
+                              : "⚪ 성별 일반"}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

@@ -236,18 +236,50 @@
   -webkit-backface-visibility: hidden;
 }
 
+/* 스킬 태그 */
 .skill-tag {
-  background: #f8f9fa;
-  color: #495057;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   padding: 4px 8px;
   border-radius: 12px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 500;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  display: inline-block;
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  contain: layout style paint;
+}
+
+/* 매칭 점수 스타일 */
+.matching-score {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-radius: 12px;
+  border: 1px solid #90caf9;
+}
+
+.score-label {
+  font-size: 0.8rem;
+  color: #1976d2;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.score-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1565c0;
+  margin-bottom: 4px;
+}
+
+.gender-match {
+  font-size: 0.75rem;
+  color: #2e7d32;
+  font-weight: 500;
 }
 
 /* 로딩 컨테이너 */

@@ -3,25 +3,30 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useTeacher } from "../../contexts/TeacherContext";
 import { useUser } from "../../contexts/UserContext";
 import { useMatching } from "../../contexts/MatchingContext";
+import { useApplication } from "../../contexts/ApplicationContext";
 import "./TeacherApplications.css";
 
 function TeacherApplications() {
-  const { getAllTeachers, getHomeTeachers } = useTeacher();
+  const { getAllTeachers, getHomeTeachers, getMatchingTeachersWithGender } =
+    useTeacher();
   const { user } = useUser();
   const { createMatching } = useMatching();
+  const { getAllApplications } = useApplication();
 
   // 쌤 이미지 매핑 함수
   const getTeacherImage = (teacherId) => {
     const imageMap = {
       teacher_001: "/img/teacher-kimyouhghee-womam.png", // 김영희 (28세 여성)
-      teacher_002: "/img/teacher-30-man.png", // 박민수 (32세 남성)
+      teacher_002: "/img/teacher-man-ball.jpg", // 박민수 (32세 남성)
       teacher_003: "/img/teacher-kimjiyoung.jpg", // 김지영 (26세 여성)
       teacher_004: "/img/teacher-math-english.jpg", // 최지영 (29세 여성)
-      teacher_005: "/img/teacher-studing-with-2children.jpeg", // 한미영 (31세 여성)
-      teacher_006: "/img/teacher-30-man.png", // 정성훈 (35세 남성)
-      teacher_007: "/img/teacher-30-man.png", // 김태현 (33세 남성)
-      teacher_008: "/img/teacher-30-man.png", // 박성훈 (37세 남성)
-      teacher_010: "/img/teacher-40-woman.png", // 박O영 (45세 여성)
+      teacher_005: "/img/teacher-woman-31-glasses.png", // 한미영 (31세 여성)
+      teacher_006: "/img/teacher-man-readingbook.png", // 정성훈 (35세 남성)
+      teacher_007: "/img/kimtashyeon-man.png", // 김태현 (27세 남성)
+      teacher_008: "/img/teacher-30-man.png", // 박성훈 (30세 남성)
+      teacher_009: "/img/teacher-20-woman.png", // 이미영 (22세 여성)
+      teacher_010: "/img/teacher-40-woman.png", // 박지영 (45세 여성)
+      teacher_011: "/img/teacher-60-woman.png", // 최영희 (55세 여성)
     };
     return imageMap[teacherId] || "/img/teacher-30-woman.png";
   };
@@ -61,6 +66,29 @@ function TeacherApplications() {
     return [];
   };
 
+  // 성별 매칭을 고려한 선생님 조회 (부모용)
+  const getFilteredTeachersWithGenderMatching = () => {
+    if (!user || user.type !== "parent") {
+      return getFilteredTeachers();
+    }
+
+    // 부모의 공고 정보 가져오기
+    const applications = getAllApplications();
+    const parentApplications = applications.filter(
+      (app) => app.parentId === user.id
+    );
+
+    if (parentApplications.length === 0) {
+      return getFilteredTeachers();
+    }
+
+    // 가장 최근 공고를 기준으로 성별 매칭
+    const latestApplication = parentApplications[0];
+    const matchingTeachers = getMatchingTeachersWithGender(latestApplication);
+
+    return matchingTeachers;
+  };
+
   const navigate = useNavigate();
   const location = useLocation();
   const [showMatchingModal, setShowMatchingModal] = useState(false);
@@ -69,9 +97,9 @@ function TeacherApplications() {
   // 홈페이지에서 온 경우와 일반 접근을 구분
   const teachers = location.state?.fromHome
     ? user
-      ? getFilteredTeachers()
+      ? getFilteredTeachersWithGenderMatching()
       : getHomeTeachers()
-    : getFilteredTeachers();
+    : getFilteredTeachersWithGenderMatching();
 
   const handleViewDetail = (teacher) => {
     // 쌤 회원은 상세보기 제한
@@ -283,7 +311,9 @@ function TeacherApplications() {
                     <div className="teacher-header-info">
                       <div className="teacher-profile">
                         <img
-                          src={getTeacherImage(teacher.id)}
+                          src={
+                            teacher.profileImage || getTeacherImage(teacher.id)
+                          }
                           alt="쌤 프로필"
                         />
                       </div>
@@ -309,6 +339,21 @@ function TeacherApplications() {
                         <div className="teacher-certification">
                           {teacher.certification}
                         </div>
+                        {/* 성별 매칭 점수 표시 */}
+                        {teacher.matchScore && user?.type === "parent" && (
+                          <div className="matching-score-info">
+                            <div className="score-badge">
+                              매칭 {Math.round(teacher.matchScore * 100)}점
+                            </div>
+                            {teacher.genderScore && (
+                              <div className="gender-match-badge">
+                                {teacher.genderScore >= 0.8
+                                  ? "✅ 성별 우선"
+                                  : "⚪ 성별 일반"}
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

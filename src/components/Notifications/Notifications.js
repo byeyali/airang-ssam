@@ -45,7 +45,7 @@ function Notifications() {
   const handleTeacherProfile = () => {
     console.log("프로필 관리 클릭됨", user);
     // 현재 로그인한 쌤의 상세 페이지로 이동
-    if (user && user.type === "teacher") {
+    if (user && (user.type === "teacher" || user.type === "tutor")) {
       console.log("쌤 상세 페이지로 이동:", `/teacher-detail/${user.id}`);
       navigate(`/teacher-detail/${user.id}`);
     } else {
@@ -56,6 +56,20 @@ function Notifications() {
 
   const handleMatchings = () => {
     navigate("/matchings");
+    setIsOpen(false);
+  };
+
+  const handleContractManagement = () => {
+    if (user.type === "admin") {
+      navigate("/contract-management");
+    } else if (user.type === "teacher") {
+      navigate("/teacher/contract-management");
+    }
+    setIsOpen(false);
+  };
+
+  const handleParentContractManagement = () => {
+    navigate("/parent/contract-management");
     setIsOpen(false);
   };
 
@@ -132,6 +146,10 @@ function Notifications() {
                   key={notification.id}
                   className={`notification-item ${
                     !notification.isRead ? "unread" : ""
+                  } ${
+                    notification.type === "teacher_lesson_day"
+                      ? "lesson-day"
+                      : ""
                   }`}
                   onClick={() => handleNotificationClick(notification)}
                 >
@@ -142,6 +160,21 @@ function Notifications() {
                     <div className="notification-message">
                       {notification.message}
                     </div>
+                    {notification.type === "teacher_lesson_day" &&
+                      notification.lessonDetails && (
+                        <div className="lesson-details">
+                          <div className="lesson-detail-item">
+                            <span className="lesson-detail-icon">👤</span>
+                            <span>
+                              {notification.lessonDetails.parentName}님
+                            </span>
+                          </div>
+                          <div className="lesson-detail-item">
+                            <span className="lesson-detail-icon">👶</span>
+                            <span>{notification.lessonDetails.childName}</span>
+                          </div>
+                        </div>
+                      )}
                     <div className="notification-time">
                       {new Date(notification.createdAt).toLocaleString("ko-KR")}
                     </div>
@@ -171,7 +204,7 @@ function Notifications() {
                 </button>
               </>
             )}
-            {user.type === "teacher" && (
+            {(user.type === "teacher" || user.type === "tutor") && (
               <>
                 <button
                   onClick={handleTeacherProfile}
@@ -179,17 +212,27 @@ function Notifications() {
                 >
                   프로필 관리
                 </button>
-                <button
-                  onClick={handleTeacherPaymentStatus}
-                  className="notification-link"
-                >
-                  내 수당 현황
+                <button onClick={handleMatchings} className="notification-link">
+                  매칭 요청 확인
                 </button>
               </>
             )}
-            <button onClick={handleMatchings} className="notification-link">
-              매칭 관리
-            </button>
+            {user.type === "admin" && (
+              <button
+                onClick={handleContractManagement}
+                className="notification-link"
+              >
+                계약 관리
+              </button>
+            )}
+            {user.type === "parent" && (
+              <button
+                onClick={handleParentContractManagement}
+                className="notification-link"
+              >
+                내 계약 관리
+              </button>
+            )}
             <button onClick={handleLogout} className="notification-link logout">
               로그아웃
             </button>

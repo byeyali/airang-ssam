@@ -1,4 +1,9 @@
 import React, { createContext, useContext, useState } from "react";
+import {
+  getMatchingTeachersByScore,
+  extractChildGender,
+  calculateGenderMatchScore,
+} from "../config/api";
 
 const TeacherContext = createContext();
 
@@ -252,7 +257,7 @@ export const TeacherProvider = ({ children }) => {
       experience: "6년",
       introduction:
         "영어와 돌봄을 함께하는 특별한 경험을 제공하는 쌤입니다. 자연스러운 영어 환경을 만들어드립니다.",
-      profileImage: "/img/teacher-studing-with-2children.jpeg", // 한미영
+      profileImage: "/img/teacher-woman-31-glasses.png", // 한미영
       birthYear: "1992",
       gender: "female",
       selectedFields: ["english", "afterSchool", "foodCare"],
@@ -637,6 +642,34 @@ export const TeacherProvider = ({ children }) => {
     );
   };
 
+  // 성별 매칭을 고려한 선생님 조회
+  const getMatchingTeachersWithGender = (application) => {
+    if (!application) {
+      return getMatchingTeachers([application?.region?.title]);
+    }
+
+    return getMatchingTeachersByScore(application, teachers);
+  };
+
+  // 아이 성별에 따른 선생님 필터링
+  const getTeachersByChildGender = (childGender) => {
+    if (!childGender) {
+      return teachers;
+    }
+
+    return teachers.filter((teacher) => teacher.gender === childGender);
+  };
+
+  // 성별 매칭 점수 계산
+  const calculateTeacherGenderMatch = (childGender, teacherGender) => {
+    return calculateGenderMatchScore(childGender, teacherGender);
+  };
+
+  // 공고에서 아이 성별 추출
+  const getChildGenderFromApplication = (application) => {
+    return extractChildGender(application);
+  };
+
   const getTeacherById = (id) => {
     return teachers.find((teacher) => teacher.id === id);
   };
@@ -647,6 +680,10 @@ export const TeacherProvider = ({ children }) => {
     getHomeTeachers,
     getTeachersByRegion,
     getMatchingTeachers,
+    getMatchingTeachersWithGender,
+    getTeachersByChildGender,
+    calculateTeacherGenderMatch,
+    getChildGenderFromApplication,
     getTeacherById,
   };
 

@@ -12,6 +12,7 @@ import { TeacherProvider } from "./contexts/TeacherContext";
 import { MatchingProvider } from "./contexts/MatchingContext";
 import { NotificationProvider } from "./contexts/NotificationContext";
 import { TeacherSearchProvider } from "./contexts/TeacherSearchContext";
+import { AdminDashboardProvider } from "./contexts/AdminDashboardContext";
 import Header from "./components/Header/Header";
 import Navigation from "./components/Navigation/Navigation";
 import Footer from "./components/Footer/Footer";
@@ -39,6 +40,10 @@ import SalaryStatusPage from "./pages/AdminDashboard/SalaryStatusPage";
 import TeacherPaymentStatus from "./pages/TeacherPaymentStatus/TeacherPaymentStatus";
 import ParentPaymentHistory from "./pages/ParentPaymentHistory/ParentPaymentHistory";
 import ParentRecharge from "./pages/ParentRecharge/ParentRecharge";
+import ContractManagement from "./pages/AdminDashboard/ContractManagement";
+import ParentContractManagement from "./pages/ParentContractManagement/ParentContractManagement";
+import TeacherContractManagement from "./pages/TeacherContractManagement/TeacherContractManagement";
+import TeacherMyPage from "./pages/TeacherMyPage/TeacherMyPage";
 import "./App.css";
 
 function AppContent() {
@@ -125,6 +130,16 @@ function AppContent() {
             element={<ParentPaymentHistory />}
           />
           <Route path="/parent/recharge" element={<ParentRecharge />} />
+          <Route path="/contract-management" element={<ContractManagement />} />
+          <Route
+            path="/parent/contract-management"
+            element={<ParentContractManagement />}
+          />
+          <Route
+            path="/teacher/contract-management"
+            element={<TeacherContractManagement />}
+          />
+          <Route path="/teacher/my-page" element={<TeacherMyPage />} />
           <Route path="/teacher-search" element={<div />} />
         </Routes>
       </main>
@@ -149,7 +164,9 @@ function App() {
               <MatchingProvider>
                 <NotificationProvider>
                   <TeacherSearchProvider>
-                    <AppContent />
+                    <AdminDashboardProvider>
+                      <AppContent />
+                    </AdminDashboardProvider>
                   </TeacherSearchProvider>
                 </NotificationProvider>
               </MatchingProvider>

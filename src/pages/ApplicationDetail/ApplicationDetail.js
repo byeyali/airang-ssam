@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useApplication } from "../../contexts/ApplicationContext";
 import { useUser } from "../../contexts/UserContext";
+import { extractChildGender } from "../../config/api";
 import "./ApplicationDetail.css";
 
 function ApplicationDetail() {
@@ -38,6 +39,15 @@ function ApplicationDetail() {
     );
   }
 
+  // 아이 성별 추출
+  const childGender = extractChildGender(application);
+  const genderText =
+    childGender === "male"
+      ? "남자아이"
+      : childGender === "female"
+      ? "여자아이"
+      : "성별 미지정";
+
   return (
     <div className="application-detail-page">
       <div className="application-detail-container">
@@ -67,6 +77,12 @@ function ApplicationDetail() {
                 />
               </div>
               <div className="child-avatar-text">아이 아바타</div>
+              {/* 성별 정보 표시 */}
+              {childGender && (
+                <div className="child-gender-info">
+                  <span className="gender-badge">{genderText}</span>
+                </div>
+              )}
             </div>
 
             <div className="application-basic-info">
@@ -91,6 +107,18 @@ function ApplicationDetail() {
               <span className="detail-label">대상:</span>
               <span className="detail-value">{application.target}</span>
             </div>
+
+            {childGender && (
+              <div className="detail-row">
+                <span className="detail-label">아이 성별:</span>
+                <span className="detail-value">
+                  {genderText}
+                  <span className="gender-match-note">
+                    (같은 성별 선생님 우선 매칭)
+                  </span>
+                </span>
+              </div>
+            )}
 
             <div className="detail-row">
               <span className="detail-label">목적:</span>

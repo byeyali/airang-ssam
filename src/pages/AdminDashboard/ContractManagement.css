@@ -1,0 +1,461 @@
+.contract-management-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+.contract-management-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.contract-management-header {
+  background: linear-gradient(135deg, #42a5f5 0%, #ec407a 100%);
+  color: white;
+  padding: 40px;
+  text-align: center;
+}
+
+.contract-management-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.contract-management-header p {
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.contract-filters {
+  display: flex;
+  gap: 10px;
+  padding: 20px 40px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  flex-wrap: wrap;
+}
+
+.filter-button {
+  padding: 10px 20px;
+  border: 2px solid #e9ecef;
+  border-radius: 25px;
+  background: white;
+  color: #6c757d;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.filter-button:hover {
+  border-color: #42a5f5;
+  color: #42a5f5;
+  transform: translateY(-2px);
+}
+
+.filter-button.active {
+  background: linear-gradient(135deg, #42a5f5 0%, #ec407a 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(66, 165, 245, 0.3);
+}
+
+.no-contracts {
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.no-contracts-content h2 {
+  font-size: 1.8rem;
+  color: #6c757d;
+  margin-bottom: 10px;
+}
+
+.no-contracts-content p {
+  color: #adb5bd;
+  font-size: 1.1rem;
+}
+
+.contracts-content {
+  padding: 40px;
+}
+
+.contracts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contract-item {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.contract-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.contract-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.contract-status .status-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  min-width: 100px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  white-space: nowrap;
+  box-sizing: border-box;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.contract-date {
+  color: #6c757d;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.contract-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.contract-message {
+  color: #6c757d;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.contract-summary {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.contract-summary span {
+  background: #f8f9fa;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #495057;
+  font-weight: 500;
+}
+
+.contract-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.view-details-button {
+  background: linear-gradient(135deg, #42a5f5 0%, #ec407a 100%);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(66, 165, 245, 0.3);
+}
+
+.view-details-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(66, 165, 245, 0.4);
+}
+
+/* 상세보기 모달 */
+.detail-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.detail-content {
+  background: white;
+  border-radius: 20px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 30px 20px 30px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.detail-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.close-button:hover {
+  background: #f8f9fa;
+  color: #495057;
+}
+
+.detail-body {
+  padding: 30px;
+}
+
+.detail-section {
+  margin-bottom: 30px;
+}
+
+.detail-section h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 8px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #495057;
+  min-width: 120px;
+}
+
+.detail-value {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.message-content {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  color: #495057;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.progress-button,
+.complete-button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.progress-button {
+  background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+}
+
+.progress-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 152, 0, 0.4);
+}
+
+.complete-button {
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.complete-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+}
+
+.login-required {
+  text-align: center;
+  padding: 60px 20px;
+  color: white;
+}
+
+.login-required h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.login-required p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .contract-management-header {
+    padding: 30px 20px;
+  }
+
+  .contract-management-header h1 {
+    font-size: 2rem;
+  }
+
+  .contract-filters {
+    padding: 15px 20px;
+    gap: 8px;
+  }
+
+  .filter-button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+
+  .contracts-content {
+    padding: 20px;
+  }
+
+  .contract-item {
+    padding: 20px;
+  }
+
+  .contract-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .contract-summary {
+    gap: 10px;
+  }
+
+  .contract-summary span {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  .detail-content {
+    margin: 10px;
+    max-height: 95vh;
+  }
+
+  .detail-header {
+    padding: 20px 20px 15px 20px;
+  }
+
+  .detail-body {
+    padding: 20px;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .progress-button,
+  .complete-button {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .contract-management-page {
+    padding: 10px;
+  }
+
+  .contract-management-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .contract-management-header p {
+    font-size: 1rem;
+  }
+
+  .contract-title {
+    font-size: 1.1rem;
+  }
+
+  .contract-message {
+    font-size: 0.9rem;
+  }
+
+  .contract-summary {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .detail-header h2 {
+    font-size: 1.5rem;
+  }
+}

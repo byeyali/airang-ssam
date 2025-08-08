@@ -228,9 +228,37 @@
 }
 
 .teacher-certification {
-  color: #007bff;
+  color: #666;
   font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* 매칭 점수 정보 스타일 */
+.matching-score-info {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.score-badge {
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.gender-match-badge {
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
   font-weight: 500;
+  display: inline-block;
 }
 
 .teacher-actions {

@@ -148,29 +148,73 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  padding: 15px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 10px;
 }
 
 .matching-status {
   display: flex;
   align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .status-badge {
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 1.4rem;
+  font-weight: 700;
   color: white;
   text-align: center;
-  min-width: 80px;
+  min-width: 120px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  white-space: nowrap;
+  box-sizing: border-box;
+  margin: 0;
+  vertical-align: middle;
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  border: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.status-badge::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.status-badge:hover::before {
+  left: 100%;
 }
 
 .matching-date {
   font-size: 0.95rem;
   color: white;
   font-weight: 500;
+  margin-left: auto;
+  white-space: nowrap;
 }
 
 .matching-info {
@@ -245,35 +289,35 @@
 }
 
 .matching-status-info {
-  font-size: 0.95rem;
+  font-size: 1.3rem;
   color: white;
-  font-style: italic;
-  margin-top: 8px;
-  padding: 8px 12px;
-  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
-  border-radius: 10px;
-  border-left: 3px solid #ffffff;
+  margin-top: 10px;
+  font-weight: 600;
   text-align: center;
+  padding: 8px 12px;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(76, 175, 80, 0.2);
 }
 
 .matching-participants {
-  margin-bottom: 20px;
-  text-align: center;
+  margin-top: 20px;
 }
 
 .participant-info {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
+  gap: 20px;
   justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 .teacher-profile-section {
   display: flex;
   align-items: center;
   gap: 15px;
-  width: 100%;
   justify-content: center;
 }
 
@@ -294,31 +338,117 @@
   color: white;
 }
 
-.teacher-detail-section {
+/* 아이 이미지 스타일 */
+.child-profile-section {
   display: flex;
   align-items: center;
   gap: 15px;
   justify-content: center;
 }
 
+.child-profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffb3d9;
+  box-shadow: 0 4px 15px rgba(255, 179, 217, 0.4);
+  background: white;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.child-info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: center;
+  color: white;
+}
+
+.child-gender-text {
+  font-size: 1rem;
+  color: white;
+  font-weight: 600;
+}
+
+.child-detail-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.child-detail-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffb3d9;
+  box-shadow: 0 2px 8px rgba(255, 179, 217, 0.3);
+  background: white;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.teacher-detail-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
 .teacher-detail-image {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #e3f2fd;
-  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
 }
 
 .contract-status-badge {
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 1.4rem;
+  font-weight: 700;
   color: white;
   text-align: center;
-  margin-top: 5px;
-  display: inline-block;
+  min-width: 120px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  white-space: nowrap;
+  box-sizing: border-box;
+  margin: 0;
+  vertical-align: middle;
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+  border: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.contract-status-badge::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.contract-status-badge:hover::before {
+  left: 100%;
 }
 
 .contract-button,
@@ -750,6 +880,29 @@
   .matching-header {
     flex-direction: column;
     gap: 10px;
+    align-items: stretch;
+  }
+
+  .matching-status {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .status-badge {
+    min-width: 100px;
+    height: 40px;
+    font-size: 1.3rem;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    margin: 0;
+    vertical-align: middle;
+    border-radius: 22px;
+  }
+
+  .matching-date {
+    margin-left: 0;
+    text-align: center;
+    order: -1;
   }
 
   .matching-title {
@@ -785,6 +938,40 @@
   .teacher-detail-image {
     width: 80px;
     height: 80px;
+  }
+
+  .child-profile-image {
+    width: 90px;
+    height: 90px;
+    padding: 6px;
+  }
+
+  .child-detail-image {
+    width: 50px;
+    height: 50px;
+    padding: 3px;
+  }
+
+  .participant-info {
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .contract-status-badge {
+    min-width: 100px;
+    height: 40px;
+    font-size: 1.3rem;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    margin: 0;
+    vertical-align: middle;
+    border-radius: 22px;
+  }
+  .matching-status-info {
+    font-size: 1.1rem;
+    padding: 6px 10px;
   }
 }
 
@@ -859,5 +1046,43 @@
   .teacher-detail-image {
     width: 70px;
     height: 70px;
+  }
+
+  .child-profile-image {
+    width: 70px;
+    height: 70px;
+    padding: 4px;
+  }
+
+  .child-detail-image {
+    width: 40px;
+    height: 40px;
+    padding: 2px;
+  }
+
+  .status-badge {
+    min-width: 90px;
+    height: 36px;
+    font-size: 1.1rem;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    margin: 0;
+    vertical-align: middle;
+    border-radius: 18px;
+  }
+
+  .contract-status-badge {
+    min-width: 90px;
+    height: 36px;
+    font-size: 1.1rem;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    margin: 0;
+    vertical-align: middle;
+    border-radius: 18px;
+  }
+  .matching-status-info {
+    font-size: 1rem;
+    padding: 4px 8px;
   }
 }

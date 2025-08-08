@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useMatching } from "../../contexts/MatchingContext";
 import { useUser } from "../../contexts/UserContext";
@@ -29,6 +29,35 @@ function TeacherMatchings() {
   const getParentAvatar = (parentId) => {
     return "/img/mani-talk2-06.png"; // 기본 부모 아바타
   };
+
+  // 아이 성별에 따른 이미지 매핑 함수
+  const getChildAvatar = (childGender) => {
+    if (childGender === "male") {
+      return "/img/boy.png"; // 남자아이
+    } else if (childGender === "female") {
+      return "/img/girl.png"; // 여자아이
+    } else {
+      return "/img/boyandgirl.jpg"; // 성별 미지정 (남녀 아이 이미지)
+    }
+  };
+
+  // 쌤 이미지 매핑 함수
+  const getTeacherImage = useCallback((teacherId) => {
+    const imageMap = {
+      teacher_001: "/img/teacher-kimyouhghee-womam.png", // 김영희
+      teacher_002: "/img/teacher-man-ball.jpg", // 박민수
+      teacher_003: "/img/teacher-kimjiyoung.jpg", // 김지영
+      teacher_004: "/img/teacher-math-english.jpg", // 최지영
+      teacher_005: "/img/teacher-woman-31-glasses.png", // 한미영
+      teacher_006: "/img/teacher-man-readingbook.png", // 정성훈
+      teacher_007: "/img/kimtashyeon-man.png", // 김태현
+      teacher_008: "/img/teacher-30-man.png", // 박성훈
+      teacher_009: "/img/teacher-20-woman.png", // 이미영
+      teacher_010: "/img/teacher-40-woman.png", // 박지영 (45세)
+      teacher_011: "/img/teacher-60-woman.png", // 최영희 (55세)
+    };
+    return imageMap[teacherId] || "/img/teacher-30-woman.png";
+  }, []);
 
   const matchings = user ? getMatchingRequestsForTeacher(user.id) : [];
 
@@ -186,16 +215,6 @@ function TeacherMatchings() {
               {matchings.map((matching) => (
                 <div key={matching.id} className="matching-item">
                   <div className="matching-header">
-                    <div className="matching-status">
-                      <span
-                        className="status-badge"
-                        style={{
-                          backgroundColor: getStatusColor(matching.status),
-                        }}
-                      >
-                        {getStatusText(matching.status)}
-                      </span>
-                    </div>
                     <div className="matching-date">
                       {new Date(matching.createdAt).toLocaleDateString("ko-KR")}
                     </div>
@@ -227,18 +246,37 @@ function TeacherMatchings() {
 
                   <div className="matching-participants">
                     <div className="participant-info">
+                      {/* 아이 이미지 섹션 */}
+                      <div className="child-profile-section">
+                        <img
+                          src={getChildAvatar(matching.childGender)}
+                          alt="아이 아바타"
+                          className="child-profile-image"
+                        />
+                        <div className="child-info-text">
+                          <span className="participant-label">돌봄 대상:</span>
+                          <span className="child-gender-text">
+                            {matching.childGender === "male"
+                              ? "남자아이"
+                              : matching.childGender === "female"
+                              ? "여자아이"
+                              : "성별 미지정"}
+                          </span>
+                        </div>
+                      </div>
+
                       <div className="teacher-profile-section">
                         <img
-                          src={getParentAvatar(matching.parentId)}
-                          alt="부모님 아바타"
+                          src={getTeacherImage(matching.teacherId)}
+                          alt="쌤 프로필"
                           className="teacher-profile-image"
                         />
                         <div className="teacher-info-text">
                           <span className="participant-label">
-                            요청한 부모:
+                            매칭 중인 쌤:
                           </span>
                           <span className="participant-name">
-                            {matching.parentName}
+                            {matching.teacherName}
                           </span>
                           {getContractStatusText(matching.id) && (
                             <span
@@ -313,6 +351,23 @@ function TeacherMatchings() {
                     <span className="detail-value">
                       {selectedMatching.parentName}
                     </span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">돌봄 대상:</span>
+                    <div className="child-detail-section">
+                      <img
+                        src={getChildAvatar(selectedMatching.childGender)}
+                        alt="아이 아바타"
+                        className="child-detail-image"
+                      />
+                      <span className="detail-value">
+                        {selectedMatching.childGender === "male"
+                          ? "남자아이"
+                          : selectedMatching.childGender === "female"
+                          ? "여자아이"
+                          : "성별 미지정"}
+                      </span>
+                    </div>
                   </div>
                   <div className="detail-row">
                     <span className="detail-label">공고 정보:</span>
