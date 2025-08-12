@@ -25,7 +25,7 @@ import TeacherProfile from "./pages/TeacherProfile/TeacherProfile";
 import Applications from "./pages/Applications/Applications";
 import TeacherApplications from "./pages/TeacherApplications/TeacherApplications";
 import Reviews from "./pages/Reviews/Reviews";
-import Feedback from "./pages/Feedback/Feedback";
+
 import Matchings from "./pages/Matchings/Matchings";
 import ParentService from "./pages/ParentService/ParentService";
 import TeacherService from "./pages/TeacherService/TeacherService";
@@ -44,6 +44,7 @@ import ContractManagement from "./pages/AdminDashboard/ContractManagement";
 import ParentContractManagement from "./pages/ParentContractManagement/ParentContractManagement";
 import TeacherContractManagement from "./pages/TeacherContractManagement/TeacherContractManagement";
 import TeacherMyPage from "./pages/TeacherMyPage/TeacherMyPage";
+import ParentMyPage from "./pages/ParentMyPage/ParentMyPage";
 import "./App.css";
 
 function AppContent() {
@@ -105,7 +106,7 @@ function AppContent() {
             element={<TeacherApplications />}
           />
           <Route path="/reviews" element={<Reviews />} />
-          <Route path="/feedback" element={<Feedback />} />
+
           <Route path="/matchings" element={<Matchings />} />
           <Route path="/parent-service" element={<ParentService />} />
           <Route path="/teacher-service" element={<TeacherService />} />
@@ -140,6 +141,8 @@ function AppContent() {
             element={<TeacherContractManagement />}
           />
           <Route path="/teacher/my-page" element={<TeacherMyPage />} />
+          <Route path="/parent/my-page" element={<ParentMyPage />} />
+          <Route path="/my-page" element={<ParentMyPage />} />
           <Route path="/teacher-search" element={<div />} />
         </Routes>
       </main>

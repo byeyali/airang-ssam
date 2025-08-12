@@ -1,15 +1,69 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
 import "./ParentService.css";
 
 function ParentService() {
   const navigate = useNavigate();
+  const { user } = useUser();
 
   const handleNavigate = (path) => {
     // 페이지 이동 시 스크롤을 상단으로 이동
     window.scrollTo(0, 0);
     navigate(path);
   };
+
+  // 디버깅을 위한 로그
+  console.log("ParentService - 현재 사용자 정보:", user);
+  console.log("ParentService - 사용자 타입:", user?.type);
+
+  // 접근 권한 확인
+  if (!user) {
+    return (
+      <div className="parent-service-page">
+        <div className="service-container">
+          <div className="access-denied">
+            <h2>로그인이 필요합니다</h2>
+            <p>부모님 서비스 페이지를 이용하려면 로그인해주세요.</p>
+            <button onClick={() => navigate("/login")} className="login-button">
+              로그인하기
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 부모 회원 타입 확인 (여러 가능한 타입 허용)
+  const isParentUser =
+    user.type === "parent" || user.type === "Parent" || user.type === "PARENT";
+
+  if (!isParentUser) {
+    console.log("ParentService - 부모 회원이 아님:", user.type);
+    return (
+      <div className="parent-service-page">
+        <div className="service-container">
+          <div className="access-denied">
+            <h2>접근 권한이 없습니다</h2>
+            <p>부모님 서비스 페이지는 부모 회원만 이용할 수 있습니다.</p>
+            <p>
+              현재 로그인된 계정:{" "}
+              {user.type === "teacher" || user.type === "tutor"
+                ? "선생님"
+                : user.type === "admin"
+                ? "관리자"
+                : "기타"}{" "}
+              계정
+            </p>
+            <p>사용자 타입: {user.type}</p>
+            <button onClick={() => navigate("/login")} className="login-button">
+              부모님 계정으로 로그인하기
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="parent-service-page">
@@ -149,6 +203,37 @@ function ParentService() {
                 <p>보육교사, 사회복지사 등 관련 자격증을 보유한 쌤들입니다</p>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* 부모 회원 마이페이지 메뉴 */}
+        <div className="parent-mypage-section">
+          <h3>내 정보 관리</h3>
+          <div className="mypage-grid">
+            <button
+              onClick={() => handleNavigate("/my-page")}
+              className="mypage-card"
+            >
+              <div className="mypage-icon">🏠</div>
+              <h4>마이 페이지</h4>
+              <p>내 공고, 매칭, 결제 내역을 한 번에 관리하세요</p>
+            </button>
+            <button
+              onClick={() => handleNavigate("/parent/payment-history")}
+              className="mypage-card"
+            >
+              <div className="mypage-icon">💰</div>
+              <h4>내 지출 내역</h4>
+              <p>결제 내역과 지출 현황을 확인하세요</p>
+            </button>
+            <button
+              onClick={() => handleNavigate("/parent/contract-management")}
+              className="mypage-card"
+            >
+              <div className="mypage-icon">📄</div>
+              <h4>내 계약 관리</h4>
+              <p>진행 중인 계약과 매칭 현황을 확인하세요</p>
+            </button>
           </div>
         </div>
 

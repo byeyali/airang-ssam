@@ -334,6 +334,108 @@
   box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
 }
 
+/* 부모 회원 마이페이지 섹션 */
+.parent-mypage-section {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.parent-mypage-section h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.mypage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.mypage-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: none;
+  border-radius: 15px;
+  padding: 30px 25px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.mypage-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 107, 107, 0.2);
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe3e3 100%);
+}
+
+.mypage-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.mypage-card h4 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.mypage-card p {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* 접근 거부 페이지 스타일 */
+.access-denied {
+  text-align: center;
+  padding: 60px 40px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  margin: 40px 0;
+}
+
+.access-denied h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ff6b6b;
+  margin-bottom: 20px;
+}
+
+.access-denied p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.login-button {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  margin-top: 20px;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .service-container {
@@ -353,12 +455,14 @@
   .service-process,
   .service-types,
   .safety-guarantee,
+  .parent-mypage-section,
   .service-cta {
     padding: 30px 20px;
   }
 
   .features-grid,
-  .types-grid {
+  .types-grid,
+  .mypage-grid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
@@ -397,7 +501,8 @@
   .service-features h3,
   .service-process h3,
   .service-types h3,
-  .safety-guarantee h3 {
+  .safety-guarantee h3,
+  .parent-mypage-section h3 {
     font-size: 1.5rem;
   }
 

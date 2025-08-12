@@ -240,25 +240,25 @@ function TeacherPaymentStatus() {
           },
           "b@abc.com": {
             name: "김가정",
-            child: "김민수 (8세, 초등학교 2학년)",
+            child: "김가정님 댁",
           },
           "f@abc.com": {
             name: "정지영",
-            child: "정현우 (10세, 초등학교 4학년)",
+            child: "정지영님 댁",
           },
           "h@abc.com": {
             name: "한지민",
-            child: "한소희 (8세, 초등학교 2학년)",
+            child: "한지민님 댁",
           },
           "teacher2@abc.com": {
             name: "최민수",
-            child: "최서연 (7세, 초등학교 1학년)",
+            child: "최민수님 댁",
           },
         };
 
         const currentParent = parentInfo[user.email] || {
           name: "부모님",
-          child: "아이",
+          child: "부모님 댁",
         };
 
         paymentDataArray.push({
@@ -421,7 +421,7 @@ function TeacherPaymentStatus() {
     switch (teacherEmail) {
       case "g@abc.com": // 박민수 쌤
         return generateParkMinSuData();
-      case "b@abc.com": // 양연희 쌤
+      case "b@abc.com": // 김영희 쌤
         return generateYangYeonHeeData();
       case "teacher2@abc.com": // 박민수 쌤 (다른 계정)
         return generateParkMinSuData2();
@@ -483,7 +483,7 @@ function TeacherPaymentStatus() {
     return lessons;
   };
 
-  // 양연희 쌤 데이터 (b@abc.com)
+  // 김영희 쌤 데이터 (b@abc.com)
   const generateYangYeonHeeData = () => {
     const lessons = [];
     const startDate = new Date("2025-01-01");

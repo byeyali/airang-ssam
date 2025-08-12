@@ -1,46 +1,52 @@
+/* 계약 관리 페이지 스타일 */
 .contract-management-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 50%, #fff8e1 100%);
   padding: 20px;
-  font-family: "Noto Sans KR", sans-serif;
 }
 
 .contract-management-container {
   max-width: 1200px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  backdrop-filter: blur(10px);
+  padding: 40px 20px;
 }
 
 .contract-management-header {
-  background: linear-gradient(135deg, #42a5f5 0%, #ec407a 100%);
-  color: white;
-  padding: 40px;
   text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 30px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
 }
 
 .contract-management-header h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0 0 10px 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-size: 2.8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 50%, #64b5f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 15px;
 }
 
 .contract-management-header p {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  color: #6c757d;
   margin: 0;
-  opacity: 0.9;
+  font-weight: 500;
 }
 
 .contract-filters {
   display: flex;
   gap: 10px;
   padding: 20px 40px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
+  margin-bottom: 30px;
   flex-wrap: wrap;
 }
 
@@ -57,74 +63,97 @@
 }
 
 .filter-button:hover {
-  border-color: #42a5f5;
-  color: #42a5f5;
+  border-color: #2196f3;
+  color: #2196f3;
   transform: translateY(-2px);
 }
 
 .filter-button.active {
-  background: linear-gradient(135deg, #42a5f5 0%, #ec407a 100%);
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
   color: white;
   border-color: transparent;
-  box-shadow: 0 4px 15px rgba(66, 165, 245, 0.3);
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
 }
 
 .no-contracts {
-  padding: 60px 40px;
   text-align: center;
+  padding: 80px 40px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
 }
 
 .no-contracts-content h2 {
-  font-size: 1.8rem;
-  color: #6c757d;
-  margin-bottom: 10px;
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 20px;
 }
 
 .no-contracts-content p {
-  color: #adb5bd;
-  font-size: 1.1rem;
+  color: #6c757d;
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  font-weight: 500;
 }
 
 .contracts-content {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
   padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
 }
 
 .contracts-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
 }
 
 .contract-item {
-  background: white;
-  border-radius: 15px;
-  padding: 25px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e9ecef;
+  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  border: 2px solid #e3f2fd;
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .contract-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  border-color: #ffffff;
+  background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
 }
 
 .contract-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  padding: 15px 20px;
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .contract-status .status-badge {
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 1.4rem;
+  font-weight: 700;
   color: white;
   text-align: center;
-  min-width: 100px;
-  height: 35px;
+  min-width: 120px;
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,26 +162,102 @@
   box-sizing: border-box;
   margin: 0;
   vertical-align: middle;
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  border: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.contract-status .status-badge::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.contract-status .status-badge:hover::before {
+  left: 100%;
 }
 
 .contract-date {
-  color: #6c757d;
-  font-size: 0.9rem;
+  color: white;
+  font-size: 0.95rem;
   font-weight: 500;
+  margin-left: auto;
+  white-space: nowrap;
 }
 
 .contract-title {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 10px;
+  color: white;
+  margin-bottom: 15px;
+  line-height: 1.4;
 }
 
 .contract-message {
-  color: #6c757d;
-  font-size: 1rem;
+  color: white;
+  font-size: 1.3rem;
   margin-bottom: 15px;
   line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  padding: 25px 35px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  border: 2px solid #e1f5fe;
+  box-sizing: border-box;
+  overflow: visible;
+  position: relative;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  font-family: "Lora", serif;
+  font-style: italic;
+  font-weight: 600;
+  color: #333;
+}
+
+.contract-message::before {
+  content: '"';
+  position: absolute;
+  top: -5px;
+  left: 10px;
+  font-size: 4rem;
+  color: #2196f3;
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+  text-shadow: 2px 2px 4px rgba(33, 150, 243, 0.2);
+  transform: rotate(-3deg);
+  z-index: 1;
+}
+
+.contract-message::after {
+  content: '"';
+  position: absolute;
+  bottom: -10px;
+  right: 10px;
+  font-size: 4rem;
+  color: #2196f3;
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+  text-shadow: 2px 2px 4px rgba(33, 150, 243, 0.2);
+  transform: rotate(3deg);
+  z-index: 1;
 }
 
 .contract-summary {
@@ -160,10 +265,14 @@
   gap: 20px;
   flex-wrap: wrap;
   margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .contract-summary span {
-  background: #f8f9fa;
+  background: rgba(255, 255, 255, 0.9);
   padding: 8px 12px;
   border-radius: 8px;
   font-size: 0.9rem;
@@ -177,21 +286,21 @@
 }
 
 .view-details-button {
-  background: linear-gradient(135deg, #42a5f5 0%, #ec407a 100%);
+  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
   color: white;
   border: none;
   padding: 12px 25px;
-  border-radius: 25px;
+  border-radius: 20px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(66, 165, 245, 0.3);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
 }
 
 .view-details-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(66, 165, 245, 0.4);
+  box-shadow: 0 10px 30px rgba(33, 150, 243, 0.5);
 }
 
 /* 상세보기 모달 */
@@ -210,13 +319,14 @@
 }
 
 .detail-content {
-  background: white;
-  border-radius: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
   max-width: 600px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  border: 2px solid #e1f5fe;
 }
 
 .detail-header {
@@ -224,35 +334,37 @@
   justify-content: space-between;
   align-items: center;
   padding: 30px 30px 20px 30px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid #e1f5fe;
 }
 
 .detail-header h2 {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #2c3e50;
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin: 0;
 }
 
 .close-button {
-  background: none;
+  background: rgba(33, 150, 243, 0.1);
   border: none;
-  font-size: 2rem;
-  color: #6c757d;
-  cursor: pointer;
-  padding: 0;
+  color: #2196f3;
+  font-size: 24px;
   width: 40px;
   height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
   transition: all 0.3s ease;
 }
 
 .close-button:hover {
-  background: #f8f9fa;
-  color: #495057;
+  background: rgba(33, 150, 243, 0.2);
+  transform: scale(1.1);
 }
 
 .detail-body {
@@ -263,38 +375,47 @@
   margin-bottom: 30px;
 }
 
+.detail-section:last-child {
+  margin-bottom: 0;
+}
+
 .detail-section h3 {
   font-size: 1.3rem;
   font-weight: 700;
   color: #2c3e50;
   margin-bottom: 15px;
-  border-bottom: 2px solid #e9ecef;
   padding-bottom: 8px;
+  border-bottom: 2px solid #e1f5fe;
 }
 
 .detail-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #f8f9fa;
+  margin-bottom: 12px;
+  padding: 10px 0;
 }
 
 .detail-label {
+  font-size: 1rem;
+  color: #6c757d;
   font-weight: 600;
-  color: #495057;
-  min-width: 120px;
+  min-width: 100px;
 }
 
 .detail-value {
+  font-size: 1rem;
   color: #2c3e50;
   font-weight: 500;
+  text-align: right;
+  flex: 1;
 }
 
 .message-content {
-  background: #f8f9fa;
+  background: rgba(225, 245, 254, 0.8);
+  border-radius: 15px;
   padding: 20px;
-  border-radius: 10px;
+  border: 1px solid #e1f5fe;
   color: #495057;
   line-height: 1.6;
   font-size: 1rem;
@@ -311,127 +432,150 @@
 .complete-button {
   padding: 12px 25px;
   border: none;
-  border-radius: 25px;
+  border-radius: 20px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-width: 200px;
+  min-width: 120px;
 }
 
 .progress-button {
   background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.3);
 }
 
 .progress-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 152, 0, 0.4);
+  box-shadow: 0 10px 30px rgba(255, 152, 0, 0.4);
 }
 
 .complete-button {
   background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
 }
 
 .complete-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
 }
 
 .login-required {
   text-align: center;
-  padding: 60px 20px;
-  color: white;
+  padding: 80px 40px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
 }
 
 .login-required h2 {
   font-size: 2rem;
-  margin-bottom: 15px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 20px;
 }
 
 .login-required p {
-  font-size: 1.1rem;
-  opacity: 0.9;
+  font-size: 1.2rem;
+  color: #6c757d;
+  font-weight: 500;
 }
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
-  .contract-management-header {
-    padding: 30px 20px;
+  .contract-management-container {
+    padding: 20px 10px;
   }
 
   .contract-management-header h1 {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
-  .contract-filters {
-    padding: 15px 20px;
-    gap: 8px;
-  }
-
-  .filter-button {
-    padding: 8px 16px;
-    font-size: 0.8rem;
-  }
-
-  .contracts-content {
-    padding: 20px;
+  .contract-management-header p {
+    font-size: 1rem;
   }
 
   .contract-item {
-    padding: 20px;
-  }
-
-  .contract-header {
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
+    padding: 15px;
   }
 
   .contract-summary {
     gap: 10px;
   }
 
-  .contract-summary span {
-    font-size: 0.8rem;
-    padding: 6px 10px;
-  }
-
   .detail-content {
-    margin: 10px;
-    max-height: 95vh;
-  }
-
-  .detail-header {
-    padding: 20px 20px 15px 20px;
-  }
-
-  .detail-body {
-    padding: 20px;
-  }
-
-  .detail-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
+    width: 95%;
+    max-height: 90vh;
   }
 
   .action-buttons {
     flex-direction: column;
+    gap: 10px;
   }
 
   .progress-button,
   .complete-button {
-    min-width: 100%;
+    width: 100%;
+  }
+
+  .contract-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .contract-status .status-badge {
+    min-width: 100px;
+    height: 40px;
+    font-size: 1.3rem;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    margin: 0;
+    vertical-align: middle;
+    border-radius: 22px;
+  }
+
+  .contract-date {
+    margin-left: 0;
+    text-align: center;
+    order: -1;
+  }
+
+  .contract-title {
+    text-align: center;
+  }
+
+  .contract-message {
+    font-size: 1.1rem;
+    padding: 20px 25px;
+    font-family: "Lora", serif;
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .detail-label {
+    font-size: 0.9rem;
+  }
+
+  .detail-value {
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
-  .contract-management-page {
-    padding: 10px;
+  .contract-management-header {
+    padding: 30px 20px;
   }
 
   .contract-management-header h1 {
@@ -439,7 +583,7 @@
   }
 
   .contract-management-header p {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .contract-title {
@@ -457,5 +601,16 @@
 
   .detail-header h2 {
     font-size: 1.5rem;
+  }
+
+  .contract-status .status-badge {
+    min-width: 90px;
+    height: 36px;
+    font-size: 1.1rem;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    margin: 0;
+    vertical-align: middle;
+    border-radius: 18px;
   }
 }

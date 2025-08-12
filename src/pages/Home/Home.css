@@ -19,8 +19,8 @@
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 40px;
+  justify-content: center;
+  gap: 80px;
 }
 
 .hero-text h1 {
@@ -29,12 +29,14 @@
   color: #ff6b6b;
   margin-bottom: 20px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  padding-left: 60px;
 }
 
 .hero-text p {
   font-size: 1.3rem;
   color: #666;
   margin: 0;
+  padding-left: 60px;
 }
 
 .hero-image img {
@@ -48,7 +50,8 @@
 .hero-video {
   width: 80%;
   max-width: 320px;
-  margin: 0 auto;
+  margin: 0;
+  padding-right: 60px;
 }
 
 .hero-video-element {
@@ -67,7 +70,7 @@
 
 /* 서비스 연결 버튼 섹션 */
 .service-links-section {
-  padding: 40px 20px;
+  padding: 60px 20px;
   margin-bottom: 40px;
 }
 
@@ -82,7 +85,7 @@
 .service-link-card {
   background: white;
   border-radius: 10px;
-  padding: 10px 8px;
+  padding: 20px 15px;
   text-align: center;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -114,7 +117,7 @@
 
 .service-link-icon {
   font-size: 0.2rem;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   display: block;
 }
 
@@ -126,17 +129,17 @@
 }
 
 .service-link-card h3 {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #333;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .service-link-card p {
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   color: #666;
   line-height: 1.4;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 
 .service-link-arrow {
@@ -364,20 +367,10 @@
 }
 
 .new-text {
-  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-  from {
-    text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700, 0 0 15px #ffd700;
-  }
-  to {
-    text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700;
-  }
+  color: #ffd700;
+  font-weight: 700;
+  font-size: 0.9em;
+  margin-right: 8px;
 }
 
 .applications-grid {
@@ -764,6 +757,7 @@
 
   .hero-text h1 {
     font-size: 2.5rem;
+    padding-left: 40px;
   }
 
   .hero-image img {
@@ -803,14 +797,16 @@
 @media (max-width: 480px) {
   .hero-text h1 {
     font-size: 2rem;
+    padding-left: 30px;
   }
 
   .hero-text p {
     font-size: 1.1rem;
+    padding-left: 30px;
   }
 
   .service-link-card {
-    padding: 8px 5px;
+    padding: 15px 10px;
   }
 
   .service-link-icon {
@@ -823,11 +819,11 @@
   }
 
   .service-link-card h3 {
-    font-size: 1rem;
+    font-size: 1.3rem;
   }
 
   .service-link-card p {
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
 
   .reviews-title,

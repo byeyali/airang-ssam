@@ -111,13 +111,13 @@ function SalaryStatusPage() {
 
         // 매칭별로 다른 지급완료 횟수 설정
         const completedSessionsMap = {
-          matching_001: 12, // 양연희 - 김가정
+          matching_001: 12, // 김영희 - 김가정
           matching_002: 8, // 김민수 - 박영희
           matching_003: 15, // 박지영 - 이민수
           matching_004: 6, // 이준호 - 최지영
           matching_005: 10, // 최영희 - 한미영
           matching_006: 4, // 정수진 - 정성훈
-          matching_007: 18, // 양연희 - 김태현 (두 번째 매칭)
+          matching_007: 18, // 김영희 - 김태현 (두 번째 매칭)
         };
 
         const completedSessions = completedSessionsMap[matching.id] || 8;

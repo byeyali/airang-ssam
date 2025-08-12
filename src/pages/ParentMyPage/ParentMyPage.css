@@ -1,0 +1,701 @@
+/* 부모 회원 마이페이지 스타일 */
+.parent-my-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 50%, #fff8e1 100%);
+  padding: 20px;
+}
+
+.parent-my-page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* 페이지 헤더 */
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 30px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
+}
+
+.page-header h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 50%, #64b5f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 15px;
+}
+
+.page-header p {
+  font-size: 1.2rem;
+  color: #6c757d;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* 탭 네비게이션 */
+.tab-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  padding: 20px;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
+}
+
+.tab-button {
+  background: #f8f9fa;
+  color: #6c757d;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+  background: #e9ecef;
+  transform: translateY(-2px);
+}
+
+.tab-button.active {
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+/* 탭 컨텐츠 */
+.tab-content {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
+}
+
+/* 섹션 헤더 */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e1f5fe;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.view-all-button {
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.view-all-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+}
+
+.add-application-button {
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.add-application-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+}
+
+/* 빈 상태 */
+.empty-state {
+  text-align: center;
+  padding: 80px 40px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
+}
+
+.empty-state p {
+  font-size: 1.2rem;
+  color: #6c757d;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* 카드 스타일 */
+.application-card,
+.matching-card,
+.payment-card,
+.contract-card {
+  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  border: 2px solid #e3f2fd;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.application-card:hover,
+.matching-card:hover,
+.payment-card:hover,
+.contract-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  border-color: #ffffff;
+  background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+}
+
+/* 카드 헤더 */
+.application-header,
+.matching-header,
+.payment-header,
+.contract-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px 20px;
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.application-header h3,
+.matching-header h3,
+.payment-header h3,
+.contract-header h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* 상태 배지 */
+.status-badge {
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  min-width: 120px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  white-space: nowrap;
+  box-sizing: border-box;
+  margin: 0;
+  vertical-align: middle;
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  border: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.status-badge::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.status-badge:hover::before {
+  left: 100%;
+}
+
+/* 토글 스위치 컨테이너 */
+.status-toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+}
+
+/* 토글 스위치 */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: 0.3s;
+  border-radius: 34px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  border-color: #2196f3;
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(26px);
+}
+
+.toggle-switch:hover .toggle-slider {
+  box-shadow: 0 0 8px rgba(33, 150, 243, 0.4);
+}
+
+.toggle-switch input:checked:hover .toggle-slider {
+  box-shadow: 0 0 12px rgba(33, 150, 243, 0.6);
+}
+
+/* 매칭 카드 특별 스타일 */
+.matching-card {
+  border: 2px solid #e1f5fe;
+  transition: all 0.3s ease;
+}
+
+.matching-card:hover {
+  border-color: #4caf50;
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.2);
+}
+
+/* 매칭 카드 헤더 강화 */
+.matching-card .matching-header {
+  padding: 20px 25px 15px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.matching-card .matching-header h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 10px 0;
+}
+
+/* 매칭 카드 상세 정보 강화 */
+.matching-card .matching-details {
+  padding: 20px 25px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.matching-card .matching-details p {
+  font-size: 1.1rem;
+  margin: 12px 0;
+  line-height: 1.5;
+  color: white;
+}
+
+.matching-card .matching-details strong {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+}
+
+/* 수락됨 상태 특별 스타일 */
+.matching-card .status-badge[style*="color: #4caf50"] {
+  font-size: 1.3rem;
+  font-weight: 800;
+  padding: 10px 20px;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  color: white !important;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.matching-card .status-badge[style*="color: #4caf50"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+}
+
+/* 카드 상세 정보 */
+.application-details,
+.matching-details,
+.payment-details,
+.contract-details {
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.application-details p,
+.matching-details p,
+.payment-details p,
+.contract-details p {
+  margin: 8px 0;
+  font-size: 1rem;
+  color: white;
+  line-height: 1.4;
+}
+
+.application-details strong,
+.matching-details strong,
+.payment-details strong,
+.contract-details strong {
+  color: white;
+  font-weight: 600;
+}
+
+/* 총 금액 강조 */
+.total-amount {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffca28;
+}
+
+/* 상세 정보 스타일 */
+.detail-info {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+  margin-left: 8px;
+}
+
+/* 카드 액션 */
+.matching-actions,
+.contract-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.view-button {
+  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+}
+
+.view-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(33, 150, 243, 0.5);
+}
+
+/* 계약 현황 탭 */
+.contracts-tab {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
+}
+
+.contracts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.view-more-section {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.view-more-button {
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  color: white;
+  border: none;
+  padding: 15px 35px;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
+}
+
+.view-more-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(33, 150, 243, 0.4);
+}
+
+/* 접근 거부 페이지 스타일 */
+.access-denied {
+  text-align: center;
+  padding: 80px 40px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
+  margin: 40px 0;
+}
+
+.access-denied h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 20px;
+}
+
+.access-denied p {
+  font-size: 1.2rem;
+  color: #6c757d;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.login-button {
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+  margin-top: 20px;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .parent-my-page-container {
+    padding: 20px 10px;
+  }
+
+  .page-header {
+    padding: 30px 20px;
+  }
+
+  .page-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .page-header p {
+    font-size: 1rem;
+  }
+
+  .tab-navigation {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tab-button {
+    width: 100%;
+  }
+
+  .tab-content {
+    padding: 30px 20px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .application-header,
+  .matching-header,
+  .payment-header,
+  .contract-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .status-toggle-container {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .status-badge {
+    min-width: 100px;
+    height: 40px;
+    font-size: 1.3rem;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    margin: 0;
+    vertical-align: middle;
+    border-radius: 22px;
+  }
+
+  .toggle-switch {
+    width: 50px;
+    height: 28px;
+  }
+
+  .toggle-slider:before {
+    height: 20px;
+    width: 20px;
+  }
+
+  .toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(22px);
+  }
+
+  .application-card,
+  .matching-card,
+  .payment-card,
+  .contract-card {
+    padding: 15px;
+  }
+
+  .application-details,
+  .matching-details,
+  .payment-details,
+  .contract-details {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .page-header p {
+    font-size: 0.9rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .application-card,
+  .matching-card,
+  .payment-card,
+  .contract-card {
+    padding: 12px;
+  }
+
+  .application-details,
+  .matching-details,
+  .payment-details,
+  .contract-details {
+    gap: 8px;
+  }
+
+  .status-badge {
+    min-width: 90px;
+    height: 36px;
+    font-size: 1.1rem;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    margin: 0;
+    vertical-align: middle;
+    border-radius: 18px;
+  }
+
+  .toggle-switch {
+    width: 45px;
+    height: 24px;
+  }
+
+  .toggle-slider:before {
+    height: 16px;
+    width: 16px;
+  }
+
+  .toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(21px);
+  }
+
+  .status-label {
+    font-size: 0.9rem;
+  }
+}

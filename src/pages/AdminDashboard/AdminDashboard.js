@@ -57,171 +57,154 @@ function AdminDashboard() {
           <p>전체 현황을 한눈에 확인하세요</p>
         </div>
 
-        {/* 📊 전체 통계 */}
+        {/* 전체 통계 */}
         <div className="overview-section">
-          <h3>📊 전체 통계</h3>
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-icon">👨‍👩‍👧‍👦</div>
-              <div className="stat-content">
-                <div className="stat-value">
-                  {dashboardData.overview.totalParents}
-                </div>
-                <div className="stat-label">전체 부모님</div>
-              </div>
+          <h3>전체 통계</h3>
+          <div className="stats-table">
+            <div className="table-header">
+              <div className="table-cell">구분</div>
+              <div className="table-cell">수량</div>
+              <div className="table-cell">비고</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-icon">📝</div>
-              <div className="stat-content">
-                <div className="stat-value">
-                  {dashboardData.overview.totalApplications}
-                </div>
-                <div className="stat-label">전체 공고</div>
+            <div className="table-row">
+              <div className="table-cell">전체 부모님</div>
+              <div className="table-cell">
+                {dashboardData.overview.totalParents}명
               </div>
+              <div className="table-cell">가입된 부모님 수</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-icon">👨‍🏫</div>
-              <div className="stat-content">
-                <div className="stat-value">
-                  {dashboardData.overview.totalTeachers}
-                </div>
-                <div className="stat-label">전체 쌤</div>
+            <div className="table-row">
+              <div className="table-cell">전체 공고</div>
+              <div className="table-cell">
+                {dashboardData.overview.totalApplications}건
               </div>
+              <div className="table-cell">등록된 공고 수</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-icon">✅</div>
-              <div className="stat-content">
-                <div className="stat-value">
-                  {dashboardData.overview.totalAcceptedMatchings}
-                </div>
-                <div className="stat-label">전체 매칭 완료</div>
+            <div className="table-row">
+              <div className="table-cell">전체 쌤</div>
+              <div className="table-cell">
+                {dashboardData.overview.totalTeachers}명
               </div>
+              <div className="table-cell">가입된 쌤 수</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-icon">📋</div>
-              <div className="stat-content">
-                <div className="stat-value">
-                  {dashboardData.overview.totalCompletedContracts}
-                </div>
-                <div className="stat-label">전체 계약 완료</div>
+            <div className="table-row">
+              <div className="table-cell">전체 매칭 완료</div>
+              <div className="table-cell">
+                {dashboardData.overview.totalAcceptedMatchings}건
               </div>
+              <div className="table-cell">성사된 매칭 수</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-icon">⏳</div>
-              <div className="stat-content">
-                <div className="stat-value">
-                  {dashboardData.overview.pendingMatchings}
-                </div>
-                <div className="stat-label">진행 중 매칭</div>
+            <div className="table-row">
+              <div className="table-cell">전체 계약 완료</div>
+              <div className="table-cell">
+                {dashboardData.overview.totalCompletedContracts}건
               </div>
+              <div className="table-cell">완료된 계약 수</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-icon">🔄</div>
-              <div className="stat-content">
-                <div className="stat-value">
-                  {dashboardData.overview.progressContracts}
-                </div>
-                <div className="stat-label">진행 중 계약</div>
+            <div className="table-row">
+              <div className="table-cell">진행 중 매칭</div>
+              <div className="table-cell">
+                {dashboardData.overview.pendingMatchings}건
               </div>
+              <div className="table-cell">진행 중인 매칭</div>
+            </div>
+            <div className="table-row">
+              <div className="table-cell">진행 중 계약</div>
+              <div className="table-cell">
+                {dashboardData.overview.progressContracts}건
+              </div>
+              <div className="table-cell">진행 중인 계약</div>
             </div>
           </div>
         </div>
 
-        {/* 💰 수입 통계 */}
+        {/* 수입 통계 */}
         <div className="revenue-section">
-          <h3>💰 수입 통계</h3>
-          <div className="revenue-grid">
-            <div className="revenue-card">
-              <div className="revenue-icon">💳</div>
-              <div className="revenue-content">
-                <div className="revenue-value">
-                  {formatCurrency(dashboardData.revenue.totalParentPayment)}원
-                </div>
-                <div className="revenue-label">부모님 총 결제</div>
-              </div>
+          <h3>수입 통계</h3>
+          <div className="revenue-table">
+            <div className="table-header">
+              <div className="table-cell">구분</div>
+              <div className="table-cell">금액</div>
+              <div className="table-cell">비고</div>
             </div>
-            <div className="revenue-card">
-              <div className="revenue-icon">💰</div>
-              <div className="revenue-content">
-                <div className="revenue-value">
-                  {formatCurrency(dashboardData.revenue.totalTeacherEarnings)}원
-                </div>
-                <div className="revenue-label">쌤 총 수입</div>
+            <div className="table-row">
+              <div className="table-cell">부모님 총 결제</div>
+              <div className="table-cell">
+                {formatCurrency(dashboardData.revenue.totalParentPayment)}원
               </div>
+              <div className="table-cell">부모님 결제 총액</div>
             </div>
-            <div className="revenue-card">
-              <div className="revenue-icon">🏢</div>
-              <div className="revenue-content">
-                <div className="revenue-value">
-                  {formatCurrency(dashboardData.revenue.totalCompanyRevenue)}원
-                </div>
-                <div className="revenue-label">회사 수익</div>
+            <div className="table-row">
+              <div className="table-cell">쌤 총 수입</div>
+              <div className="table-cell">
+                {formatCurrency(dashboardData.revenue.totalTeacherEarnings)}원
               </div>
+              <div className="table-cell">쌤 수입 총액</div>
             </div>
-            <div className="revenue-card">
-              <div className="revenue-icon">📅</div>
-              <div className="revenue-content">
-                <div className="revenue-value">
-                  {formatCurrency(dashboardData.revenue.monthlyRevenue)}원
-                </div>
-                <div className="revenue-label">이번 달 수익</div>
+            <div className="table-row">
+              <div className="table-cell">회사 수익</div>
+              <div className="table-cell">
+                {formatCurrency(dashboardData.revenue.totalCompanyRevenue)}원
               </div>
+              <div className="table-cell">회사 수익 총액</div>
             </div>
-            <div className="revenue-card">
-              <div className="revenue-icon">⏰</div>
-              <div className="revenue-content">
-                <div className="revenue-value">
-                  {formatCurrency(dashboardData.revenue.averageHourlyWage)}원
-                </div>
-                <div className="revenue-label">평균 시급</div>
+            <div className="table-row">
+              <div className="table-cell">이번 달 수익</div>
+              <div className="table-cell">
+                {formatCurrency(dashboardData.revenue.monthlyRevenue)}원
               </div>
+              <div className="table-cell">이번 달 수익</div>
             </div>
-            <div className="revenue-card">
-              <div className="revenue-icon">📊</div>
-              <div className="revenue-content">
-                <div className="revenue-value">
-                  {dashboardData.revenue.monthlyMatchings}건
-                </div>
-                <div className="revenue-label">이번 달 매칭</div>
+            <div className="table-row">
+              <div className="table-cell">평균 시급</div>
+              <div className="table-cell">
+                {formatCurrency(dashboardData.revenue.averageHourlyWage)}원
               </div>
+              <div className="table-cell">평균 시급</div>
+            </div>
+            <div className="table-row">
+              <div className="table-cell">이번 달 매칭</div>
+              <div className="table-cell">
+                {dashboardData.revenue.monthlyMatchings}건
+              </div>
+              <div className="table-cell">이번 달 매칭 건수</div>
             </div>
           </div>
         </div>
 
-        {/* 📋 계약 현황 */}
+        {/* 계약 현황 */}
         <div className="contracts-section">
-          <h3>📋 계약 현황</h3>
-          <div className="contracts-grid">
-            <div className="contract-card">
-              <div className="contract-icon">🔄</div>
-              <div className="contract-content">
-                <div className="contract-value">
-                  {dashboardData.contracts.progress}
-                </div>
-                <div className="contract-label">계약 진행중</div>
-                <div className="contract-amount">
-                  {formatCurrency(dashboardData.contracts.progressEarnings)}원
-                </div>
+          <h3>계약 현황</h3>
+          <div className="contracts-table">
+            <div className="table-header">
+              <div className="table-cell">구분</div>
+              <div className="table-cell">건수</div>
+              <div className="table-cell">금액</div>
+            </div>
+            <div className="table-row">
+              <div className="table-cell">계약 진행중</div>
+              <div className="table-cell">
+                {dashboardData.contracts.progress}건
+              </div>
+              <div className="table-cell">
+                {formatCurrency(dashboardData.contracts.progressEarnings)}원
               </div>
             </div>
-            <div className="contract-card">
-              <div className="contract-icon">✅</div>
-              <div className="contract-content">
-                <div className="contract-value">
-                  {dashboardData.contracts.completed}
-                </div>
-                <div className="contract-label">계약 완료</div>
-                <div className="contract-amount">
-                  {formatCurrency(dashboardData.contracts.completedEarnings)}원
-                </div>
+            <div className="table-row">
+              <div className="table-cell">계약 완료</div>
+              <div className="table-cell">
+                {dashboardData.contracts.completed}건
+              </div>
+              <div className="table-cell">
+                {formatCurrency(dashboardData.contracts.completedEarnings)}원
               </div>
             </div>
           </div>
         </div>
 
-        {/* 📊 계약 상세 정보 */}
+        {/* 계약 상세 정보 */}
         <div className="matchings-section">
-          <h3>📊 계약 상세 정보</h3>
+          <h3>계약 상세 정보</h3>
           <div className="matchings-table">
             <div className="table-header">
               <div className="table-cell">날짜</div>
@@ -297,77 +280,73 @@ function AdminDashboard() {
           </div>
         </div>
 
-        {/* 💳 결제 현황 요약 */}
+        {/* 결제 현황 요약 */}
         <div className="payment-summary-section">
-          <h3>💳 결제 현황 요약</h3>
-          <div className="summary-grid">
-            <div className="summary-card">
-              <div className="summary-icon">✅</div>
-              <div className="summary-content">
-                <div className="summary-value">
-                  {dashboardData.completedPayments}건
-                </div>
-                <div className="summary-label">완료된 결제</div>
-              </div>
+          <h3>결제 현황 요약</h3>
+          <div className="payment-table">
+            <div className="table-header">
+              <div className="table-cell">구분</div>
+              <div className="table-cell">건수</div>
+              <div className="table-cell">비고</div>
             </div>
-            <div className="summary-card">
-              <div className="summary-icon">⏳</div>
-              <div className="summary-content">
-                <div className="summary-value">
-                  {dashboardData.pendingPayments}건
-                </div>
-                <div className="summary-label">대기 중 결제</div>
+            <div className="table-row">
+              <div className="table-cell">완료된 결제</div>
+              <div className="table-cell">
+                {dashboardData.completedPayments}건
               </div>
+              <div className="table-cell">정상 처리된 결제</div>
             </div>
-            <div className="summary-card">
-              <div className="summary-icon">💰</div>
-              <div className="summary-content">
-                <div className="summary-value">
-                  {formatCurrency(dashboardData.totalPaymentAmount)}원
-                </div>
-                <div className="summary-label">총 결제 금액</div>
+            <div className="table-row">
+              <div className="table-cell">대기 중 결제</div>
+              <div className="table-cell">
+                {dashboardData.pendingPayments}건
               </div>
+              <div className="table-cell">처리 대기 중인 결제</div>
+            </div>
+            <div className="table-row">
+              <div className="table-cell">총 결제 금액</div>
+              <div className="table-cell">
+                {formatCurrency(dashboardData.totalPaymentAmount)}원
+              </div>
+              <div className="table-cell">전체 결제 금액</div>
             </div>
           </div>
         </div>
 
-        {/* 💸 급여 현황 요약 */}
+        {/* 급여 현황 요약 */}
         <div className="salary-summary-section">
-          <h3>💸 급여 현황 요약</h3>
-          <div className="summary-grid">
-            <div className="summary-card">
-              <div className="summary-icon">✅</div>
-              <div className="summary-content">
-                <div className="summary-value">
-                  {dashboardData.paidSalaries}건
-                </div>
-                <div className="summary-label">지급 완료</div>
-              </div>
+          <h3>급여 현황 요약</h3>
+          <div className="salary-table">
+            <div className="table-header">
+              <div className="table-cell">구분</div>
+              <div className="table-cell">건수</div>
+              <div className="table-cell">비고</div>
             </div>
-            <div className="summary-card">
-              <div className="summary-icon">⏳</div>
-              <div className="summary-content">
-                <div className="summary-value">
-                  {dashboardData.pendingSalaries}건
-                </div>
-                <div className="summary-label">지급 대기</div>
-              </div>
+            <div className="table-row">
+              <div className="table-cell">지급 완료</div>
+              <div className="table-cell">{dashboardData.paidSalaries}건</div>
+              <div className="table-cell">완료된 급여 지급</div>
             </div>
-            <div className="summary-card">
-              <div className="summary-icon">💰</div>
-              <div className="summary-content">
-                <div className="summary-value">
-                  {formatCurrency(dashboardData.totalSalaryAmount)}원
-                </div>
-                <div className="summary-label">총 급여 금액</div>
+            <div className="table-row">
+              <div className="table-cell">지급 대기</div>
+              <div className="table-cell">
+                {dashboardData.pendingSalaries}건
               </div>
+              <div className="table-cell">대기 중인 급여 지급</div>
+            </div>
+            <div className="table-row">
+              <div className="table-cell">총 급여 금액</div>
+              <div className="table-cell">
+                {formatCurrency(dashboardData.totalSalaryAmount)}원
+              </div>
+              <div className="table-cell">전체 급여 금액</div>
             </div>
           </div>
         </div>
 
-        {/* ⭐ 리뷰 현황 */}
+        {/* 리뷰 현황 */}
         <div className="reviews-section">
-          <h3>⭐ 리뷰 현황</h3>
+          <h3>리뷰 현황</h3>
           <div className="reviews-summary">
             <div className="reviews-stats">
               <div className="review-stat">
@@ -388,7 +367,7 @@ function AdminDashboard() {
                 <div key={index} className="review-item">
                   <div className="review-header">
                     <div className="review-rating">
-                      {"⭐".repeat(review.rating)}
+                      {"★".repeat(review.rating)}
                     </div>
                     <div className="review-date">{formatDate(review.date)}</div>
                   </div>
@@ -404,9 +383,9 @@ function AdminDashboard() {
           </div>
         </div>
 
-        {/* 📞 문의 현황 */}
+        {/* 문의 현황 */}
         <div className="inquiries-section">
-          <h3>📞 문의 현황</h3>
+          <h3>문의 현황</h3>
           <div className="inquiries-summary">
             <div className="inquiries-stats">
               <div className="inquiry-stat">

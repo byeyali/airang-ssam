@@ -16,7 +16,7 @@ function TeacherApplications() {
   // 쌤 이미지 매핑 함수
   const getTeacherImage = (teacherId) => {
     const imageMap = {
-      teacher_001: "/img/teacher-kimyouhghee-womam.png", // 김영희 (28세 여성)
+      teacher_001: "/img/teacher-kimyouhghee-womam.png", // 김영희 (30세 여성)
       teacher_002: "/img/teacher-man-ball.jpg", // 박민수 (32세 남성)
       teacher_003: "/img/teacher-kimjiyoung.jpg", // 김지영 (26세 여성)
       teacher_004: "/img/teacher-math-english.jpg", // 최지영 (29세 여성)
@@ -253,14 +253,6 @@ function TeacherApplications() {
               내 프로필 수정
             </button>
           )}
-          {user?.type === "parent" && (
-            <button
-              className="setup-profile-button"
-              onClick={() => navigate("/Helpme")}
-            >
-              공고 작성하기
-            </button>
-          )}
         </div>
 
         {user?.type === "parent" && teachers.length === 0 ? (
@@ -339,34 +331,26 @@ function TeacherApplications() {
                         <div className="teacher-certification">
                           {teacher.certification}
                         </div>
-                        {/* 성별 매칭 점수 표시 */}
-                        {teacher.matchScore && user?.type === "parent" && (
-                          <div className="matching-score-info">
-                            <div className="score-badge">
-                              매칭 {Math.round(teacher.matchScore * 100)}점
-                            </div>
-                            {teacher.genderScore && (
-                              <div className="gender-match-badge">
-                                {teacher.genderScore >= 0.8
-                                  ? "✅ 성별 우선"
-                                  : "⚪ 성별 일반"}
-                              </div>
-                            )}
-                          </div>
-                        )}
+                        {/* 매칭 가능 여부 표시 */}
+                        <div className="matching-status-info">
+                          {teacher.matchingStatus === "pending" ? (
+                            <span className="status-badge status-pending">
+                              🔄 매칭 진행중
+                            </span>
+                          ) : teacher.matchingStatus === "matched" ? (
+                            <span className="status-badge status-matched">
+                              ✅ 매칭 완료
+                            </span>
+                          ) : (
+                            <span className="status-badge status-available">
+                              매칭 가능
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div className="teacher-actions">
-                    <div className="matching-status">
-                      {teacher.matchingStatus === "pending" ? (
-                        <span className="status-pending">매칭 진행중</span>
-                      ) : teacher.matchingStatus === "matched" ? (
-                        <span className="status-matched">매칭 완료</span>
-                      ) : (
-                        <span className="status-available">매칭 가능</span>
-                      )}
-                    </div>
                     <button
                       className="matching-request-button-small"
                       onClick={() => handleOpenMatchingModal(teacher)}

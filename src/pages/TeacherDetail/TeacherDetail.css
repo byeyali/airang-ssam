@@ -24,7 +24,7 @@
 .teacher-detail-header {
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: center;
   margin-bottom: 30px;
   background: white;
   padding: 20px 30px;
@@ -54,7 +54,7 @@
   margin: 0;
   font-size: 2rem;
   font-weight: 700;
-  color: #ff6b6b;
+  color: #1976d2;
 }
 
 /* 컨테이너 */
@@ -89,8 +89,8 @@
   height: 250px;
   border-radius: 50%;
   object-fit: cover;
-  border: 5px solid #ff6b6b;
-  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+  border: 5px solid #1976d2;
+  box-shadow: 0 8px 25px rgba(25, 118, 210, 0.3);
 }
 
 .profile-info {
@@ -107,7 +107,7 @@
 .profile-rating {
   font-size: 1.95rem;
   margin-bottom: 20px;
-  color: #ff6b6b;
+  color: #1976d2;
   font-weight: 600;
 }
 
@@ -148,7 +148,7 @@
 .detail-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  border-color: #ff6b6b;
+  border-color: #1976d2;
 }
 
 .detail-card.full-width {
@@ -181,13 +181,13 @@
 
 .skill-tag,
 .preference-tag {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
   color: white;
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 500;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
 }
 
 /* 파일 섹션 */
@@ -259,7 +259,7 @@
 .file-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  border-color: #ff6b6b;
+  border-color: #1976d2;
 }
 
 .file-info {
@@ -271,7 +271,7 @@
 
 .file-icon {
   font-size: 2rem;
-  color: #ff6b6b;
+  color: #1976d2;
 }
 
 .file-details {
@@ -291,7 +291,7 @@
 }
 
 .download-file-button {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
   color: white;
   border: none;
   padding: 8px 16px;
@@ -300,12 +300,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
 }
 
 .download-file-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
 }
 
 /* 액션 섹션 */
@@ -339,7 +339,7 @@
 }
 
 .matching-request-button {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
   color: white;
   border: none;
   padding: 15px 30px;
@@ -348,7 +348,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 6px 20px rgba(25, 118, 210, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -375,7 +375,7 @@
 
 .matching-request-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 8px 25px rgba(25, 118, 210, 0.4);
 }
 
 /* 수정하기 카드 */
@@ -488,7 +488,7 @@
 
 .matching-header h2 {
   margin: 0;
-  color: #ff6b6b;
+  color: #1976d2;
   font-size: 1.8rem;
   font-weight: 700;
   display: flex;
@@ -497,7 +497,7 @@
 }
 
 .close-button {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
   color: white;
   border: none;
   width: 40px;
@@ -510,13 +510,13 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
 }
 
 .close-button:hover {
-  background: linear-gradient(135deg, #e55555 0%, #ff6b6b 100%);
+  background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
   transform: scale(1.1) rotate(90deg);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
 }
 
 .matching-body {
@@ -542,8 +542,8 @@
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #ff6b6b;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  border: 3px solid #1976d2;
+  box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
 }
 
 .teacher-matching-details h3 {
@@ -589,7 +589,7 @@
   padding: 15px;
   background: #f8f9fa;
   border-radius: 10px;
-  border-left: 3px solid #ff6b6b;
+  border-left: 3px solid #1976d2;
 }
 
 .matching-message-input {
@@ -608,8 +608,8 @@
 
 .matching-message-input:focus {
   outline: none;
-  border-color: #ff6b6b;
-  box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1), 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-color: #1976d2;
+  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1), 0 4px 15px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
 }
 
@@ -651,7 +651,7 @@
 }
 
 .matching-submit-button {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
   color: white;
   border: none;
   padding: 15px 30px;
@@ -660,7 +660,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 6px 20px rgba(25, 118, 210, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -687,7 +687,7 @@
 
 .matching-submit-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 8px 25px rgba(25, 118, 210, 0.4);
 }
 
 .matching-submit-button:active {
@@ -711,7 +711,7 @@
 
 .matching-submit-button:disabled:hover {
   transform: none !important;
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3) !important;
+  box-shadow: 0 6px 20px rgba(25, 118, 210, 0.3) !important;
 }
 
 /* 로딩 스피너 */

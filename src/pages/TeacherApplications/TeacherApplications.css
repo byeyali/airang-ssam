@@ -19,6 +19,7 @@
   border-radius: 25px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   border: 2px solid #e1f5fe;
+  position: relative;
 }
 
 .teacher-applications-header h1 {
@@ -135,7 +136,7 @@
 }
 
 .teacher-item {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  background: white;
   border: 2px solid #e1f5fe;
   border-radius: 25px;
   padding: 30px;
@@ -217,6 +218,44 @@
   gap: 5px;
 }
 
+.matching-status-info {
+  margin-top: 8px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+  line-height: 1;
+  vertical-align: middle;
+  width: fit-content;
+  min-width: auto;
+}
+
+.status-badge.status-pending {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.status-badge.status-matched {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-badge.status-available {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
 .teacher-wage {
   color: #28a745;
   font-weight: 600;
@@ -233,69 +272,11 @@
   margin-top: 5px;
 }
 
-/* 매칭 점수 정보 스타일 */
-.matching-score-info {
-  margin-top: 10px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.score-badge {
-  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  display: inline-block;
-}
-
-.gender-match-badge {
-  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  display: inline-block;
-}
-
 .teacher-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
   align-items: center;
-}
-
-.matching-status {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 12px;
-  border-radius: 15px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-align: center;
-  min-height: 36px;
-}
-
-.status-pending {
-  background: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeaa7;
-}
-
-.status-matched {
-  background: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
-.status-available {
-  background: #e2e3e5;
-  color: #6c757d;
-  border: 1px solid #d6d8db;
 }
 
 .matching-request-button {
@@ -321,7 +302,7 @@
   border: none;
   padding: 8px 12px;
   border-radius: 15px;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;

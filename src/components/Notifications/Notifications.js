@@ -115,7 +115,7 @@ function Notifications() {
       <div className="notification-trigger" onClick={toggleNotifications}>
         <span className="user-name">{user.name}님</span>
         <div className="notification-icon">
-          <span>🔔</span>
+          <span>알림</span>
           {unreadCount > 0 && (
             <span className="notification-badge">{unreadCount}</span>
           )}
@@ -146,37 +146,24 @@ function Notifications() {
                   key={notification.id}
                   className={`notification-item ${
                     !notification.isRead ? "unread" : ""
-                  } ${
-                    notification.type === "teacher_lesson_day"
-                      ? "lesson-day"
-                      : ""
                   }`}
                   onClick={() => handleNotificationClick(notification)}
                 >
                   <div className="notification-content">
-                    <div className="notification-title">
-                      {notification.title}
-                    </div>
                     <div className="notification-message">
                       {notification.message}
                     </div>
-                    {notification.type === "teacher_lesson_day" &&
-                      notification.lessonDetails && (
-                        <div className="lesson-details">
-                          <div className="lesson-detail-item">
-                            <span className="lesson-detail-icon">👤</span>
-                            <span>
-                              {notification.lessonDetails.parentName}님
-                            </span>
-                          </div>
-                          <div className="lesson-detail-item">
-                            <span className="lesson-detail-icon">👶</span>
-                            <span>{notification.lessonDetails.childName}</span>
-                          </div>
-                        </div>
+                  </div>
+                  <div className="notification-time-container">
+                    <div className="notification-date">
+                      {new Date(notification.createdAt).toLocaleDateString(
+                        "ko-KR"
                       )}
+                    </div>
                     <div className="notification-time">
-                      {new Date(notification.createdAt).toLocaleString("ko-KR")}
+                      {new Date(notification.createdAt).toLocaleTimeString(
+                        "ko-KR"
+                      )}
                     </div>
                   </div>
                   {!notification.isRead && (
@@ -188,49 +175,12 @@ function Notifications() {
           </div>
 
           <div className="notification-links">
-            {user.type === "parent" && (
-              <>
-                <button
-                  onClick={handleMyApplications}
-                  className="notification-link"
-                >
-                  내 공고 관리
-                </button>
-                <button
-                  onClick={handleParentPaymentHistory}
-                  className="notification-link"
-                >
-                  내 지출 내역
-                </button>
-              </>
-            )}
-            {(user.type === "teacher" || user.type === "tutor") && (
-              <>
-                <button
-                  onClick={handleTeacherProfile}
-                  className="notification-link"
-                >
-                  프로필 관리
-                </button>
-                <button onClick={handleMatchings} className="notification-link">
-                  매칭 요청 확인
-                </button>
-              </>
-            )}
             {user.type === "admin" && (
               <button
                 onClick={handleContractManagement}
                 className="notification-link"
               >
                 계약 관리
-              </button>
-            )}
-            {user.type === "parent" && (
-              <button
-                onClick={handleParentContractManagement}
-                className="notification-link"
-              >
-                내 계약 관리
               </button>
             )}
             <button onClick={handleLogout} className="notification-link logout">

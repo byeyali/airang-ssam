@@ -106,178 +106,66 @@
   font-weight: 700;
   color: #2c3e50;
   margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
-/* 통계 카드 스타일 */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.stat-card {
+/* 통계 테이블 스타일 */
+.stats-table,
+.revenue-table,
+.contracts-table,
+.payment-table,
+.salary-table {
   background: white;
   border-radius: 15px;
-  padding: 25px;
+  overflow: hidden;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   border: 1px solid #e9ecef;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 15px;
 }
 
-.stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-}
-
-.stat-icon {
-  font-size: 2.5rem;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #42a5f5;
-  border-radius: 50%;
-  color: white;
-}
-
-.stat-content {
-  flex: 1;
-}
-
-.stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 5px;
-}
-
-.stat-label {
-  font-size: 0.9rem;
-  color: #6c757d;
-  font-weight: 500;
-}
-
-/* 수입 통계 스타일 */
-.revenue-grid {
+.stats-table .table-header,
+.revenue-table .table-header,
+.contracts-table .table-header,
+.payment-table .table-header,
+.salary-table .table-header {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.revenue-card {
-  background: white;
-  border-radius: 15px;
-  padding: 25px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e9ecef;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.revenue-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-}
-
-.revenue-icon {
-  font-size: 2.5rem;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #42a5f5;
-  border-radius: 50%;
-  color: white;
-}
-
-.revenue-content {
-  flex: 1;
-}
-
-.revenue-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 5px;
-}
-
-.revenue-label {
-  font-size: 0.9rem;
-  color: #6c757d;
-  font-weight: 500;
-}
-
-/* 계약 현황 스타일 */
-.contracts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.contract-card {
-  background: white;
-  border-radius: 15px;
-  padding: 25px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e9ecef;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.contract-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-}
-
-.contract-icon {
-  font-size: 2.5rem;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #42a5f5;
-  border-radius: 50%;
-  color: white;
-}
-
-.contract-content {
-  flex: 1;
-}
-
-.contract-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 5px;
-}
-
-.contract-label {
-  font-size: 0.9rem;
-  color: #6c757d;
-  font-weight: 500;
-  margin-bottom: 5px;
-}
-
-.contract-amount {
-  font-size: 1.1rem;
+  grid-template-columns: 2fr 1fr 2fr;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 15px 20px;
   font-weight: 600;
-  color: #4caf50;
+  color: #495057;
+  border-bottom: 1px solid #dee2e6;
 }
 
-/* 테이블 스타일 */
+.stats-table .table-row,
+.revenue-table .table-row,
+.contracts-table .table-row,
+.payment-table .table-row,
+.salary-table .table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  padding: 15px 20px;
+  border-bottom: 1px solid #f8f9fa;
+  transition: background-color 0.3s ease;
+}
+
+.stats-table .table-row:hover,
+.revenue-table .table-row:hover,
+.contracts-table .table-row:hover,
+.payment-table .table-row:hover,
+.salary-table .table-row:hover {
+  background-color: #f8f9fa;
+}
+
+.stats-table .table-cell,
+.revenue-table .table-cell,
+.contracts-table .table-cell,
+.payment-table .table-cell,
+.salary-table .table-cell {
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+/* 기존 매칭 테이블 스타일 */
 .matchings-table {
   background: white;
   border-radius: 15px;
@@ -286,7 +174,7 @@
   border: 1px solid #e9ecef;
 }
 
-.table-header {
+.matchings-table .table-header {
   display: grid;
   grid-template-columns: 1fr 1fr 2fr 1fr 1fr 1fr 1fr;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
@@ -296,7 +184,7 @@
   border-bottom: 1px solid #dee2e6;
 }
 
-.table-row {
+.matchings-table .table-row {
   display: grid;
   grid-template-columns: 1fr 1fr 2fr 1fr 1fr 1fr 1fr;
   padding: 15px 20px;
@@ -304,11 +192,11 @@
   transition: background-color 0.3s ease;
 }
 
-.table-row:hover {
+.matchings-table .table-row:hover {
   background-color: #f8f9fa;
 }
 
-.table-cell {
+.matchings-table .table-cell {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -367,59 +255,6 @@
   background-color: #ff9800;
 }
 
-/* 요약 카드 스타일 */
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.summary-card {
-  background: white;
-  border-radius: 15px;
-  padding: 25px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e9ecef;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.summary-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-}
-
-.summary-icon {
-  font-size: 2.5rem;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #42a5f5;
-  border-radius: 50%;
-  color: white;
-}
-
-.summary-content {
-  flex: 1;
-}
-
-.summary-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 5px;
-}
-
-.summary-label {
-  font-size: 0.9rem;
-  color: #6c757d;
-  font-weight: 500;
-}
-
 /* 리뷰 섹션 스타일 */
 .reviews-summary {
   background: white;
@@ -476,6 +311,7 @@
 
 .review-rating {
   font-size: 1.1rem;
+  color: #ffc107;
 }
 
 .review-date {
@@ -591,23 +427,26 @@
     padding: 20px;
   }
 
-  .stats-grid,
-  .revenue-grid,
-  .contracts-grid,
-  .summary-grid {
+  .stats-table .table-header,
+  .revenue-table .table-header,
+  .contracts-table .table-header,
+  .payment-table .table-header,
+  .salary-table .table-header {
     grid-template-columns: 1fr;
-    gap: 15px;
+    gap: 10px;
   }
 
-  .stat-card,
-  .revenue-card,
-  .contract-card,
-  .summary-card {
-    padding: 20px;
+  .stats-table .table-row,
+  .revenue-table .table-row,
+  .contracts-table .table-row,
+  .payment-table .table-row,
+  .salary-table .table-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
-  .table-header,
-  .table-row {
+  .matchings-table .table-header,
+  .matchings-table .table-row {
     grid-template-columns: 1fr;
     gap: 10px;
   }
@@ -636,17 +475,7 @@
     font-size: 1rem;
   }
 
-  .stat-value,
-  .revenue-value,
-  .contract-value {
+  .stat-number {
     font-size: 1.5rem;
-  }
-
-  .stat-icon,
-  .revenue-icon,
-  .contract-icon {
-    width: 50px;
-    height: 50px;
-    font-size: 2rem;
   }
 }

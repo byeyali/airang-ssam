@@ -118,15 +118,16 @@ export const searchTeacher = async (teacherName) => {
     {
       id: "teacher_001",
       name: "김영희",
-      regions: ["관악구", "동작구"],
-      skills: ["돌봄", "놀이"],
+      regions: ["관악구", "동작구", "영등포구"],
+      skills: ["돌봄", "놀이", "피아노", "미술"],
       rating: 4.8,
       gender: "여성",
-      age: 28,
-      experience: "5년",
+      age: 30,
+      experience: "7년",
       education: "보육교사 2급",
-      hourlyWage: 15000,
-      description: "아이들과 함께하는 시간을 가장 소중하게 생각하는 쌤입니다.",
+      hourlyWage: 30000,
+      description:
+        "피아노와 미술을 통해 아이들의 창의성과 예술성을 키워주는 따뜻한 쌤입니다.",
     },
     {
       id: "teacher_002",

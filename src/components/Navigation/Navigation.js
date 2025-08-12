@@ -17,15 +17,6 @@ function Navigation() {
     }));
   };
 
-  const handleReviewClick = (e) => {
-    if (!user) {
-      e.preventDefault();
-      alert("로그인이 필요합니다. 로그인 후 후기를 확인해주세요.");
-      navigate("/login");
-      return;
-    }
-  };
-
   const handleParentFeatureClick = (e, featureName) => {
     if (!user) {
       e.preventDefault();
@@ -74,83 +65,48 @@ function Navigation() {
       navigate("/login");
       return;
     }
+
+    // 사용자 타입에 따라 다른 마이페이지로 이동
+    e.preventDefault();
+    if (user.type === "parent") {
+      navigate("/parent/my-page");
+    } else if (user.type === "teacher" || user.type === "tutor") {
+      navigate("/teacher/my-page");
+    } else if (user.type === "admin") {
+      navigate("/admin-dashboard");
+    } else {
+      alert("알 수 없는 사용자 타입입니다.");
+    }
   };
 
   return (
     <nav className="main-navigation">
-      {/* 도와줘요 쌤 - 부모와 관리자만 표시 */}
-      {(!user || user.type === "parent" || user.type === "admin") && (
-        <Link to="/Helpme" className="nav-item">
-          <img
-            src="/img/icon_help.png"
-            alt="도와줘요 쌤"
-            className="nav-icon"
-            onError={() => handleImageError("icon_help")}
-          />
-          <span className="nav-text">도와줘요 쌤</span>
-        </Link>
-      )}
-
-      {/* 쌤이 되어 볼래요? - 부모가 아닐 때만 표시 */}
-      {(!user || user.type !== "parent") && (
-        <Link to="/teacher-profile" className="nav-item">
-          <img
-            src="/img/icon_teacher.png"
-            alt="쌤이 되어 볼래요?"
-            className="nav-icon"
-            onError={() => handleImageError("icon_teacher")}
-          />
-          <span className="nav-text">쌤이 되어 볼래요?</span>
-        </Link>
-      )}
-
-      {/* 부모 기능 메뉴 - 항상 표시 */}
-      <Link
-        to="/teacher-applications"
-        className="nav-item"
-        onClick={(e) => handleParentFeatureClick(e, "우리 아이 쌤 찾기")}
-      >
-        <img
-          src="/img/icon_find.png"
-          alt="우리 아이 쌤 찾기"
-          className="nav-icon"
-        />
-        <span className="nav-text">우리 아이 쌤 찾기</span>
-      </Link>
-      <Link to="/matchings" className="nav-item" onClick={handleMatchingClick}>
-        <img
-          src="/img/matching-teacher.png"
-          alt="매칭 관리"
-          className="nav-icon"
-        />
-        <span className="nav-text">매칭 관리</span>
-      </Link>
-
-      {/* 쌤 기능 메뉴 - 항상 표시 */}
-      <Link
-        to="/applications"
-        className="nav-item"
-        onClick={(e) => handleTeacherFeatureClick(e, "공고 찾기")}
-      >
-        <img src="/img/findteacher.png" alt="공고 찾기" className="nav-icon" />
-        <span className="nav-text">공고 찾기</span>
-      </Link>
-      <Link
-        to="/teacher/my-page"
-        className="nav-item"
-        onClick={handleMyPageClick}
-      >
-        <img
-          src="/img/nav-mypage-teacher.png"
-          alt="마이 페이지"
-          className="nav-icon"
-        />
-        <span className="nav-text">마이 페이지</span>
-      </Link>
-
-      {/* 관리자 전용 메뉴 - 모든 메뉴 표시 */}
-      {user && user.type === "admin" && (
+      {/* 관리자 로그인 시 네비게이션 순서 */}
+      {user && user.type === "admin" ? (
         <>
+          {/* 1. 도와줘요 쌤 */}
+          <Link to="/Helpme" className="nav-item">
+            <img
+              src="/img/icon_help.png"
+              alt="도와줘요 쌤"
+              className="nav-icon"
+              onError={() => handleImageError("icon_help")}
+            />
+            <span className="nav-text">도와줘요 쌤</span>
+          </Link>
+
+          {/* 2. 쌤이 되어 볼래요? */}
+          <Link to="/teacher-profile" className="nav-item">
+            <img
+              src="/img/icon_teacher.png"
+              alt="쌤이 되어 볼래요?"
+              className="nav-icon"
+              onError={() => handleImageError("icon_teacher")}
+            />
+            <span className="nav-text">쌤이 되어 볼래요?</span>
+          </Link>
+
+          {/* 3. 우리 아이 쌤 찾기 */}
           <Link to="/teacher-applications" className="nav-item">
             <img
               src="/img/icon_find.png"
@@ -159,6 +115,8 @@ function Navigation() {
             />
             <span className="nav-text">우리 아이 쌤 찾기</span>
           </Link>
+
+          {/* 4. 공고 찾기 */}
           <Link to="/applications" className="nav-item">
             <img
               src="/img/findteacher.png"
@@ -167,7 +125,13 @@ function Navigation() {
             />
             <span className="nav-text">공고 찾기</span>
           </Link>
-          <Link to="/matchings" className="nav-item">
+
+          {/* 5. 매칭 관리 */}
+          <Link
+            to="/matchings"
+            className="nav-item"
+            onClick={handleMatchingClick}
+          >
             <img
               src="/img/matching-teacher.png"
               alt="매칭 관리"
@@ -175,19 +139,142 @@ function Navigation() {
             />
             <span className="nav-text">매칭 관리</span>
           </Link>
+
+          {/* 6. 계약 현황 */}
+          <Link to="/contract-management" className="nav-item">
+            <img
+              src="/img/img-nav-contract.png"
+              alt="계약 현황"
+              className="nav-icon"
+              onError={(e) => {
+                e.target.style.display = "none";
+              }}
+            />
+            <span className="nav-text">계약 현황</span>
+          </Link>
+
+          {/* 7. 마이 페이지 */}
+          <Link to="#" className="nav-item" onClick={handleMyPageClick}>
+            <img
+              src="/img/nav-mypage-teacher.png"
+              alt="마이 페이지"
+              className="nav-icon"
+            />
+            <span className="nav-text">마이 페이지</span>
+          </Link>
+        </>
+      ) : (
+        /* 일반 사용자 네비게이션 */
+        <>
+          {/* 도와줘요 쌤 - 부모와 관리자만 표시 */}
+          {(!user || user.type === "parent") && (
+            <Link to="/Helpme" className="nav-item">
+              <img
+                src="/img/icon_help.png"
+                alt="도와줘요 쌤"
+                className="nav-icon"
+                onError={() => handleImageError("icon_help")}
+              />
+              <span className="nav-text">도와줘요 쌤</span>
+            </Link>
+          )}
+
+          {/* 쌤이 되어 볼래요? - 부모가 아닐 때만 표시 */}
+          {(!user || user.type !== "parent") && (
+            <Link to="/teacher-profile" className="nav-item">
+              <img
+                src="/img/icon_teacher.png"
+                alt="쌤이 되어 볼래요?"
+                className="nav-icon"
+                onError={() => handleImageError("icon_teacher")}
+              />
+              <span className="nav-text">쌤이 되어 볼래요?</span>
+            </Link>
+          )}
+
+          {/* 부모 기능 메뉴 - 부모만 표시 */}
+          {(!user || user.type === "parent") && (
+            <Link
+              to="/teacher-applications"
+              className="nav-item"
+              onClick={(e) => handleParentFeatureClick(e, "우리 아이 쌤 찾기")}
+            >
+              <img
+                src="/img/icon_find.png"
+                alt="우리 아이 쌤 찾기"
+                className="nav-icon"
+              />
+              <span className="nav-text">우리 아이 쌤 찾기</span>
+            </Link>
+          )}
+
+          {/* 쌤 기능 메뉴 - 쌤과 튜터만 표시 (부모 제외) */}
+          {(!user || user.type === "teacher" || user.type === "tutor") && (
+            <Link
+              to="/applications"
+              className="nav-item"
+              onClick={(e) => handleTeacherFeatureClick(e, "공고 찾기")}
+            >
+              <img
+                src="/img/findteacher.png"
+                alt="공고 찾기"
+                className="nav-icon"
+              />
+              <span className="nav-text">공고 찾기</span>
+            </Link>
+          )}
+
+          {/* 매칭 관리 - 모든 사용자 표시 */}
+          <Link
+            to="/matchings"
+            className="nav-item"
+            onClick={handleMatchingClick}
+          >
+            <img
+              src="/img/matching-teacher.png"
+              alt="매칭 관리"
+              className="nav-icon"
+            />
+            <span className="nav-text">매칭 관리</span>
+          </Link>
+
+          {/* 계약 현황 - 모든 사용자 표시 */}
+          <Link
+            to="#"
+            className="nav-item"
+            onClick={(e) => {
+              e.preventDefault();
+              if (user.type === "admin") {
+                navigate("/contract-management");
+              } else if (user.type === "parent") {
+                navigate("/parent/contract-management");
+              } else if (user.type === "teacher" || user.type === "tutor") {
+                navigate("/teacher/contract-management");
+              }
+            }}
+          >
+            <img
+              src="/img/img-nav-contract.png"
+              alt="계약 현황"
+              className="nav-icon"
+              onError={(e) => {
+                e.target.style.display = "none";
+              }}
+            />
+            <span className="nav-text">계약 현황</span>
+          </Link>
+
+          {/* 마이 페이지 - 모든 사용자 표시 */}
+          <Link to="#" className="nav-item" onClick={handleMyPageClick}>
+            <img
+              src="/img/nav-mypage-teacher.png"
+              alt="마이 페이지"
+              className="nav-icon"
+            />
+            <span className="nav-text">마이 페이지</span>
+          </Link>
         </>
       )}
-
-      {/* 후기 보기 (맨 오른쪽) */}
-      <Link to="/reviews" className="nav-item" onClick={handleReviewClick}>
-        <img
-          src="/img/icon_review.png"
-          alt="후기 보기"
-          className="nav-icon"
-          onError={() => handleImageError("icon_review")}
-        />
-        <span className="nav-text">후기 보기</span>
-      </Link>
     </nav>
   );
 }

@@ -417,7 +417,7 @@ export const UserProvider = ({ children }) => {
       } else if (email === "b@abc.com" && password === "password") {
         const userData = {
           id: "teacher_001",
-          name: "양연희",
+          name: "김영희",
           email: "b@abc.com",
           type: "tutor",
           regions: ["관악구", "동작구", "영등포구"],

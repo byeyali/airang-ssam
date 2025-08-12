@@ -239,9 +239,6 @@ function TeacherDetail() {
     <div className="teacher-detail-page">
       {/* 헤더 */}
       <div className="teacher-detail-header">
-        <button className="back-button" onClick={handleBack}>
-          ← 뒤로가기
-        </button>
         <h1>{teacher.maskedName} 쌤 상세정보</h1>
       </div>
 

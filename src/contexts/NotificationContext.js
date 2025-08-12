@@ -21,12 +21,11 @@ export const NotificationProvider = ({ children }) => {
       type: "teacher_lesson_day",
       title: "오늘 수업 안내",
       message:
-        "김가정님의 김민수와 2024-01-25 오후 2시에 수학 수업이 있습니다.\n\n📍 상세 주소: 서울특별시 관악구 신림동 123-45, 3층\n📞 연락처: 010-1234-5678",
+        "김가정님 댁에 2024-01-25 오후 2시에 수학 수업이 있습니다.\n\n📍 상세 주소: 서울특별시 관악구 신림동 123-45, 3층\n📞 연락처: 010-1234-5678",
       isRead: false,
       createdAt: "2024-01-25T08:00:00Z",
       lessonDetails: {
         parentName: "김가정",
-        childName: "김민수",
         lessonDate: "2024-01-25",
         lessonTime: "오후 2시",
         subject: "수학",
@@ -268,6 +267,52 @@ export const NotificationProvider = ({ children }) => {
     });
   };
 
+  // 부모용 수업 시작 알림 생성
+  const createParentLessonStartedNotification = (
+    parentId,
+    teacherName,
+    lessonDate,
+    lessonTime,
+    subject
+  ) => {
+    return createNotification({
+      userId: parentId,
+      type: "parent_lesson_started",
+      title: "수업 시작",
+      message: `${teacherName} 쌤이 수업을 시작했습니다.`,
+      isRead: false,
+      lessonDetails: {
+        teacherName,
+        lessonDate,
+        lessonTime,
+        subject,
+      },
+    });
+  };
+
+  // 부모용 수업 종료 알림 생성
+  const createParentLessonEndedNotification = (
+    parentId,
+    teacherName,
+    lessonDate,
+    lessonTime,
+    subject
+  ) => {
+    return createNotification({
+      userId: parentId,
+      type: "parent_lesson_ended",
+      title: "수업 종료",
+      message: `${teacherName} 쌤이 수업을 끝냈습니다.`,
+      isRead: false,
+      lessonDetails: {
+        teacherName,
+        lessonDate,
+        lessonTime,
+        subject,
+      },
+    });
+  };
+
   // 사용자의 알림 가져오기
   const getUserNotifications = (userId) => {
     return notifications
@@ -323,6 +368,9 @@ export const NotificationProvider = ({ children }) => {
     createParentContractCompletedNotification,
     createParentPaymentNotification,
     createParentLessonStartNotification,
+    createTeacherLessonDayNotification,
+    createParentLessonStartedNotification,
+    createParentLessonEndedNotification,
     getUserNotifications,
     getUnreadNotificationCount,
     markNotificationAsRead,
