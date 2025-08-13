@@ -24,10 +24,7 @@
   margin: 0 0 15px 0;
   font-size: 2.8rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 50%, #64b5f6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #333;
 }
 
 .page-header p {
@@ -68,9 +65,9 @@
 }
 
 .tab-button.active {
-  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
-  color: white;
-  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+  background: #f8f9fa;
+  color: #333;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .content-area {
@@ -87,10 +84,7 @@
 .profile-section h2 {
   margin: 0 0 20px 0;
   font-size: 2rem;
-  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #333;
   font-weight: 700;
 }
 
@@ -117,11 +111,11 @@
 }
 
 .item-card {
-  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+  background: #f8f9fa;
   border-radius: 20px;
   padding: 30px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-  border: 2px solid #e3f2fd;
+  border: 2px solid #e9ecef;
   transition: all 0.3s ease;
   overflow: hidden;
 }
@@ -129,8 +123,8 @@
 .item-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-  border-color: #ffffff;
-  background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+  border-color: #dee2e6;
+  background: #e9ecef;
 }
 
 .item-header {
@@ -149,7 +143,7 @@
 .item-info h3 {
   margin: 0 0 8px 0;
   font-size: 1.3rem;
-  color: white;
+  color: #333;
   font-weight: 700;
   line-height: 1.4;
 }
@@ -157,7 +151,7 @@
 .child-info,
 .subject-info {
   margin: 0;
-  color: rgba(255, 255, 255, 0.9);
+  color: #666;
   font-size: 1rem;
 }
 
@@ -433,8 +427,8 @@
 }
 
 .edit-profile-btn {
-  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
-  color: white;
+  background: #f8f9fa;
+  color: #333;
   border: none;
   padding: 12px 25px;
   border-radius: 25px;
@@ -442,12 +436,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .edit-profile-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .profile-card {
@@ -495,8 +489,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
-  color: white;
+  background: #f8f9fa;
+  color: #333;
   font-size: 2rem;
   font-weight: 700;
   border-radius: 50%;

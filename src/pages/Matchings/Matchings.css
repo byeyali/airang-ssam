@@ -93,7 +93,7 @@
 
 .create-application-button,
 .find-applications-button {
-  background: linear-gradient(135deg, #42a5f5 0%, #ec407a 100%);
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
   color: white;
   border: none;
   padding: 15px 35px;
@@ -102,13 +102,13 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(66, 165, 245, 0.3);
+  box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
 }
 
 .create-application-button:hover,
 .find-applications-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(66, 165, 245, 0.4);
+  box-shadow: 0 12px 35px rgba(33, 150, 243, 0.4);
 }
 
 /* 매칭 목록 */

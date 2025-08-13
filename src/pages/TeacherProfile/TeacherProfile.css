@@ -73,7 +73,7 @@
 }
 
 .item-card {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  background: #f8f9fa;
   border: 2px solid #e1e5e9;
   border-radius: 15px;
   padding: 20px 15px;
@@ -87,7 +87,7 @@
 .item-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  border-color: #4a90e2;
+  border-color: #dee2e6;
 }
 
 .item-image {
@@ -97,6 +97,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-color: #f8f9fa;
   border-radius: 15px;
 }
 
@@ -167,7 +168,7 @@
 }
 
 .field-card {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  background: #f8f9fa;
   border: 2px solid #e1e5e9;
   border-radius: 15px;
   padding: 20px 15px;
@@ -181,14 +182,14 @@
 .field-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  border-color: #4a90e2;
+  border-color: #dee2e6;
 }
 
 .field-card.selected {
-  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-  border-color: #4a90e2;
-  color: white;
-  box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+  background: #e9ecef;
+  border-color: #dee2e6;
+  color: #333;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .field-icon {

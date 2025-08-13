@@ -101,7 +101,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -112,7 +112,7 @@
 
 .service-link-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(255, 107, 107, 0.2);
+  box-shadow: 0 15px 35px rgba(33, 150, 243, 0.2);
 }
 
 .service-link-icon {
@@ -144,7 +144,7 @@
 
 .service-link-arrow {
   font-size: 1.5rem;
-  color: #ff6b6b;
+  color: #2196f3;
   font-weight: 700;
   transition: transform 0.3s ease;
 }
@@ -307,7 +307,7 @@
 }
 
 .view-more-button {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
   color: white;
   border: none;
   padding: 15px 30px;
@@ -316,20 +316,21 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
 }
 
 .view-more-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
 }
 
 /* NEW 도와줘요 쌤! 섹션 */
 .applications-section {
-  background: linear-gradient(135deg, #4a90e2 0%, #87ceeb 100%);
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
   padding: 60px 20px;
   margin-bottom: 40px;
   border-radius: 30px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
 }
@@ -361,13 +362,13 @@
 .applications-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: white;
+  color: #333;
   margin: 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .new-text {
-  color: #ffd700;
+  color: #2196f3;
   font-weight: 700;
   font-size: 0.9em;
   margin-right: 8px;
@@ -385,10 +386,10 @@
 }
 
 .application-card {
-  background: white;
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
   border-radius: 20px;
   padding: 25px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -401,7 +402,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -425,8 +426,9 @@
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto 15px;
-  border: 3px solid #ff6b6b;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  border: 3px solid white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: white;
 }
 
 .child-avatar img {
@@ -437,11 +439,24 @@
 
 .application-content {
   text-align: center;
+  color: white !important;
+}
+
+.application-content * {
+  color: white !important;
+}
+
+.application-card .application-content .application-target,
+.application-card .application-content .application-title,
+.application-card .application-content .application-date,
+.application-card .application-content .application-schedule,
+.application-card .application-content .application-payment {
+  color: white !important;
 }
 
 .application-target {
   font-weight: 600;
-  color: #ff6b6b;
+  color: white !important;
   margin-bottom: 10px;
   font-size: 1.1rem;
 }
@@ -449,7 +464,7 @@
 .application-title {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #333;
+  color: white !important;
   margin-bottom: 15px;
   line-height: 1.4;
 }
@@ -461,14 +476,14 @@
 .application-date,
 .application-schedule,
 .application-payment {
-  color: #666;
+  color: white !important;
   margin-bottom: 5px;
   font-size: 0.95rem;
 }
 
 .view-details-button {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
-  color: white;
+  background: white;
+  color: #2196f3;
   border: none;
   padding: 12px 25px;
   border-radius: 12px;
@@ -477,12 +492,12 @@
   cursor: pointer;
   transition: all 0.3s ease;
   width: 100%;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
 }
 
 .view-details-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
 }
 
 .applications-cta {

@@ -1,7 +1,7 @@
 /* 관리자 대시보드 페이지 스타일 */
 .admin-dashboard-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 50%, #fff8e1 100%);
   padding: 20px;
   font-family: "Noto Sans KR", sans-serif;
 }
@@ -9,31 +9,35 @@
 .admin-dashboard-container {
   max-width: 1400px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  backdrop-filter: blur(10px);
+  padding: 40px 20px;
 }
 
 .admin-dashboard-header {
-  background: linear-gradient(135deg, #42a5f5 0%, #ec407a 100%);
-  color: white;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  color: #333;
   padding: 40px;
   text-align: center;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
+  margin-bottom: 30px;
 }
 
 .admin-dashboard-header h1 {
   font-size: 2.5rem;
   font-weight: 700;
   margin: 0 0 10px 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 50%, #64b5f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .admin-dashboard-header p {
   font-size: 1.1rem;
   margin: 0;
-  opacity: 0.9;
+  color: #6c757d;
+  font-weight: 500;
 }
 
 /* 로딩 스타일 */
@@ -43,7 +47,11 @@
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  color: white;
+  color: #333;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
 }
 
 .loading-spinner {
@@ -68,17 +76,26 @@
 .login-required {
   text-align: center;
   padding: 60px 20px;
-  color: white;
+  color: #333;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
 }
 
 .login-required h2 {
   font-size: 2rem;
   margin-bottom: 15px;
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 50%, #64b5f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .login-required p {
   font-size: 1.1rem;
-  opacity: 0.9;
+  color: #6c757d;
+  font-weight: 500;
 }
 
 /* 섹션 공통 스타일 */
@@ -91,7 +108,11 @@
 .reviews-section,
 .inquiries-section {
   padding: 30px 40px;
-  border-bottom: 1px solid #e9ecef;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e1f5fe;
+  margin-bottom: 30px;
 }
 
 .overview-section h3,
@@ -104,7 +125,10 @@
 .inquiries-section h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2c3e50;
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 50%, #64b5f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 20px;
 }
 

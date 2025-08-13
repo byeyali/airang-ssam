@@ -25,10 +25,7 @@
 .page-header h1 {
   font-size: 2.8rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 50%, #64b5f6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #333;
   margin-bottom: 15px;
 }
 
@@ -70,9 +67,9 @@
 }
 
 .tab-button.active {
-  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
-  color: white;
-  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+  background: #f8f9fa;
+  color: #333;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* 탭 컨텐츠 */
@@ -97,16 +94,13 @@
 .section-header h2 {
   font-size: 2rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #333;
   margin: 0;
 }
 
 .view-all-button {
-  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
-  color: white;
+  background: #f8f9fa;
+  color: #333;
   border: none;
   padding: 12px 24px;
   border-radius: 25px;
@@ -114,7 +108,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .view-all-button:hover {
@@ -162,12 +156,12 @@
 .matching-card,
 .payment-card,
 .contract-card {
-  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+  background: #f8f9fa;
   border-radius: 20px;
   padding: 30px;
   margin-bottom: 25px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-  border: 2px solid #e3f2fd;
+  border: 2px solid #e9ecef;
   transition: all 0.3s ease;
   overflow: hidden;
 }
@@ -178,8 +172,8 @@
 .contract-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-  border-color: #ffffff;
-  background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+  border-color: #dee2e6;
+  background: #e9ecef;
 }
 
 /* 카드 헤더 */
@@ -205,7 +199,7 @@
 .contract-header h3 {
   font-size: 1.3rem;
   font-weight: 700;
-  color: white;
+  color: #333;
   margin: 0;
   line-height: 1.4;
 }
@@ -444,8 +438,8 @@
 }
 
 .view-button {
-  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
-  color: white;
+  background: #f8f9fa;
+  color: #333;
   border: none;
   padding: 12px 25px;
   border-radius: 20px;
@@ -453,12 +447,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .view-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(33, 150, 243, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 /* 계약 현황 탭 */
@@ -482,8 +476,8 @@
 }
 
 .view-more-button {
-  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
-  color: white;
+  background: #f8f9fa;
+  color: #333;
   border: none;
   padding: 15px 35px;
   border-radius: 25px;
@@ -491,12 +485,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .view-more-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(33, 150, 243, 0.4);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
 }
 
 /* 접근 거부 페이지 스타일 */
@@ -529,8 +523,8 @@
 }
 
 .login-button {
-  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
-  color: white;
+  background: #f8f9fa;
+  color: #333;
   border: none;
   padding: 15px 30px;
   border-radius: 25px;
