@@ -1,6 +1,6 @@
 // API 서비스 레이어
 const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:3001/api";
+  process.env.REACT_APP_API_URL || "https://airang-apin.azurewebsites.net";
 
 // 공통 API 함수
 const apiRequest = async (endpoint, options = {}) => {

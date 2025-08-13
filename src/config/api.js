@@ -1,6 +1,6 @@
 // 백엔드 서버 URL
 const BACKEND_URL =
-  process.env.REACT_APP_BACKEND_URL || "http://localhost:4000";
+  process.env.REACT_APP_BACKEND_URL || "https://airang-apin.azurewebsites.net";
 
 // VWorld API 설정
 const VWORLD_API_KEY =
