@@ -19,7 +19,7 @@ import Footer from "./components/Footer/Footer";
 import TeacherSearchModal from "./components/TeacherSearchModal/TeacherSearchModal";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
-import SignUp from "./pages/Signup/SignUp";
+import SignUp from "./pages/SignUp/SignUp";
 import Helpme from "./pages/Helpme/Helpme";
 import TeacherProfile from "./pages/TeacherProfile/TeacherProfile";
 import Applications from "./pages/Applications/Applications";
