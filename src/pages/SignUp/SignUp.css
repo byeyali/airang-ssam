@@ -9,12 +9,43 @@
   justify-content: center;
 }
 
+/* 회원가입 헤더 */
+.signup-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.signup-header-icon {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  position: absolute;
+  left: 0;
+}
+
+.signup-header-icon:hover {
+  transform: scale(1.1);
+}
+
+.signup-header-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 기존 signup-title 스타일 수정 */
 .signup-title {
   text-align: center;
   color: white;
   font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 40px;
+  margin: 0;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -249,20 +280,26 @@
   background: white;
 }
 
+/* 주소 검색 결과 컨테이너 */
 .address-search-results {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: white;
-  border: 2px solid #e1e8ed;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  margin-top: 5px;
-  max-height: 200px;
-  overflow-y: auto;
-  width: calc(100% - 90px);
+  display: flex !important;
+  flex-direction: column !important;
+  max-width: 400px !important;
+  background: white !important;
+  border: 1px solid #e1e8ed !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  margin-top: 10px !important;
+  overflow: hidden !important;
+  min-height: 200px !important;
+}
+
+/* 검색 결과 리스트 */
+.address-search-results .results-list {
+  flex: 2 !important;
+  max-height: 300px;
+  overflow-y: auto !important;
+  padding: 0 !important;
 }
 
 .address-result-item {
@@ -444,4 +481,98 @@
   .signup-form {
     padding: 20px 15px;
   }
+}
+
+/* results-header 스타일 */
+.results-header {
+  padding: 0.5cm 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-height: 30px !important;
+  max-height: 40px !important;
+  padding: 5px 10px !important;
+}
+
+.close-results-button {
+  padding-right: 0.5cm;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.3s ease;
+  position: absolute;
+  right: 0;
+}
+
+.close-results-button:hover {
+  color: #ff6b9d;
+}
+
+/* pagination 버튼 스타일 */
+.address-search-results .pagination-btn {
+  padding: 8px 16px !important;
+  border: 2px solid #667eea !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border-radius: 20px !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  color: white !important;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
+  min-width: 60px !important;
+  max-width: 80px !important;
+}
+
+.address-search-results .pagination-btn:hover:not(:disabled) {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+  border-color: #667eea !important;
+}
+
+.address-search-results .pagination-btn:disabled {
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+  background: #cccccc !important;
+  border-color: #cccccc !important;
+  color: #666666 !important;
+}
+
+/* 페이지네이션 영역 높이 조정 */
+.address-search-results .pagination {
+  padding: 5px 10px 0 10px !important;
+  min-height: 30px !important;
+  max-height: 40px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background-color: #f8f9fa !important;
+  border-top: 1px solid #e1e8ed !important;
+  font-size: 0.8rem !important;
+  position: relative !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  margin-bottom: 0 !important;
+  flex-shrink: 0 !important;
+}
+
+/* 페이지 정보 높이 조정 */
+.address-search-results .pagination-info {
+  font-size: 0.8rem !important;
+  color: #333 !important;
+  margin: 0 8px !important;
+  min-width: 100px !important;
+  text-align: center !important;
+  font-weight: 500 !important;
+  padding: 3px 8px !important;
+  border-radius: 0 !important;
+  background-color: #f0f0f0 !important;
+  border: 1px solid #ddd !important;
+  line-height: 1.2 !important;
 }

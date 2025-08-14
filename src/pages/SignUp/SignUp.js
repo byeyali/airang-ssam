@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
-import { searchRegionLocal } from "../../config/api";
-import { searchAddress, formatAddressData } from "../../services/kakaoAPI";
+import { searchAddress } from "../../config/api";
 import "./SignUp.css";
 
 const SignUp = () => {
@@ -11,17 +10,10 @@ const SignUp = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [showAddressSearch, setShowAddressSearch] = useState(false);
   const [addressResults, setAddressResults] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("관악구");
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    name: "",
-    phone: "",
-    address: "",
-    detailAddress: "",
-    birthDate: "",
-    residentNumber: "",
-  });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const countPerPage = 10;
 
   const navigate = useNavigate();
   const { signup } = useUser();
@@ -30,14 +22,29 @@ const SignUp = () => {
     setUserType(type);
   };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  // 휴대폰 번호 포맷팅
+  const formatPhoneNumber = (value) => {
+    // 숫자만 추출
+    const numbers = value.replace(/[^\d]/g, "");
+
+    // 11자리 이하로 제한
+    const limitedNumbers = numbers.slice(0, 11);
+
+    // 포맷팅 적용
+    if (limitedNumbers.length <= 3) {
+      return limitedNumbers;
+    } else if (limitedNumbers.length <= 7) {
+      return `${limitedNumbers.slice(0, 3)}-${limitedNumbers.slice(3)}`;
+    } else {
+      return `${limitedNumbers.slice(0, 3)}-${limitedNumbers.slice(
+        3,
+        7
+      )}-${limitedNumbers.slice(7)}`;
+    }
   };
 
-  const formatResidentNumber = (value) => {
+  // 주민등록번호 포맷팅
+  const formatResidenceNo = (value) => {
     // 숫자만 추출
     const numbers = value.replace(/[^0-9]/g, "");
 
@@ -55,19 +62,63 @@ const SignUp = () => {
     return numbers.slice(0, 6) + "-" + numbers.slice(6, 13);
   };
 
-  const handleResidentNumberChange = (e) => {
-    const formattedValue = formatResidentNumber(e.target.value);
-    setFormData({
-      ...formData,
-      residentNumber: formattedValue,
-    });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    // 휴대폰 번호 필드인 경우 포맷팅 적용
+    if (name === "cell_phone") {
+      const formattedValue = formatPhoneNumber(value);
+      setFormData({
+        ...formData,
+        [name]: formattedValue,
+      });
+    } else if (name === "residence_no") {
+      const formattedValue = formatResidenceNo(value);
+      setFormData({
+        ...formData,
+        [name]: formattedValue,
+      });
+    } else if (name === "birth_date") {
+      const onlyNumbers = value.replace(/[^0-9]/g, "").slice(0, 8);
+
+      let formattedValue = onlyNumbers;
+      if (onlyNumbers.length >= 5) {
+        formattedValue =
+          onlyNumbers.slice(0, 4) +
+          "-" +
+          onlyNumbers.slice(4, 6) +
+          (onlyNumbers.length > 6 ? "-" + onlyNumbers.slice(6, 8) : "");
+      } else if (onlyNumbers.length >= 4) {
+        formattedValue =
+          onlyNumbers.slice(0, 4) + "-" + onlyNumbers.slice(4, 6);
+      }
+
+      setFormData({
+        ...formData,
+        [name]: formattedValue,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
-  const handleDateSelect = (date) => {
-    const formattedDate = date.toLocaleDateString("ko-KR");
+  // 생일 포맷팅 함수 추가
+  const formatBirthDate = (date) => {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
+
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  const handleBirthDateSelect = (date) => {
+    const formattedDate = formatBirthDate(date);
     setFormData((prev) => ({
       ...prev,
-      birthDate: formattedDate,
+      birth_date: formattedDate,
     }));
     setShowCalendar(false);
   };
@@ -123,60 +174,93 @@ const SignUp = () => {
     return Array.from({ length: 12 }, (_, i) => i + 1);
   };
 
-  const handleAddressSearch = async () => {
-    console.log("주소 검색 버튼 클릭됨");
-    console.log("검색어:", searchQuery);
-
-    if (!searchQuery.trim()) {
-      alert("검색어를 입력해주세요.");
-      return;
-    }
+  // 주소 검색
+  const handleAddressSearch = async (page = 1) => {
+    const keyword = formData.address || searchQuery;
+    if (!keyword || keyword.trim() === "") return;
 
     try {
-      console.log("카카오 API 호출 시작...");
-      const response = await searchAddress(searchQuery);
-      console.log("카카오 API 응답:", response);
+      const response = await searchAddress(keyword, page, countPerPage);
 
-      if (response.documents && response.documents.length > 0) {
-        const formattedResults = formatAddressData(response);
-        setAddressResults(formattedResults);
+      if (response?.data?.addresses) {
+        setAddressResults(response.data.addresses);
+        setTotalCount(response.data.totalCount || 0);
+        setCurrentPage(response.data.currentPage || 1);
         setShowAddressSearch(true);
-        console.log("검색 결과 설정 완료:", formattedResults);
       } else {
-        alert("검색 결과가 없습니다.");
+        alert("주소는 없거나 자세히 입력해 주세요.");
         setAddressResults([]);
         setShowAddressSearch(false);
       }
     } catch (error) {
-      console.error("주소 검색 오류:", error);
-      alert("주소 검색에 실패했습니다.");
+      alert("주소검색 중 오류가 발생했습니다.");
+      console.error(error);
+      setAddressResults([]);
+      setShowAddressSearch(false);
     }
   };
 
-  const handleAddressSelect = (addressData) => {
-    const fullAddress = addressData.full_address || addressData.address_name;
+  const handleAddressSelect = (address) => {
     setFormData((prev) => ({
       ...prev,
-      address: fullAddress,
+      address: address,
     }));
     setShowAddressSearch(false);
     setSearchQuery("");
     setAddressResults([]);
   };
 
-  const handleSubmit = (e) => {
+  const handleMainPageClick = () => {
+    navigate("/");
+  };
+
+  const [formData, setFormData] = useState({
+    password: "",
+    email: "",
+    name: "",
+    cell_phone: "",
+    residence_no: "",
+    birth_date: "",
+    city: "",
+    area: "",
+    address: "",
+    detailAddress: "",
+  });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 실제 회원가입 로직 (현재는 시뮬레이션)
+    if (!/^\d{6}-\d{7}$/.test(formData.residence_no)) {
+      alert("주민등록번호 형식이 올바르지 않습니다.");
+      return;
+    }
+
     const userData = {
-      name: formData.name || "김가정",
+      password: formData.password,
+      member_type: userType,
       email: formData.email,
-      userType: userType,
-      phone: formData.phone,
+      name: formData.name,
+      cell_phone: formData.cell_phone.replace(/-/g, ""),
+      residence_no: formData.residence_no.replace(/-/g, ""),
+      birth_date: formData.birth_date.replace(/\./g, "-"),
+      address: `${formData.address} ${formData.detailAddress}`.trim(),
     };
 
-    signup(userData);
-    navigate("/");
+    try {
+      await signup(userData);
+      alert("회원가입이 완료되었습니다!");
+      navigate("/");
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        // 주민등록번호 검증 실패
+        const errorMessage =
+          error.response.data.message || "잘못된 주민등록번호 입니다.";
+        alert(errorMessage);
+      } else {
+        alert("회원가입 중 오류가 발생했습니다.");
+        console.error(error);
+      }
+    }
   };
 
   const generateCalendarDays = () => {
@@ -205,13 +289,23 @@ const SignUp = () => {
 
   return (
     <div className="signup-form-container">
-      <h1 className="signup-title">회원가입</h1>
+      <div className="signup-header">
+        <div className="signup-header-icon" onClick={handleMainPageClick}>
+          <img
+            src="/img/new-logo-airang.png"
+            alt="아이랑 쌤"
+            className="signup-header-logo"
+          />
+        </div>
+        <h1 className="signup-title">회원가입</h1>
+      </div>
 
       <form onSubmit={handleSubmit} className="signup-form">
         <div className="signup-form-group signup-form-group-inline">
           <div className="signup-label-button">이메일</div>
           <input
             type="email"
+            maxLength="100"
             className="signup-input-field"
             name="email"
             value={formData.email}
@@ -224,6 +318,7 @@ const SignUp = () => {
           <div className="signup-label-button">패스워드</div>
           <input
             type="password"
+            maxLength="20"
             className="signup-input-field"
             name="password"
             value={formData.password}
@@ -245,9 +340,9 @@ const SignUp = () => {
             </div>
             <div
               className={`signup-radio-button ${
-                userType === "teacher" ? "selected" : ""
+                userType === "tutor" ? "selected" : ""
               }`}
-              onClick={() => handleUserTypeChange("teacher")}
+              onClick={() => handleUserTypeChange("tutor")}
             >
               쌤
             </div>
@@ -258,6 +353,7 @@ const SignUp = () => {
           <div className="signup-label-button">성 명</div>
           <input
             type="text"
+            maxLength="50"
             className="signup-input-field"
             placeholder="홍길동"
             name="name"
@@ -271,11 +367,13 @@ const SignUp = () => {
           <div className="signup-label-button">휴대폰 번호</div>
           <input
             type="tel"
+            maxLength="13"
             className="signup-input-field"
             placeholder="010-0000-0000"
-            name="phone"
-            value={formData.phone}
+            name="cell_phone"
+            value={formData.cell_phone}
             onChange={handleChange}
+            required
           />
           <button
             type="button"
@@ -284,17 +382,16 @@ const SignUp = () => {
             인증
           </button>
         </div>
-
         <div className="signup-form-group signup-form-group-inline">
           <div className="signup-label-button">주민등록번호</div>
           <input
             type="text"
+            name="residence_no"
             className="signup-input-field"
-            placeholder="900000-2000000"
-            name="residentNumber"
-            value={formData.residentNumber}
-            onChange={handleResidentNumberChange}
             maxLength="14"
+            value={formData.residence_no}
+            onChange={handleChange}
+            required
           />
         </div>
 
@@ -304,11 +401,10 @@ const SignUp = () => {
             <input
               type="text"
               className="signup-input-field"
-              placeholder="0000년 00월 00일"
-              name="birthDate"
-              value={formData.birthDate}
+              name="birth_date"
+              value={formData.birth_date}
               onChange={handleChange}
-              maxLength="13"
+              placeholder="예: 19900101"
             />
             <button
               type="button"
@@ -378,7 +474,7 @@ const SignUp = () => {
                           ? "other-month"
                           : ""
                       }`}
-                      onClick={() => handleDateSelect(day)}
+                      onClick={() => handleBirthDateSelect(day)}
                     >
                       {day.getDate()}
                     </button>
@@ -389,17 +485,25 @@ const SignUp = () => {
           </div>
         </div>
 
-        <div className="signup-form-group signup-form-group-inline">
+        <div
+          className="signup-form-group signup-form-group-inline"
+          style={{ position: "relative" }}
+        >
           <div className="signup-label-button">주 소</div>
           <div className="address-input-container">
             <input
               type="text"
               className="signup-input-field address-field"
-              placeholder="주소를 검색하여 선택하세요"
+              placeholder="도로명 주소 입력후 엔터/검색"
               name="address"
               value={formData.address}
               onChange={handleChange}
-              readOnly
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleAddressSearch();
+                }
+              }}
             />
 
             <button
@@ -409,29 +513,82 @@ const SignUp = () => {
             >
               검색
             </button>
-            {showAddressSearch && addressResults.length > 0 && (
-              <div className="address-search-results">
-                {addressResults.map((result, index) => (
+          </div>
+          {/* 주소 검색 결과 */}
+          {showAddressSearch && addressResults.length > 0 && (
+            <div className="address-search-results">
+              <div className="results-header">
+                <span>검색 결과 ({addressResults.length}개)</span>
+                <button
+                  type="button"
+                  className="close-results-button"
+                  onClick={() => {
+                    setShowAddressSearch(false);
+                    setAddressResults([]);
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="results-list">
+                {addressResults.slice(0, 10).map((result, index) => (
                   <div
                     key={index}
                     className="address-result-item"
-                    onClick={() => handleAddressSelect(result)}
+                    onClick={() =>
+                      handleAddressSelect(
+                        result.roadAddr ||
+                          result.jibunAddr ||
+                          result.address ||
+                          result.title ||
+                          result.name
+                      )
+                    }
                   >
-                    <div className="address-title">{result.full_address}</div>
-                    {result.place_name && (
-                      <div className="address-detail">{result.place_name}</div>
-                    )}
+                    {result.roadAddr ||
+                      result.jibunAddr ||
+                      result.address ||
+                      result.title ||
+                      result.name}
                   </div>
                 ))}
               </div>
-            )}
-          </div>
+              <div className="pagination">
+                {currentPage > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => handleAddressSearch(currentPage - 1)}
+                    className="pagination-btn"
+                  >
+                    ◀ 이전
+                  </button>
+                )}
+
+                <span className="pagination-info">
+                  {currentPage} /{" "}
+                  {Math.max(1, Math.ceil(totalCount / countPerPage))} 페이지
+                  {totalCount > 0 && ` (총 ${totalCount}개)`}
+                </span>
+
+                {currentPage < Math.ceil(totalCount / countPerPage) && (
+                  <button
+                    type="button"
+                    onClick={() => handleAddressSearch(currentPage + 1)}
+                    className="pagination-btn"
+                  >
+                    다음 ▶
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="signup-form-group signup-form-group-inline">
           <div className="signup-label-button">상세주소</div>
           <input
             type="text"
+            maxLength="100"
             className="signup-input-field"
             placeholder="상세주소 (예: 302호 3층)"
             name="detailAddress"

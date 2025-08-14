@@ -1,7 +1,36 @@
+import axios from "axios";
+
 // 백엔드 서버 URL
 const BACKEND_URL =
   process.env.REACT_APP_BACKEND_URL || "https://airang-apin.azurewebsites.net";
 
+// 주소검색 API 정의
+const addrURL = `${
+  process.env.REACT_APP_BASEURL || "https://airang-apin.azurewebsites.net"
+}/locations/search`;
+
+export const searchAddress = async (keyword, page, countPerpage) => {
+  console.log("searchAddress 호출됨, 검색어:", keyword);
+  console.log("API URL:", addrURL);
+
+  try {
+    if (!keyword || keyword.trim() === "") {
+      console.warn("검색어가 비어 있습니다.");
+      return null;
+    }
+
+    const response = await axios.get(
+      `${addrURL}?keyword=${encodeURIComponent(
+        keyword
+      )}&currentPage=${page}&countPerpage=${countPerpage}`
+    );
+    console.log("searchAddress 성공, 응답:", response);
+    return response;
+  } catch (error) {
+    console.error("주소 검색 API 에러", error);
+    return null;
+  }
+};
 // VWorld API 설정
 const VWORLD_API_KEY =
   process.env.REACT_APP_VWORLD_API_KEY ||

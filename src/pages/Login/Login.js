@@ -1,3 +1,5 @@
+//
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
@@ -25,7 +27,8 @@ function Login() {
     setError("");
 
     try {
-      const result = await login(formData.email, formData.password);
+      const loginData = { email: formData.email, password: formData.password };
+      const result = await login(loginData);
 
       if (result.success) {
         navigate("/");
@@ -38,12 +41,35 @@ function Login() {
   };
 
   const handleSignUpClick = () => {
-    console.log("회원가입 버튼 클릭됨");
     navigate("/signup");
+  };
+
+  const handleMainPageClick = () => {
+    navigate("/");
   };
 
   return (
     <div className="login-form-container">
+      {/* 아이랑 쌤 이미지와 텍스트 */}
+      <div className="login-header-section" onClick={handleMainPageClick}>
+        <div className="login-header-content">
+          <div className="login-header-images">
+            <img
+              src="/img/boy.png"
+              alt="아이"
+              className="login-header-image child-image"
+            />
+            <span className="login-header-text">랑</span>
+            <img
+              src="/img/teacher-20-woman.png"
+              alt="쌤"
+              className="login-header-image teacher-image"
+            />
+          </div>
+          <div className="login-header-title">아이랑 쌤</div>
+        </div>
+      </div>
+
       <h1 className="login-title">로그인</h1>
 
       <form onSubmit={handleSubmit} className="login-form">

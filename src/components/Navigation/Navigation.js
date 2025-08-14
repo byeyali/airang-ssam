@@ -9,6 +9,8 @@ function Navigation() {
   const location = useLocation();
   const [imageLoadErrors, setImageLoadErrors] = useState({});
 
+  console.log(user);
+
   const handleImageError = (imageName) => {
     console.log(`이미지 로딩 실패: ${imageName}`);
     setImageLoadErrors((prev) => ({
@@ -26,7 +28,11 @@ function Navigation() {
       navigate("/login");
       return;
     }
-    if (user && user.type !== "parent" && user.type !== "admin") {
+    if (
+      user &&
+      user.member_type !== "parents" &&
+      user.member_type !== "admin"
+    ) {
       e.preventDefault();
       alert(`${featureName} 기능은 부모님 회원만 이용할 수 있습니다.`);
       return;
@@ -42,7 +48,7 @@ function Navigation() {
       navigate("/login");
       return;
     }
-    if (user && user.type !== "tutor" && user.type !== "admin") {
+    if (user && user.member_type !== "tutor" && user.member_type !== "admin") {
       e.preventDefault();
       alert(`${featureName} 기능은 쌤 회원만 이용할 수 있습니다.`);
       return;
@@ -68,11 +74,11 @@ function Navigation() {
 
     // 사용자 타입에 따라 다른 마이페이지로 이동
     e.preventDefault();
-    if (user.type === "parent") {
+    if (user.member_type === "parents") {
       navigate("/parent/my-page");
-    } else if (user.type === "teacher" || user.type === "tutor") {
+    } else if (user.member_type === "teacher" || user.member_type === "tutor") {
       navigate("/teacher/my-page");
-    } else if (user.type === "admin") {
+    } else if (user.member_type === "admin") {
       navigate("/admin-dashboard");
     } else {
       alert("알 수 없는 사용자 타입입니다.");
@@ -82,10 +88,14 @@ function Navigation() {
   return (
     <nav className="main-navigation">
       {/* 관리자 로그인 시 네비게이션 순서 */}
-      {user && user.type === "admin" ? (
+      {user && user.member_type === "admin" ? (
         <>
           {/* 1. 도와줘요 쌤 */}
-          <Link to="/Helpme" className="nav-item">
+          <Link
+            to="/Helpme"
+            className="nav-item"
+            onClick={handleParentFeatureClick}
+          >
             <img
               src="/img/icon_help.png"
               alt="도와줘요 쌤"
@@ -96,7 +106,11 @@ function Navigation() {
           </Link>
 
           {/* 2. 쌤이 되어 볼래요? */}
-          <Link to="/teacher-profile" className="nav-item">
+          <Link
+            to="/teacher-profile"
+            className="nav-item"
+            onClick={handleTeacherFeatureClick}
+          >
             <img
               src="/img/icon_teacher.png"
               alt="쌤이 되어 볼래요?"
@@ -141,7 +155,11 @@ function Navigation() {
           </Link>
 
           {/* 6. 계약 현황 */}
-          <Link to="/contract-management" className="nav-item">
+          <Link
+            to="/contract-management"
+            className="nav-item"
+            onClick={handleMyPageClick}
+          >
             <img
               src="/img/img-nav-contract.png"
               alt="계약 현황"
@@ -167,7 +185,7 @@ function Navigation() {
         /* 일반 사용자 네비게이션 */
         <>
           {/* 도와줘요 쌤 - 부모와 관리자만 표시 */}
-          {(!user || user.type === "parent") && (
+          {(!user || user.member_type === "parents") && (
             <Link to="/Helpme" className="nav-item">
               <img
                 src="/img/icon_help.png"
@@ -180,7 +198,7 @@ function Navigation() {
           )}
 
           {/* 쌤이 되어 볼래요? - 부모가 아닐 때만 표시 */}
-          {(!user || user.type !== "parent") && (
+          {(!user || user.member_type !== "parents") && (
             <Link to="/teacher-profile" className="nav-item">
               <img
                 src="/img/icon_teacher.png"
@@ -193,7 +211,7 @@ function Navigation() {
           )}
 
           {/* 부모 기능 메뉴 - 부모만 표시 */}
-          {(!user || user.type === "parent") && (
+          {(!user || user.member_type === "parents") && (
             <Link
               to="/teacher-applications"
               className="nav-item"
@@ -209,7 +227,9 @@ function Navigation() {
           )}
 
           {/* 쌤 기능 메뉴 - 쌤과 튜터만 표시 (부모 제외) */}
-          {(!user || user.type === "teacher" || user.type === "tutor") && (
+          {(!user ||
+            user.member_type === "teacher" ||
+            user.member_type === "tutor") && (
             <Link
               to="/applications"
               className="nav-item"
@@ -244,11 +264,14 @@ function Navigation() {
             className="nav-item"
             onClick={(e) => {
               e.preventDefault();
-              if (user.type === "admin") {
+              if (user.member_type === "admin") {
                 navigate("/contract-management");
-              } else if (user.type === "parent") {
+              } else if (user.member_type === "parents") {
                 navigate("/parent/contract-management");
-              } else if (user.type === "teacher" || user.type === "tutor") {
+              } else if (
+                user.member_type === "teacher" ||
+                user.member_type === "tutor"
+              ) {
                 navigate("/teacher/contract-management");
               }
             }}

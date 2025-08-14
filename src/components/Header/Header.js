@@ -27,8 +27,14 @@ function Header() {
   const getUserRoleText = () => {
     if (!user) return "";
 
-    switch (user.type) {
-      case "parent":
+    // 다양한 필드명으로 사용자 타입 확인
+    const userType = user.member_type || user.userType || user.role;
+
+    console.log("사용자 정보:", user);
+    console.log("사용자 타입:", userType);
+
+    switch (userType) {
+      case "parents":
         return "부모님";
       case "tutor":
         return "쌤";
@@ -66,7 +72,10 @@ function Header() {
             <div className="user-info-section">
               <div className="user-role-display">
                 <span className="user-role">{getUserRoleText()}</span>
-                {user.type === "admin" && (
+                {(user.type === "admin" ||
+                  user.member_type === "admin" ||
+                  user.userType === "admin" ||
+                  user.role === "admin") && (
                   <Link to="/admin-dashboard" className="admin-dashboard-link">
                     대시보드
                   </Link>
