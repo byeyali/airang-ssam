@@ -45,6 +45,7 @@ import ParentContractManagement from "./pages/ParentContractManagement/ParentCon
 import TeacherContractManagement from "./pages/TeacherContractManagement/TeacherContractManagement";
 import TeacherMyPage from "./pages/TeacherMyPage/TeacherMyPage";
 import ParentMyPage from "./pages/ParentMyPage/ParentMyPage";
+import DebugInfo from "./components/DebugInfo/DebugInfo";
 import "./App.css";
 
 function AppContent() {
@@ -153,6 +154,12 @@ function AppContent() {
         isOpen={isTeacherSearchModalOpen && !isModalTransitioning}
         onClose={handleCloseTeacherSearchModal}
       />
+
+      {/* 디버그 정보 컴포넌트 (개발/배포 환경에서만 표시) */}
+      {process.env.NODE_ENV === "development" ||
+      window.location.hostname.includes("azurestaticapps") ? (
+        <DebugInfo />
+      ) : null}
     </div>
   );
 }

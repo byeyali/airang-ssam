@@ -13,6 +13,7 @@ function Login() {
     password: "",
   });
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,18 +26,44 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
 
     try {
+      // 네트워크 연결 상태 확인
+      if (!navigator.onLine) {
+        setError("인터넷 연결을 확인해주세요.");
+        setIsLoading(false);
+        return;
+      }
+
       const loginData = { email: formData.email, password: formData.password };
       const result = await login(loginData);
 
       if (result.success) {
         navigate("/");
       } else {
-        setError(result.message);
+        setError(result.message || "로그인에 실패했습니다.");
       }
     } catch (error) {
-      setError("로그인 중 오류가 발생했습니다.");
+      console.error("Login error:", error);
+
+      // 구체적인 에러 메시지 처리
+      if (
+        error.code === "NETWORK_ERROR" ||
+        error.message.includes("Network Error")
+      ) {
+        setError("서버에 연결할 수 없습니다. 잠시 후 다시 시도해주세요.");
+      } else if (error.response?.status === 404) {
+        setError("로그인 서비스를 찾을 수 없습니다.");
+      } else if (error.response?.status === 500) {
+        setError("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      } else if (error.response?.status === 0) {
+        setError("CORS 오류가 발생했습니다. 브라우저 설정을 확인해주세요.");
+      } else {
+        setError("로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -104,8 +131,9 @@ function Login() {
         <button
           type="submit"
           className="login-action-button login-submit-button"
+          disabled={isLoading}
         >
-          로그인
+          {isLoading ? "로그인 중..." : "로그인"}
         </button>
       </form>
 

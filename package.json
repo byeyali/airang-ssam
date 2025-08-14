@@ -16,7 +16,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "REACT_APP_BACKEND_URL=https://airang-apin.azurewebsites.net REACT_APP_API_URL=https://airang-apin.azurewebsites.net REACT_APP_BASEURL=https://airang-apin.azurewebsites.net react-scripts build",
+    "build:dev": "REACT_APP_BACKEND_URL=http://localhost:8080 REACT_APP_API_URL=http://localhost:8080 REACT_APP_BASEURL=http://localhost:8080 react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
