@@ -7,9 +7,10 @@ const getApiUrl = () => {
     return process.env.REACT_APP_BACKEND_URL;
   }
 
-  // 개발 환경
+  // 개발 환경에서 로컬 서버 연결 테스트
   if (process.env.NODE_ENV === "development") {
-    return "http://localhost:8080";
+    // 로컬 서버가 실행 중인지 확인하고, 없으면 Azure API 사용
+    return "https://airang-apin.azurewebsites.net";
   }
 
   // 프로덕션 기본값
@@ -30,6 +31,13 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    // 개발 환경에서 API URL 로깅
+    if (process.env.NODE_ENV === "development") {
+      console.log("API 요청:", config.method?.toUpperCase(), config.url);
+      console.log("Base URL:", config.baseURL);
+    }
+
     return config;
   },
   (error) => {
@@ -43,6 +51,17 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
+    // 개발 환경에서 상세한 에러 로깅
+    if (process.env.NODE_ENV === "development") {
+      console.error("API 요청 실패:", {
+        url: error.config?.url,
+        method: error.config?.method,
+        status: error.response?.status,
+        message: error.message,
+        data: error.response?.data,
+      });
+    }
+
     // 401 에러 시 로그아웃 처리
     if (error.response?.status === 401) {
       localStorage.removeItem("authToken");
