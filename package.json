@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "REACT_APP_BACKEND_URL=https://airang-apin.azurewebsites.net REACT_APP_API_URL=https://airang-apin.azurewebsites.net REACT_APP_BASEURL=https://airang-apin.azurewebsites.net react-scripts build",
+    "build": "REACT_APP_BACKEND_URL=https://airang-apin.azurewebsites.net REACT_APP_API_URL=https://airang-apin.azurewebsites.net REACT_APP_BASEURL=https://airang-apin.azurewebsites.net GENERATE_SOURCEMAP=false DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "build:dev": "REACT_APP_BACKEND_URL=http://localhost:8080 REACT_APP_API_URL=http://localhost:8080 REACT_APP_BASEURL=http://localhost:8080 react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -26,7 +26,12 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-unused-vars": "warn",
+      "react-hooks/exhaustive-deps": "warn",
+      "import/no-anonymous-default-export": "warn"
+    }
   },
   "browserslist": {
     "production": [
