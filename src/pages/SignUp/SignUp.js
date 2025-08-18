@@ -10,6 +10,8 @@ const SignUp = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [showAddressSearch, setShowAddressSearch] = useState(false);
   const [addressResults, setAddressResults] = useState([]);
+  const [city, setCity] = useState("");
+  const [area, setArea] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
@@ -200,10 +202,15 @@ const SignUp = () => {
     }
   };
 
-  const handleAddressSelect = (address) => {
+  const handleAddressSelect = (selectedAddress) => {
+    // 백엔드에서 받은 필드명 사용
+    const addressText = selectedAddress.address || "";
+
     setFormData((prev) => ({
       ...prev,
-      address: address,
+      address: addressText,
+      city: selectedAddress.city || "", // 백엔드에서 받은 city
+      area: selectedAddress.area || "", // 백엔드에서 받은 area
     }));
     setShowAddressSearch(false);
     setSearchQuery("");
@@ -235,6 +242,8 @@ const SignUp = () => {
       return;
     }
 
+    console.log("회원가입 데이터:", { city, area, formData });
+
     const userData = {
       password: formData.password,
       member_type: userType,
@@ -243,8 +252,12 @@ const SignUp = () => {
       cell_phone: formData.cell_phone.replace(/-/g, ""),
       residence_no: formData.residence_no.replace(/-/g, ""),
       birth_date: formData.birth_date.replace(/\./g, "-"),
+      city: formData.city, // formData의 city 사용
+      area: formData.area, // formData의 area 사용
       address: `${formData.address} ${formData.detailAddress}`.trim(),
     };
+
+    console.log("전송할 userData:", userData);
 
     try {
       await signup(userData);
@@ -535,21 +548,9 @@ const SignUp = () => {
                   <div
                     key={index}
                     className="address-result-item"
-                    onClick={() =>
-                      handleAddressSelect(
-                        result.roadAddr ||
-                          result.jibunAddr ||
-                          result.address ||
-                          result.title ||
-                          result.name
-                      )
-                    }
+                    onClick={() => handleAddressSelect(result)}
                   >
-                    {result.roadAddr ||
-                      result.jibunAddr ||
-                      result.address ||
-                      result.title ||
-                      result.name}
+                    {result.address}
                   </div>
                 ))}
               </div>

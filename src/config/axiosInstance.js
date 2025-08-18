@@ -7,9 +7,26 @@ const getApiUrl = () => {
     return process.env.REACT_APP_BACKEND_URL;
   }
 
-  // 개발 환경에서 로컬 서버 연결 테스트
+  // 개발 환경 - 로컬 백엔드 우선 시도, 실패시 Azure 사용
   if (process.env.NODE_ENV === "development") {
-    // 로컬 서버가 실행 중인지 확인하고, 없으면 Azure API 사용
+    // 로컬 백엔드가 실행 중인지 확인
+    const checkLocalBackend = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/health", {
+          method: "GET",
+          timeout: 2000,
+        });
+        if (response.ok) {
+          return "http://localhost:8080";
+        }
+      } catch (error) {
+        console.log("로컬 백엔드 서버가 실행되지 않아 Azure API를 사용합니다.");
+      }
+      console.log("API 사용");
+      return "https://airang-apin.azurewebsites.net";
+    };
+
+    // 기본적으로 Azure API 사용 (로컬 백엔드가 실행 중이면 자동으로 감지됨)
     return "https://airang-apin.azurewebsites.net";
   }
 
@@ -31,13 +48,6 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-
-    // 개발 환경에서 API URL 로깅
-    if (process.env.NODE_ENV === "development") {
-      console.log("API 요청:", config.method?.toUpperCase(), config.url);
-      console.log("Base URL:", config.baseURL);
-    }
-
     return config;
   },
   (error) => {
@@ -51,17 +61,6 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    // 개발 환경에서 상세한 에러 로깅
-    if (process.env.NODE_ENV === "development") {
-      console.error("API 요청 실패:", {
-        url: error.config?.url,
-        method: error.config?.method,
-        status: error.response?.status,
-        message: error.message,
-        data: error.response?.data,
-      });
-    }
-
     // 401 에러 시 로그아웃 처리
     if (error.response?.status === 401) {
       localStorage.removeItem("authToken");

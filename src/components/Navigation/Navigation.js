@@ -64,6 +64,16 @@ function Navigation() {
     }
   };
 
+  // 현재 페이지 메뉴 활성화 확인 함수
+  const isActiveMenu = (path) => {
+    return location.pathname === path;
+  };
+
+  // 현재 페이지 메뉴 활성화 확인 함수 (부분 경로 포함)
+  const isActiveMenuPartial = (path) => {
+    return location.pathname.startsWith(path);
+  };
+
   const handleMyPageClick = (e) => {
     if (!user) {
       e.preventDefault();
@@ -93,7 +103,7 @@ function Navigation() {
           {/* 1. 도와줘요 쌤 */}
           <Link
             to="/Helpme"
-            className="nav-item"
+            className={`nav-item ${isActiveMenu("/Helpme") ? "active" : ""}`}
             onClick={handleParentFeatureClick}
           >
             <img
@@ -108,7 +118,9 @@ function Navigation() {
           {/* 2. 쌤이 되어 볼래요? */}
           <Link
             to="/teacher-profile"
-            className="nav-item"
+            className={`nav-item ${
+              isActiveMenu("/teacher-profile") ? "active" : ""
+            }`}
             onClick={handleTeacherFeatureClick}
           >
             <img
@@ -121,7 +133,12 @@ function Navigation() {
           </Link>
 
           {/* 3. 우리 아이 쌤 찾기 */}
-          <Link to="/teacher-applications" className="nav-item">
+          <Link
+            to="/teacher-applications"
+            className={`nav-item ${
+              isActiveMenu("/teacher-applications") ? "active" : ""
+            }`}
+          >
             <img
               src="/img/icon_find.png"
               alt="우리 아이 쌤 찾기"
@@ -131,7 +148,12 @@ function Navigation() {
           </Link>
 
           {/* 4. 공고 찾기 */}
-          <Link to="/applications" className="nav-item">
+          <Link
+            to="/applications"
+            className={`nav-item ${
+              isActiveMenu("/applications") ? "active" : ""
+            }`}
+          >
             <img
               src="/img/findteacher.png"
               alt="공고 찾기"
@@ -143,7 +165,7 @@ function Navigation() {
           {/* 5. 매칭 관리 */}
           <Link
             to="/matchings"
-            className="nav-item"
+            className={`nav-item ${isActiveMenu("/matchings") ? "active" : ""}`}
             onClick={handleMatchingClick}
           >
             <img
@@ -157,7 +179,9 @@ function Navigation() {
           {/* 6. 계약 현황 */}
           <Link
             to="/contract-management"
-            className="nav-item"
+            className={`nav-item ${
+              isActiveMenu("/contract-management") ? "active" : ""
+            }`}
             onClick={handleMyPageClick}
           >
             <img
@@ -172,7 +196,17 @@ function Navigation() {
           </Link>
 
           {/* 7. 마이 페이지 */}
-          <Link to="#" className="nav-item" onClick={handleMyPageClick}>
+          <Link
+            to="#"
+            className={`nav-item ${
+              isActiveMenuPartial("/parent/my-page") ||
+              isActiveMenuPartial("/teacher/my-page") ||
+              isActiveMenuPartial("/admin-dashboard")
+                ? "active"
+                : ""
+            }`}
+            onClick={handleMyPageClick}
+          >
             <img
               src="/img/nav-mypage-teacher.png"
               alt="마이 페이지"
@@ -186,7 +220,11 @@ function Navigation() {
         <>
           {/* 도와줘요 쌤 - 부모와 관리자만 표시 */}
           {(!user || user.member_type === "parents") && (
-            <Link to="/Helpme" className="nav-item">
+            <Link
+              to="/Helpme"
+              className={`nav-item ${isActiveMenu("/Helpme") ? "active" : ""}`}
+              onClick={(e) => handleParentFeatureClick(e, "도와줘요 쌤")}
+            >
               <img
                 src="/img/icon_help.png"
                 alt="도와줘요 쌤"
@@ -199,7 +237,12 @@ function Navigation() {
 
           {/* 쌤이 되어 볼래요? - 부모가 아닐 때만 표시 */}
           {(!user || user.member_type !== "parents") && (
-            <Link to="/teacher-profile" className="nav-item">
+            <Link
+              to="/teacher-profile"
+              className={`nav-item ${
+                isActiveMenu("/teacher-profile") ? "active" : ""
+              }`}
+            >
               <img
                 src="/img/icon_teacher.png"
                 alt="쌤이 되어 볼래요?"
@@ -214,7 +257,9 @@ function Navigation() {
           {(!user || user.member_type === "parents") && (
             <Link
               to="/teacher-applications"
-              className="nav-item"
+              className={`nav-item ${
+                isActiveMenu("/teacher-applications") ? "active" : ""
+              }`}
               onClick={(e) => handleParentFeatureClick(e, "우리 아이 쌤 찾기")}
             >
               <img
@@ -232,7 +277,9 @@ function Navigation() {
             user.member_type === "tutor") && (
             <Link
               to="/applications"
-              className="nav-item"
+              className={`nav-item ${
+                isActiveMenu("/applications") ? "active" : ""
+              }`}
               onClick={(e) => handleTeacherFeatureClick(e, "공고 찾기")}
             >
               <img
@@ -247,7 +294,7 @@ function Navigation() {
           {/* 매칭 관리 - 모든 사용자 표시 */}
           <Link
             to="/matchings"
-            className="nav-item"
+            className={`nav-item ${isActiveMenu("/matchings") ? "active" : ""}`}
             onClick={handleMatchingClick}
           >
             <img

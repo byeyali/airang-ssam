@@ -1,20 +1,16 @@
-//
-// Helpme.js
-// 모든 카테고리 항목에서 중복 선택이 가능한 최종 파일
-//
-
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
 import { useTeacherSearch } from "../../contexts/TeacherSearchContext";
-import { searchRegionLocal, searchTeacher } from "../../config/api";
+import { searchRegionLocal } from "../../config/api";
+import { searchAddress } from "../../config/api";
 import "./Helpme.css";
 
 const Helpme = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useUser();
-  const { setSearchData } = useTeacherSearch();
+  const { setSearchData, searchTeachers } = useTeacherSearch();
   const [isEditMode, setIsEditMode] = useState(false);
   const [editApplicationId, setEditApplicationId] = useState(null);
   // 🧠 'selectedItems'라는 상태(state)를 만들고, 초깃값으로 빈 배열([])을 넣어줘.
@@ -25,11 +21,36 @@ const Helpme = () => {
   const [showAddressSearch, setShowAddressSearch] = useState(false);
   const [addressResults, setAddressResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [startDate, setStartDate] = useState("2025-07-30");
-  const [endDate, setEndDate] = useState("2026-07-30");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [countPerPage] = useState(10);
+
+  // formData 상태 추가
+  const [formData, setFormData] = useState({
+    address: "",
+    city: "",
+    area: "",
+  });
+
+  // 선택된 지역과 주소 상태 추가
+  const [selectedRegion, setSelectedRegion] = useState("");
+  const [selectedAddress, setSelectedAddress] = useState("");
+  const [startDate, setStartDate] = useState(() => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split("T")[0];
+  });
+  const [endDate, setEndDate] = useState(() => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const oneMonthLater = new Date(tomorrow);
+    oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+    return oneMonthLater.toISOString().split("T")[0];
+  });
+  const [durationType, setDurationType] = useState("regular"); // 기본값: "regular" (오랫동안)
   const [selectedDays, setSelectedDays] = useState([]);
   const [startTime, setStartTime] = useState("11:00");
-  const [endTime, setEndTime] = useState("19:00");
+  const [endTime, setEndTime] = useState("13:00"); // 시작시간 + 2시간으로 초기값 설정
   const [minAge, setMinAge] = useState(18);
   const [maxAge, setMaxAge] = useState(45);
   const [selectedGender, setSelectedGender] = useState("");
@@ -37,7 +58,9 @@ const Helpme = () => {
 
   // 아동 분류 폼 상태
   const [selectedChild, setSelectedChild] = useState("boy");
-  const [selectedGrade, setSelectedGrade] = useState("1");
+  const [selectedGrade, setSelectedGrade] = useState("유아");
+  const [showAgeInput, setShowAgeInput] = useState(true); // 유아 선택 시 나이 입력 활성화
+  const [customAge, setCustomAge] = useState("5"); // 유아 기본 나이
   const [minWage, setMinWage] = useState("11000");
   const [maxWage, setMaxWage] = useState("");
   const [isNegotiable, setIsNegotiable] = useState(false);
@@ -54,6 +77,11 @@ const Helpme = () => {
         selectedItems.filter((selectedItem) => selectedItem !== item)
       );
     } else {
+      // 최대 4개까지만 선택 가능하도록 제한
+      if (selectedItems.length >= 4) {
+        alert("최대 4개까지만 선택할 수 있습니다.");
+        return;
+      }
       // 없으면 배열에 추가해서 선택해.
       setSelectedItems([...selectedItems, item]);
     }
@@ -63,6 +91,24 @@ const Helpme = () => {
   const isItemSelected = (item) => {
     return selectedItems.includes(item);
   };
+
+  // 로그인 상태 확인 및 리다이렉트
+  useEffect(() => {
+    if (!user) {
+      alert(
+        "로그인이 필요합니다. 도와줘요 쌤 기능을 이용하려면 로그인해주세요."
+      );
+      navigate("/login");
+      return;
+    }
+
+    // 부모 회원이 아닌 경우 접근 제한
+    if (user.member_type !== "parents" && user.member_type !== "admin") {
+      alert("도와줘요 쌤 기능은 부모님 회원만 이용할 수 있습니다.");
+      navigate("/");
+      return;
+    }
+  }, [user, navigate]);
 
   // 수정 모드일 때 기존 데이터 불러오기
   useEffect(() => {
@@ -95,6 +141,14 @@ const Helpme = () => {
 
   // 요일 버튼 클릭 핸들러
   const handleDayClick = (day) => {
+    // 한번만 모드에서는 요일 선택을 제한
+    if (durationType === "onetime") {
+      alert(
+        "한번만 모드에서는 요일을 변경할 수 없습니다. 날짜를 변경하면 해당 요일이 자동으로 설정됩니다."
+      );
+      return;
+    }
+
     if (selectedDays.includes(day)) {
       setSelectedDays(selectedDays.filter((d) => d !== day));
     } else {
@@ -115,6 +169,12 @@ const Helpme = () => {
   // 학년 선택 핸들러
   const handleGradeSelect = (grade) => {
     setSelectedGrade(grade);
+    // 유아 선택 시 나이 입력 활성화, 다른 학년 선택 시 비활성화
+    if (grade === "유아") {
+      setShowAgeInput(true);
+    } else {
+      setShowAgeInput(false);
+    }
   };
 
   // 최저 시급 입력 핸들러
@@ -150,6 +210,34 @@ const Helpme = () => {
         setMinWage(cleanValue);
       }
     }
+  };
+
+  // 시작시간 변경 핸들러
+  const handleStartTimeChange = (newStartTime) => {
+    setStartTime(newStartTime);
+
+    // 시작시간이 변경되면 끝시간을 자동으로 2시간 후로 설정
+    const startDate = new Date(`2000-01-01T${newStartTime}:00`);
+    const endDate = new Date(startDate.getTime() + 2 * 60 * 60 * 1000); // 2시간 추가
+
+    const newEndTime = endDate.toTimeString().slice(0, 5); // HH:MM 형식
+    setEndTime(newEndTime);
+  };
+
+  // 끝시간 변경 핸들러
+  const handleEndTimeChange = (newEndTime) => {
+    const startDate = new Date(`2000-01-01T${startTime}:00`);
+    const endDate = new Date(`2000-01-01T${newEndTime}:00`);
+
+    const timeDiff = endDate.getTime() - startDate.getTime();
+    const hoursDiff = timeDiff / (1000 * 60 * 60);
+
+    if (hoursDiff < 2) {
+      alert("끝시간은 시작시간보다 최소 2시간 이후여야 합니다.");
+      return;
+    }
+
+    setEndTime(newEndTime);
   };
 
   // 시급 협의 가능 토글 핸들러
@@ -236,38 +324,72 @@ const Helpme = () => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  const handleAddressSearch = async () => {
-    console.log("Helpme 주소 검색 버튼 클릭됨");
-    console.log("검색어:", searchQuery);
+  // 주소 검색
+  const handleAddressSearch = async (page = 1) => {
+    const keyword = searchQuery;
+    console.log("주소 검색 시작:", keyword);
 
-    if (!searchQuery.trim()) {
-      alert("검색어를 입력해주세요.");
+    if (!keyword || keyword.trim() === "") {
+      console.log("검색어가 비어있음");
       return;
     }
 
     try {
       console.log("API 호출 시작...");
-      const results = await searchRegionLocal(searchQuery);
-      console.log("API 응답:", results);
+      const response = await searchAddress(keyword, page, countPerPage);
+      console.log("API 응답:", response);
+      console.log("응답 데이터 구조:", response.data);
+      console.log("응답 데이터 키들:", Object.keys(response.data));
 
-      if (results && results.length > 0) {
-        setAddressResults(results);
+      if (response?.data?.addresses) {
+        console.log("검색 결과 설정:", response.data.addresses.length, "개");
+        setAddressResults(response.data.addresses);
+        setTotalCount(response.data.totalCount || 0);
+        setCurrentPage(response.data.currentPage || 1);
         setShowAddressSearch(true);
-        console.log("검색 결과 설정 완료");
+      } else if (response?.data?.data) {
+        // 다른 구조일 가능성
+        console.log("다른 구조의 검색 결과:", response.data.data);
+        setAddressResults(response.data.data);
+        setTotalCount(response.data.totalCount || 0);
+        setCurrentPage(response.data.currentPage || 1);
+        setShowAddressSearch(true);
       } else {
-        alert("검색 결과가 없습니다.");
+        console.log("검색 결과 없음 - 전체 응답:", response.data);
+        alert("주소는 없거나 자세히 입력해 주세요.");
         setAddressResults([]);
         setShowAddressSearch(false);
       }
     } catch (error) {
       console.error("주소 검색 오류:", error);
-      alert("주소 검색에 실패했습니다.");
+      alert("주소검색 중 오류가 발생했습니다.");
+      setAddressResults([]);
+      setShowAddressSearch(false);
     }
   };
 
   const handleAddressSelect = (selectedAddress) => {
-    setAddress(selectedAddress);
-    setSearchResult(selectedAddress);
+    // 백엔드에서 받은 필드명 사용
+    const addressText = selectedAddress.address || "";
+
+    // formData 업데이트
+    setFormData((prev) => ({
+      ...prev,
+      address: addressText,
+      city: selectedAddress.city || "", // 백엔드에서 받은 city
+      area: selectedAddress.area || "", // 백엔드에서 받은 area
+    }));
+
+    // 선택 지역에 city + 빈칸 + area 세팅
+    const regionText =
+      selectedAddress.city && selectedAddress.area
+        ? `${selectedAddress.city} ${selectedAddress.area}`
+        : "지역 정보 없음";
+
+    // 선택 주소에 전체 주소 세팅
+    setSelectedRegion(regionText);
+    setSelectedAddress(addressText);
+    setSearchResult(addressText);
     setShowAddressSearch(false);
     setSearchQuery("");
     setAddressResults([]);
@@ -277,14 +399,28 @@ const Helpme = () => {
     console.log("지정 쌤 검색 버튼 클릭됨");
     console.log("검색할 쌤 이름:", teacherName);
 
-    if (!teacherName.trim()) {
+    if (!teacherName || !teacherName.trim()) {
       alert("쌤 이름을 입력해주세요.");
+      return;
+    }
+
+    // 로그인 상태 확인
+    if (!user || !localStorage.getItem("authToken")) {
+      alert("로그인이 필요합니다. 로그인 후 이용해주세요.");
+      navigate("/login");
       return;
     }
 
     try {
       console.log("API 호출 시작...");
-      const results = await searchTeacher(teacherName);
+      console.log("검색할 이름:", teacherName.trim());
+      console.log("사용자 ID:", user?.id);
+      console.log(
+        "인증 토큰:",
+        localStorage.getItem("authToken") ? "존재함" : "없음"
+      );
+      console.log("사용자 정보:", user);
+      const results = await searchTeachers(teacherName.trim(), user?.id);
       console.log("API 응답:", results);
 
       if (results && results.length > 0) {
@@ -329,6 +465,26 @@ const Helpme = () => {
       return;
     }
 
+    // 시간 간격 검증
+    const startDate = new Date(`2000-01-01T${startTime}:00`);
+    const endDate = new Date(`2000-01-01T${endTime}:00`);
+    const timeDiff = endDate.getTime() - startDate.getTime();
+    const hoursDiff = timeDiff / (1000 * 60 * 60);
+
+    if (hoursDiff < 2) {
+      alert("시작시간과 끝시간은 최소 2시간 이상의 간격이 필요합니다.");
+      return;
+    }
+
+    // 유아 나이 검증
+    if (selectedGrade === "유아") {
+      const age = parseInt(customAge);
+      if (age < 1 || age > 6) {
+        alert("유아는 1세 이상 6세 이하만 입력 가능합니다.");
+        return;
+      }
+    }
+
     const applicationData = {
       id: isEditMode ? editApplicationId : Date.now().toString(),
       parentId: user.id,
@@ -371,6 +527,7 @@ const Helpme = () => {
   // 학년별 나이 계산
   const getAgeByGrade = (grade) => {
     const gradeAges = {
+      유아: "5세",
       1: "7세",
       2: "8세",
       3: "9세",
@@ -378,7 +535,7 @@ const Helpme = () => {
       5: "11세",
       6: "12세",
     };
-    return gradeAges[grade] || "7세";
+    return gradeAges[grade] || "5세";
   };
 
   return (
@@ -386,6 +543,24 @@ const Helpme = () => {
       <div className="helpme-header">
         <h1>{isEditMode ? "공고 수정" : "도와줘요 쌤"}</h1>
         <p>{isEditMode ? "공고 정보를 수정해주세요" : "무엇을?"}</p>
+      </div>
+
+      {/* 선택된 항목 표시 섹션 */}
+      <div className="selected-items-section">
+        <div className="selected-items-container">
+          <p className="selected-items-title">
+            선택된 항목: {selectedItems.length}/4
+          </p>
+          {selectedItems.length > 0 && (
+            <div className="selected-items-list">
+              {selectedItems.map((item, index) => (
+                <div key={index} className="selected-item-tag">
+                  {item}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="category-wrapper">
@@ -589,17 +764,17 @@ const Helpme = () => {
         <div className="search-row">
           <p className="search-title">어디서?</p>
           <div className="search-input-group">
+            <div className="user-location-display">
+              <span className="location-label">살고 계신 지역:</span>
+              <span className="location-value">
+                {user?.city && user?.area
+                  ? `${user.city} ${user.area}`
+                  : "지역 정보 없음"}
+              </span>
+            </div>
             <input
               type="text"
-              placeholder="살고 계신 지역"
-              className="search-input"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              readOnly
-            />
-            <input
-              type="text"
-              placeholder="지역명을 입력하세요 (예: 관악구)"
+              placeholder="도로명 주소 입력후 엔터/검색"
               className="search-input"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -615,36 +790,179 @@ const Helpme = () => {
             </button>
             {showAddressSearch && addressResults.length > 0 && (
               <div className="address-search-results">
-                {addressResults.map((result, index) => (
-                  <div
-                    key={index}
-                    className="address-result-item"
-                    onClick={() => handleAddressSelect(result.title)}
+                <div className="results-header">
+                  <span>검색 결과 ({addressResults.length}개)</span>
+                  <button
+                    type="button"
+                    className="close-results-button"
+                    onClick={() => {
+                      setShowAddressSearch(false);
+                      setAddressResults([]);
+                    }}
                   >
-                    {result.title}
-                  </div>
-                ))}
+                    ✕
+                  </button>
+                </div>
+                <div className="results-list">
+                  {addressResults.slice(0, 10).map((result, index) => (
+                    <div
+                      key={index}
+                      className="address-result-item"
+                      onClick={() => handleAddressSelect(result)}
+                    >
+                      {result.address}
+                    </div>
+                  ))}
+                </div>
+                <div className="pagination">
+                  {currentPage > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => handleAddressSearch(currentPage - 1)}
+                      className="pagination-btn"
+                    >
+                      ◀ 이전
+                    </button>
+                  )}
+
+                  <span className="pagination-info">
+                    {currentPage} /{" "}
+                    {Math.max(1, Math.ceil(totalCount / countPerPage))} 페이지
+                    {totalCount > 0 && ` (총 ${totalCount}개)`}
+                  </span>
+
+                  {currentPage < Math.ceil(totalCount / countPerPage) && (
+                    <button
+                      type="button"
+                      onClick={() => handleAddressSearch(currentPage + 1)}
+                      className="pagination-btn"
+                    >
+                      다음 ▶
+                    </button>
+                  )}
+                </div>
               </div>
             )}
           </div>
-          <div className="search-result">
-            <p>{searchResult || "선택 지역"}</p>
+
+          {/* 선택 지역과 선택 주소 표시 */}
+          <div className="search-input-group">
+            <div className="user-location-display">
+              <span className="location-value">
+                {selectedRegion || "선택지역"}
+              </span>
+            </div>
+            <div className="selected-address-display">
+              <span className="location-value">
+                {selectedAddress || "선택주소"}
+              </span>
+            </div>
           </div>
         </div>
 
         <div className="filter-group">
           <p className="filter-title">얼마 동안?</p>
+          <div className="duration-radio-group">
+            <label className="duration-radio">
+              <input
+                type="radio"
+                name="duration"
+                value="regular"
+                checked={durationType === "regular"}
+                onChange={(e) => {
+                  setDurationType(e.target.value);
+                  // 오랫동안 선택 시 종료일을 시작일 + 1개월로 설정
+                  if (e.target.value === "regular") {
+                    const oneMonthLater = new Date(startDate);
+                    oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+                    setEndDate(oneMonthLater.toISOString().split("T")[0]);
+                  }
+                }}
+              />
+              <span className="radio-label">오랫동안</span>
+            </label>
+            <label className="duration-radio">
+              <input
+                type="radio"
+                name="duration"
+                value="onetime"
+                checked={durationType === "onetime"}
+                onChange={(e) => {
+                  setDurationType(e.target.value);
+                  // 한번만 선택 시 시작일과 종료일을 동일하게 설정
+                  if (e.target.value === "onetime") {
+                    setEndDate(startDate);
+                    // 선택된 날짜의 요일을 자동으로 설정
+                    const selectedDate = new Date(startDate);
+                    const dayNames = ["일", "월", "화", "수", "목", "금", "토"];
+                    const dayOfWeek = dayNames[selectedDate.getDay()];
+                    setSelectedDays([dayOfWeek]);
+                  }
+                }}
+              />
+              <span className="radio-label">한번만</span>
+            </label>
+          </div>
           <div className="date-picker-row">
             <input
               type="date"
               value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
+              min={new Date().toISOString().split("T")[0]}
+              onChange={(e) => {
+                const newStartDate = e.target.value;
+                const today = new Date().toISOString().split("T")[0];
+
+                // 시작일은 오늘 이후여야 함
+                if (newStartDate <= today) {
+                  alert("시작일은 오늘보다 이후여야 합니다.");
+                  return;
+                }
+
+                setStartDate(newStartDate);
+                // 한번만 모드일 때는 종료일도 함께 업데이트
+                if (durationType === "onetime") {
+                  setEndDate(newStartDate);
+                  // 선택된 날짜의 요일을 자동으로 설정
+                  const selectedDate = new Date(newStartDate);
+                  const dayNames = ["일", "월", "화", "수", "목", "금", "토"];
+                  const dayOfWeek = dayNames[selectedDate.getDay()];
+                  setSelectedDays([dayOfWeek]);
+                }
+                // 오랫동안 모드일 때는 종료일을 시작일 + 1개월로 설정
+                else if (durationType === "regular") {
+                  const oneMonthLater = new Date(newStartDate);
+                  oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+                  setEndDate(oneMonthLater.toISOString().split("T")[0]);
+                }
+              }}
             />
             <span>~</span>
             <input
               type="date"
               value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
+              min={startDate}
+              onChange={(e) => {
+                // 한번만 모드일 때는 종료일 변경을 차단
+                if (durationType === "onetime") {
+                  console.log("한번만 모드: 종료일 변경 차단됨");
+                  return;
+                }
+
+                const newEndDate = e.target.value;
+                const today = new Date().toISOString().split("T")[0];
+
+                // 오랫동안 모드일 때는 종료일이 시작일보다 이후여야 함
+                if (durationType === "regular" && newEndDate <= startDate) {
+                  alert("종료일은 시작일보다 이후여야 합니다.");
+                  return;
+                }
+
+                setEndDate(newEndDate);
+              }}
+              disabled={durationType === "onetime"}
+              className={
+                durationType === "onetime" ? "disabled-date-input" : ""
+              }
             />
           </div>
         </div>
@@ -657,8 +975,9 @@ const Helpme = () => {
                 key={day}
                 className={`day-button ${
                   selectedDays.includes(day) ? "active" : ""
-                }`}
+                } ${durationType === "onetime" ? "disabled-day-button" : ""}`}
                 onClick={() => handleDayClick(day)}
+                disabled={durationType === "onetime"}
               >
                 {day}
               </button>
@@ -672,15 +991,16 @@ const Helpme = () => {
             <input
               type="time"
               value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
+              onChange={(e) => handleStartTimeChange(e.target.value)}
             />
             <span>~</span>
             <input
               type="time"
               value={endTime}
-              onChange={(e) => setEndTime(e.target.value)}
+              onChange={(e) => handleEndTimeChange(e.target.value)}
             />
           </div>
+          <p className="time-note">※ 최소 2시간 이상의 간격이 필요합니다.</p>
         </div>
 
         <div className="filter-group-inline">
@@ -819,7 +1139,7 @@ const Helpme = () => {
           <div className="grade-selection">
             <p className="grade-label">학년을 선택해주세요</p>
             <div className="grade-buttons">
-              {["1", "2", "3", "4", "5", "6"].map((grade) => (
+              {["유아", "1", "2", "3", "4", "5", "6"].map((grade) => (
                 <button
                   key={grade}
                   className={`grade-button ${
@@ -827,12 +1147,49 @@ const Helpme = () => {
                   }`}
                   onClick={() => handleGradeSelect(grade)}
                 >
-                  {grade}학년
+                  {grade === "유아" ? "유아" : `${grade}학년`}
                 </button>
               ))}
             </div>
             <div className="age-display">
-              <span>{getAgeByGrade(selectedGrade)}</span>
+              {showAgeInput ? (
+                <div className="custom-age-input">
+                  <span>나이: </span>
+                  <input
+                    type="number"
+                    min="1"
+                    max="6"
+                    value={customAge}
+                    onChange={(e) => {
+                      const value = parseInt(e.target.value);
+                      console.log("나이 입력 변경:", value);
+
+                      if (value >= 1 && value <= 6) {
+                        setCustomAge(e.target.value);
+                      } else if (value > 6) {
+                        alert("유아는 6세 이하만 입력 가능합니다.");
+                        setCustomAge("6");
+                      } else if (value < 1) {
+                        alert("유아는 1세 이상만 입력 가능합니다.");
+                        setCustomAge("1");
+                      }
+                    }}
+                    onInput={(e) => {
+                      console.log("나이 입력 이벤트:", e.target.value);
+                    }}
+                    className="age-input"
+                    placeholder="5"
+                  />
+                  <span>세</span>
+                </div>
+              ) : (
+                <span>{getAgeByGrade(selectedGrade)}</span>
+              )}
+              {showAgeInput && (
+                <div className="age-note">
+                  <span>※ 1세 ~ 6세만 입력 가능</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -843,13 +1200,13 @@ const Helpme = () => {
           <div className="wage-input-group">
             <div className="wage-input-field">
               <label>최저 시급</label>
-              <div className="wage-input-container">
+              <div className="wage-input-container display-only">
                 <input
                   type="text"
                   value={formatNumber(minWage)}
-                  onChange={(e) => handleMinWageChange(e.target.value)}
-                  className="wage-input"
-                  placeholder="최저 시급 입력"
+                  readOnly
+                  className="wage-input display-only"
+                  placeholder="최저 시급"
                 />
                 <span className="wage-unit">원</span>
               </div>
