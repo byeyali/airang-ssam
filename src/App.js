@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
 import { ReviewProvider } from "./contexts/ReviewContext";
@@ -50,6 +51,7 @@ import "./App.css";
 
 function AppContent() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isAuthPage =
     location.pathname === "/login" || location.pathname === "/signup";
   const [isTeacherSearchModalOpen, setIsTeacherSearchModalOpen] =
@@ -153,6 +155,33 @@ function AppContent() {
       <TeacherSearchModal
         isOpen={isTeacherSearchModalOpen && !isModalTransitioning}
         onClose={handleCloseTeacherSearchModal}
+        onTeacherSelect={(teacher) => {
+          // 모달 닫기
+          setIsTeacherSearchModalOpen(false);
+
+          // 선택된 쌤 정보를 전역 변수에 저장
+          window.selectedTeacher = teacher;
+          window.fromTeacherSearch = true;
+
+          // 커스텀 이벤트 발생 (항상 발생)
+          window.dispatchEvent(
+            new CustomEvent("teacherSelected", {
+              detail: { teacher },
+            })
+          );
+
+          // 다른 페이지에서 온 경우에만 navigate
+          if (location.pathname !== "/Helpme") {
+            setTimeout(() => {
+              navigate("/Helpme", {
+                state: {
+                  selectedTeacher: teacher,
+                  fromTeacherSearch: true,
+                },
+              });
+            }, 100);
+          }
+        }}
       />
 
       {/* 디버그 정보 컴포넌트 (개발/배포 환경에서만 표시) */}

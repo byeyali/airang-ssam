@@ -1,21 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
 import { useTeacherSearch } from "../../contexts/TeacherSearchContext";
+import { useApplication } from "../../contexts/ApplicationContext";
 import { searchRegionLocal } from "../../config/api";
 import { searchAddress } from "../../config/api";
+import axiosInstance from "../../config/axiosInstance";
 import "./Helpme.css";
 
 const Helpme = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useUser();
-  const { setSearchData, searchTeachers } = useTeacherSearch();
+  const { setSearchData, searchTeachers, createTutorJob, addTutorJobCategory } =
+    useTeacherSearch();
+  const { formData: contextFormData, updateFormData } = useApplication();
   const [isEditMode, setIsEditMode] = useState(false);
   const [editApplicationId, setEditApplicationId] = useState(null);
-  // 🧠 'selectedItems'라는 상태(state)를 만들고, 초깃값으로 빈 배열([])을 넣어줘.
-  // 이 배열에 선택된 항목들의 이름이 저장될 거야.
   const [selectedItems, setSelectedItems] = useState([]);
+  const selectedItemsSectionRef = useRef(null);
   const [address, setAddress] = useState("");
   const [searchResult, setSearchResult] = useState("");
   const [showAddressSearch, setShowAddressSearch] = useState(false);
@@ -51,8 +54,8 @@ const Helpme = () => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [startTime, setStartTime] = useState("11:00");
   const [endTime, setEndTime] = useState("13:00"); // 시작시간 + 2시간으로 초기값 설정
-  const [minAge, setMinAge] = useState(18);
-  const [maxAge, setMaxAge] = useState(45);
+  const [minAge, setMinAge] = useState("");
+  const [maxAge, setMaxAge] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
   const [teacherName, setTeacherName] = useState("");
 
@@ -67,30 +70,105 @@ const Helpme = () => {
   const [showWageDropdown, setShowWageDropdown] = useState(false);
   const [requests, setRequests] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
+  const [hopeTutorId, setHopeTutorId] = useState(null);
+  const [detailAddress, setDetailAddress] = useState(""); // 세부 주소 입력을 위한 상태
+  const requestsRef = useRef(null);
+  const additionalInfoRef = useRef(null);
 
-  // 📘 항목을 클릭했을 때 호출될 함수야.
-  const handleItemClick = (item) => {
-    // 클릭된 항목이 이미 선택된 항목인지 확인해.
-    if (selectedItems.includes(item)) {
-      // 이미 있으면 배열에서 제거해서 선택을 해제해.
-      setSelectedItems(
-        selectedItems.filter((selectedItem) => selectedItem !== item)
-      );
-    } else {
-      // 최대 4개까지만 선택 가능하도록 제한
-      if (selectedItems.length >= 4) {
-        alert("최대 4개까지만 선택할 수 있습니다.");
-        return;
+  // 입력 필드 refs 추가
+  const memberIdRef = useRef(null);
+  const childGenderRef = useRef(null);
+  const gradeRef = useRef(null);
+  const startDateRef = useRef(null);
+  const endDateRef = useRef(null);
+  const startTimeRef = useRef(null);
+  const endTimeRef = useRef(null);
+  const selectedDaysRef = useRef(null);
+  const selectedGenderRef = useRef(null);
+  const minAgeRef = useRef(null);
+  const maxAgeRef = useRef(null);
+  const minWageRef = useRef(null);
+  const maxWageRef = useRef(null);
+  const addressRef = useRef(null);
+  const selectedItemsRef = useRef(null);
+
+  // 분야 카테고리 상태
+  const [fieldCategories, setFieldCategories] = useState({
+    care: [],
+    play: [],
+    study: [],
+  });
+
+  // 분야 선택 처리
+  const handleFieldSelect = (fieldId) => {
+    setSelectedItems((prev) => {
+      if (prev.includes(fieldId)) {
+        // 이미 선택된 항목이면 제거
+        return prev.filter((id) => id !== fieldId);
+      } else {
+        // 새로운 항목 선택 시 최대 4개까지만 허용
+        if (prev.length >= 4) {
+          alert("최대 4개까지만 선택 가능합니다.");
+          return prev;
+        }
+        return [...prev, fieldId];
       }
-      // 없으면 배열에 추가해서 선택해.
-      setSelectedItems([...selectedItems, item]);
-    }
+    });
   };
 
-  // 📘 특정 항목이 현재 선택된 상태인지 확인하는 함수.
-  const isItemSelected = (item) => {
-    return selectedItems.includes(item);
+  // 분야 카드 렌더링
+  const renderFieldCard = (field) => {
+    const isSelected = selectedItems.includes(field.id);
+    return (
+      <div
+        key={field.id}
+        className={`item-card ${isSelected ? "selected" : ""}`}
+        onClick={() => handleFieldSelect(field.id)}
+      >
+        <div
+          className="item-image"
+          style={{ backgroundImage: `url('${field.image}')` }}
+        ></div>
+        <div className="item-text">{field.name}</div>
+        <div
+          className={`item-icon-circle ${isSelected ? "selected" : ""}`}
+        ></div>
+      </div>
+    );
   };
+
+  // 카테고리 데이터 가져오기
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axiosInstance.get("/categories");
+        const data = await response.data;
+
+        const grouped = {
+          care: [],
+          play: [],
+          study: [],
+        };
+
+        data.forEach((item) => {
+          if (grouped[item.grp_cd]) {
+            grouped[item.grp_cd].push({
+              id: item.id,
+              category_cd: item.category_cd,
+              name: item.category_nm,
+              image: item.image_url,
+            });
+          }
+        });
+
+        setFieldCategories(grouped);
+      } catch (error) {
+        console.error("카테고리 불러오기 실패:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   // 로그인 상태 확인 및 리다이렉트
   useEffect(() => {
@@ -125,8 +203,8 @@ const Helpme = () => {
       setSelectedDays(applicationData.selectedDays || []);
       setStartTime(applicationData.startTime || "11:00");
       setEndTime(applicationData.endTime || "19:00");
-      setMinAge(applicationData.minAge || 18);
-      setMaxAge(applicationData.maxAge || 45);
+      setMinAge(applicationData.minAge || "");
+      setMaxAge(applicationData.maxAge || "");
       setSelectedGender(applicationData.selectedGender || "");
       setTeacherName(applicationData.teacherName || "");
       setSelectedChild(applicationData.selectedChild || "boy");
@@ -136,8 +214,77 @@ const Helpme = () => {
       setIsNegotiable(applicationData.isNegotiable || false);
       setRequests(applicationData.requests || "");
       setAdditionalInfo(applicationData.additionalInfo || "");
+      setHopeTutorId(applicationData.hopeTutorId || null);
     }
   }, [location.state]);
+
+  // 쌤 검색에서 선택된 쌤 정보 처리
+  useEffect(() => {
+    // 커스텀 이벤트 리스너 추가
+    const handleTeacherSelected = (event) => {
+      const { teacher } = event.detail;
+      console.log("선택된 쌤 정보:", teacher);
+
+      // 선택된 쌤의 ID만 hope_tutor_id에 설정
+      setHopeTutorId(teacher.id);
+
+      // 선택된 쌤의 이름을 teacherName 필드에 설정
+      setTeacherName(teacher.name);
+
+      // 지정 쌤 검색 섹션으로 스크롤
+      setTimeout(() => {
+        const teacherSearchSection = document.querySelector(
+          ".teacher-search-section"
+        );
+        if (teacherSearchSection) {
+          teacherSearchSection.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      }, 100);
+    };
+
+    // 이벤트 리스너 등록
+    window.addEventListener("teacherSelected", handleTeacherSelected);
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener("teacherSelected", handleTeacherSelected);
+    };
+  }, []);
+
+  // 전역 변수에서 쌤 선택 정보 확인 (컴포넌트 마운트 시)
+  useEffect(() => {
+    // 전역 변수에서 쌤 선택 정보 확인
+    if (window.fromTeacherSearch && window.selectedTeacher) {
+      const teacher = window.selectedTeacher;
+      console.log("전역 변수에서 선택된 쌤 정보:", teacher);
+
+      // 선택된 쌤의 ID만 hope_tutor_id에 설정
+      setHopeTutorId(teacher.id);
+
+      // 선택된 쌤의 이름을 teacherName 필드에 설정
+      setTeacherName(teacher.name);
+
+      // 전역 변수 정리
+      window.fromTeacherSearch = false;
+      window.selectedTeacher = null;
+
+      // 지정 쌤 검색 섹션으로 스크롤
+      setTimeout(() => {
+        const teacherSearchSection = document.querySelector(
+          ".teacher-search-section"
+        );
+        if (teacherSearchSection) {
+          teacherSearchSection.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      }, 100);
+    }
+  }, []);
 
   // 요일 버튼 클릭 핸들러
   const handleDayClick = (day) => {
@@ -261,27 +408,9 @@ const Helpme = () => {
     const numValue = parseInt(value);
 
     if (type === "min") {
-      // 최소값 슬라이더: 최대값보다 클 수 없도록 제한
-      if (numValue >= 18 && numValue <= 80) {
-        if (numValue <= maxAge) {
-          setMinAge(numValue);
-        } else {
-          // 최소값이 최대값보다 커지면 최대값을 최소값으로 설정
-          setMinAge(numValue);
-          setMaxAge(numValue);
-        }
-      }
+      setMinAge(numValue);
     } else {
-      // 최대값 슬라이더: 최소값보다 작을 수 없도록 제한
-      if (numValue >= 18 && numValue <= 80) {
-        if (numValue >= minAge) {
-          setMaxAge(numValue);
-        } else {
-          // 최대값이 최소값보다 작아지면 최소값을 최대값으로 설정
-          setMaxAge(numValue);
-          setMinAge(numValue);
-        }
-      }
+      setMaxAge(numValue);
     }
   };
 
@@ -327,35 +456,26 @@ const Helpme = () => {
   // 주소 검색
   const handleAddressSearch = async (page = 1) => {
     const keyword = searchQuery;
-    console.log("주소 검색 시작:", keyword);
 
     if (!keyword || keyword.trim() === "") {
-      console.log("검색어가 비어있음");
       return;
     }
 
     try {
-      console.log("API 호출 시작...");
       const response = await searchAddress(keyword, page, countPerPage);
-      console.log("API 응답:", response);
-      console.log("응답 데이터 구조:", response.data);
-      console.log("응답 데이터 키들:", Object.keys(response.data));
 
       if (response?.data?.addresses) {
-        console.log("검색 결과 설정:", response.data.addresses.length, "개");
         setAddressResults(response.data.addresses);
         setTotalCount(response.data.totalCount || 0);
         setCurrentPage(response.data.currentPage || 1);
         setShowAddressSearch(true);
       } else if (response?.data?.data) {
         // 다른 구조일 가능성
-        console.log("다른 구조의 검색 결과:", response.data.data);
         setAddressResults(response.data.data);
         setTotalCount(response.data.totalCount || 0);
         setCurrentPage(response.data.currentPage || 1);
         setShowAddressSearch(true);
       } else {
-        console.log("검색 결과 없음 - 전체 응답:", response.data);
         alert("주소는 없거나 자세히 입력해 주세요.");
         setAddressResults([]);
         setShowAddressSearch(false);
@@ -386,12 +506,15 @@ const Helpme = () => {
         ? `${selectedAddress.city} ${selectedAddress.area}`
         : "지역 정보 없음";
 
+    // 선택한 주소를 주소 입력항목에 설정
+    setAddress(addressText);
+
     // 선택 주소에 전체 주소 세팅
     setSelectedRegion(regionText);
     setSelectedAddress(addressText);
     setSearchResult(addressText);
     setShowAddressSearch(false);
-    setSearchQuery("");
+    setSearchQuery(addressText); // 검색 쿼리도 선택된 주소로 업데이트
     setAddressResults([]);
   };
 
@@ -412,17 +535,7 @@ const Helpme = () => {
     }
 
     try {
-      console.log("API 호출 시작...");
-      console.log("검색할 이름:", teacherName.trim());
-      console.log("사용자 ID:", user?.id);
-      console.log(
-        "인증 토큰:",
-        localStorage.getItem("authToken") ? "존재함" : "없음"
-      );
-      console.log("사용자 정보:", user);
-      const results = await searchTeachers(teacherName.trim(), user?.id);
-      console.log("API 응답:", results);
-
+      const results = await searchTeachers(teacherName.trim());
       if (results && results.length > 0) {
         // Context에 검색 결과 저장
         setSearchData(results, teacherName);
@@ -444,7 +557,7 @@ const Helpme = () => {
     30000, 35000, 40000,
   ];
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!user) {
       alert("로그인이 필요합니다. 로그인 후 이용해주세요.");
       return;
@@ -452,11 +565,20 @@ const Helpme = () => {
 
     if (selectedItems.length === 0) {
       alert("돌봄 분야를 선택해주세요.");
+      if (selectedItemsSectionRef.current) {
+        selectedItemsSectionRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
       return;
     }
 
     if (!address.trim()) {
       alert("주소를 입력해주세요.");
+      if (addressRef.current) {
+        addressRef.current.focus();
+      }
       return;
     }
 
@@ -466,9 +588,9 @@ const Helpme = () => {
     }
 
     // 시간 간격 검증
-    const startDate = new Date(`2000-01-01T${startTime}:00`);
-    const endDate = new Date(`2000-01-01T${endTime}:00`);
-    const timeDiff = endDate.getTime() - startDate.getTime();
+    const startTimeDate = new Date(`2000-01-01T${startTime}:00`);
+    const endTimeDate = new Date(`2000-01-01T${endTime}:00`);
+    const timeDiff = endTimeDate.getTime() - startTimeDate.getTime();
     const hoursDiff = timeDiff / (1000 * 60 * 60);
 
     if (hoursDiff < 2) {
@@ -485,42 +607,201 @@ const Helpme = () => {
       }
     }
 
-    const applicationData = {
-      id: isEditMode ? editApplicationId : Date.now().toString(),
-      parentId: user.id,
-      selectedItems,
-      address,
-      searchResult,
-      startDate,
-      endDate,
-      selectedDays,
-      startTime,
-      endTime,
-      minAge,
-      maxAge,
-      selectedGender,
-      teacherName,
-      selectedChild,
-      selectedGrade,
-      minWage,
-      maxWage,
-      isNegotiable,
-      requests,
-      additionalInfo,
-      createdAt: isEditMode
-        ? new Date().toISOString()
-        : new Date().toISOString(),
-      updatedAt: isEditMode ? new Date().toISOString() : null,
+    // 쌤 나이 검증
+    if (!minAge || minAge === "") {
+      alert("최소 나이를 입력해주세요.");
+      if (minAgeRef.current) {
+        minAgeRef.current.focus();
+      }
+      return;
+    }
+
+    if (!maxAge || maxAge === "") {
+      alert("최대 나이를 입력해주세요.");
+      if (maxAgeRef.current) {
+        maxAgeRef.current.focus();
+      }
+      return;
+    }
+
+    if (minAge < 18) {
+      alert("최소 나이는 18세 이상이어야 합니다.");
+      if (minAgeRef.current) {
+        minAgeRef.current.focus();
+      }
+      return;
+    }
+
+    if (minAge > 80) {
+      alert("최소 나이는 80세 이하여야 합니다.");
+      if (minAgeRef.current) {
+        minAgeRef.current.focus();
+      }
+      return;
+    }
+
+    if (maxAge < 18) {
+      alert("최대 나이는 18세 이상이어야 합니다.");
+      if (maxAgeRef.current) {
+        maxAgeRef.current.focus();
+      }
+      return;
+    }
+
+    if (maxAge > 80) {
+      alert("최대 나이는 80세 이하여야 합니다.");
+      if (maxAgeRef.current) {
+        maxAgeRef.current.focus();
+      }
+      return;
+    }
+
+    if (minAge > maxAge) {
+      alert("최소 나이는 최대 나이보다 클 수 없습니다.");
+      if (minAgeRef.current) {
+        minAgeRef.current.focus();
+      }
+      return;
+    }
+
+    // 요구사항 메시지 검증
+    if (!additionalInfo.trim()) {
+      alert("요구사항 메시지를 입력해주세요.");
+      if (additionalInfoRef.current) {
+        additionalInfoRef.current.focus();
+      }
+      return;
+    }
+
+    // 세부 주소를 포함한 전체 주소 구성
+    const fullAddress = detailAddress.trim()
+      ? `${address} ${detailAddress}`
+      : address;
+
+    // 선택된 분야 ID를 이름으로 변환
+    const allFields = [
+      ...fieldCategories.care,
+      ...fieldCategories.play,
+      ...fieldCategories.study,
+    ];
+    const selectedFieldNames = selectedItems
+      .map((fieldId) => {
+        const field = allFields.find((f) => f.id === fieldId);
+        return field ? field.name : null;
+      })
+      .filter((name) => name !== null);
+
+    // 백엔드 API 호출용 데이터 구조
+    const jobData = {
+      title: `${selectedChild === "boy" ? "남아" : "여아"} ${
+        selectedGrade === "유아" ? `(${customAge}세)` : selectedGrade
+      } ${selectedFieldNames.join(", ")} 돌봄`,
+      requester_id: user.id,
+      target: selectedChild === "boy" ? "남아" : "여아",
+      objective: selectedFieldNames.join(", "),
+      work_type: durationType,
+      start_date: startDate,
+      end_date: endDate,
+      start_time: startTime,
+      end_time: endTime,
+      work_day: selectedDays.join(", "),
+      work_place: selectedRegion || "",
+      work_place_address: fullAddress,
+      payment: parseInt(maxWage.replace(/,/g, "")),
+      payment_cycle: "시급",
+      negotiable: isNegotiable,
+      preferred_tutor_id: hopeTutorId || null,
+      tutor_age_fr: minAge,
+      tutor_age_to: maxAge,
+      tutor_sex: selectedGender,
+      description: additionalInfo,
+      etc: requests || "",
     };
 
-    console.log(isEditMode ? "공고 수정:" : "공고 등록:", applicationData);
+    try {
+      console.log("공고 등록 요청 데이터:", jobData);
 
-    if (isEditMode) {
-      alert("공고가 수정되었습니다!");
-      navigate("/applications");
-    } else {
-      alert("공고가 등록되었습니다!");
-      navigate("/applications");
+      if (isEditMode) {
+        // 수정 모드일 때는 기존 로직 유지 (로컬 스토리지)
+        const applicationData = {
+          id: editApplicationId,
+          parentId: user.id,
+          selectedItems,
+          address: fullAddress, // 세부 주소를 포함한 전체 주소
+          searchResult,
+          startDate,
+          endDate,
+          selectedDays,
+          startTime,
+          endTime,
+          minAge,
+          maxAge,
+          selectedGender,
+          teacherName,
+          selectedChild,
+          selectedGrade,
+          minWage,
+          maxWage,
+          isNegotiable,
+          requests,
+          additionalInfo,
+          hopeTutorId,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+
+        console.log("공고 수정:", applicationData);
+        alert("공고가 수정되었습니다!");
+        navigate("/applications");
+      } else {
+        // 새 공고 등록 시 백엔드 API 호출
+        const response = await createTutorJob(jobData);
+        console.log("공고 등록 성공:", response);
+        console.log("응답 전체 구조:", response);
+
+        // jobId 추출 (다양한 가능한 필드명 확인)
+        const jobId =
+          response.id ||
+          response.jobId ||
+          response.job_id ||
+          response.data?.id ||
+          response.data?.jobId;
+        console.log("추출된 jobId:", jobId);
+
+        // 공고 등록 성공 후 분야 정보 추가
+        if (jobId && selectedItems.length > 0) {
+          try {
+            console.log(
+              "분야 정보 추가 시작 - jobId:",
+              jobId,
+              "selectedItems (ID):",
+              selectedItems
+            );
+            await addTutorJobCategory(jobId, selectedItems);
+            console.log("분야 정보 추가 성공");
+          } catch (categoryError) {
+            console.error("분야 정보 추가 실패:", categoryError);
+            // 분야 추가 실패해도 공고는 등록되었으므로 경고만 표시
+            alert("공고는 등록되었지만 분야 정보 추가에 실패했습니다.");
+            navigate("/applications");
+            return;
+          }
+        } else {
+          console.log(
+            "jobId가 없거나 selectedItems가 비어있어 분야 추가를 건너뜀"
+          );
+          console.log("jobId:", jobId);
+          console.log("selectedItems:", selectedItems);
+        }
+
+        alert("공고가 성공적으로 등록되었습니다!");
+        navigate("/applications");
+      }
+    } catch (error) {
+      console.error("공고 등록 실패:", error);
+      alert(
+        error.message || "공고 등록 중 오류가 발생했습니다. 다시 시도해주세요."
+      );
     }
   };
 
@@ -553,83 +834,31 @@ const Helpme = () => {
           </p>
           {selectedItems.length > 0 && (
             <div className="selected-items-list">
-              {selectedItems.map((item, index) => (
-                <div key={index} className="selected-item-tag">
-                  {item}
-                </div>
-              ))}
+              {selectedItems.map((fieldId) => {
+                // 모든 카테고리에서 해당 ID의 분야 찾기
+                const allFields = [
+                  ...fieldCategories.care,
+                  ...fieldCategories.play,
+                  ...fieldCategories.study,
+                ];
+                const field = allFields.find((f) => f.id === fieldId);
+                return field ? (
+                  <div key={fieldId} className="selected-item-tag">
+                    {field.name}
+                  </div>
+                ) : null;
+              })}
             </div>
           )}
         </div>
       </div>
 
-      <div className="category-wrapper">
+      <div className="category-wrapper" ref={selectedItemsSectionRef}>
         {/* 돌봄 카테고리 */}
         <div className="category">
           <div className="category-title">돌봄</div>
           <div className="item-list">
-            <div
-              className="item-card"
-              onClick={() => handleItemClick("방과 후 마중")}
-            >
-              {/* ✨ 이미지 그라데이션 클래스('돌봄-1')와 이미지 경로를 같이 넣어줬어. */}
-              <div
-                className="item-image 돌봄-1"
-                style={{ backgroundImage: `url('/img/afterschool.png')` }}
-              ></div>
-              <div className="item-text">방과 후 마중</div>
-              {/* 선택 여부에 따라 체크 표시가 보이도록 동적으로 클래스를 적용해. */}
-              <div
-                className={`item-icon-circle ${
-                  isItemSelected("방과 후 마중") ? "selected" : ""
-                }`}
-              ></div>
-            </div>
-            <div
-              className="item-card"
-              onClick={() => handleItemClick("음식 챙김")}
-            >
-              <div
-                className="item-image 돌봄-2"
-                style={{ backgroundImage: `url('/img/food.png')` }}
-              ></div>
-              <div className="item-text">음식 챙김</div>
-              <div
-                className={`item-icon-circle ${
-                  isItemSelected("음식 챙김") ? "selected" : ""
-                }`}
-              ></div>
-            </div>
-            <div
-              className="item-card"
-              onClick={() => handleItemClick("정리 정돈")}
-            >
-              <div
-                className="item-image 돌봄-3"
-                style={{ backgroundImage: `url('/img/clean.png')` }}
-              ></div>
-              <div className="item-text">정리 정돈</div>
-              <div
-                className={`item-icon-circle ${
-                  isItemSelected("정리 정돈") ? "selected" : ""
-                }`}
-              ></div>
-            </div>
-            <div
-              className="item-card"
-              onClick={() => handleItemClick("특수 돌봄")}
-            >
-              <div
-                className="item-image 돌봄-4"
-                style={{ backgroundImage: `url('/img/specialcare.png')` }}
-              ></div>
-              <div className="item-text">특수 돌봄</div>
-              <div
-                className={`item-icon-circle ${
-                  isItemSelected("특수 돌봄") ? "selected" : ""
-                }`}
-              ></div>
-            </div>
+            {fieldCategories.care.map(renderFieldCard)}
           </div>
         </div>
 
@@ -637,60 +866,7 @@ const Helpme = () => {
         <div className="category">
           <div className="category-title">놀이</div>
           <div className="item-list">
-            <div
-              className="item-card"
-              onClick={() => handleItemClick("스포츠")}
-            >
-              <div
-                className="item-image 놀이-1"
-                style={{ backgroundImage: `url('/img/sports.png')` }}
-              ></div>
-              <div className="item-text">스포츠</div>
-              <div
-                className={`item-icon-circle ${
-                  isItemSelected("스포츠") ? "selected" : ""
-                }`}
-              ></div>
-            </div>
-            <div className="item-card" onClick={() => handleItemClick("음악")}>
-              <div
-                className="item-image 놀이-2"
-                style={{ backgroundImage: `url('/img/music.png')` }}
-              ></div>
-              <div className="item-text">음악</div>
-              <div
-                className={`item-icon-circle ${
-                  isItemSelected("음악") ? "selected" : ""
-                }`}
-              ></div>
-            </div>
-            <div className="item-card" onClick={() => handleItemClick("미술")}>
-              <div
-                className="item-image 놀이-3"
-                style={{ backgroundImage: `url('/img/art.png')` }}
-              ></div>
-              <div className="item-text">미술</div>
-              <div
-                className={`item-icon-circle ${
-                  isItemSelected("미술") ? "selected" : ""
-                }`}
-              ></div>
-            </div>
-            <div
-              className="item-card"
-              onClick={() => handleItemClick("보드게임")}
-            >
-              <div
-                className="item-image 놀이-4"
-                style={{ backgroundImage: `url('/img/boardgame.png')` }}
-              ></div>
-              <div className="item-text">보드게임</div>
-              <div
-                className={`item-icon-circle ${
-                  isItemSelected("보드게임") ? "selected" : ""
-                }`}
-              ></div>
-            </div>
+            {fieldCategories.play.map(renderFieldCard)}
           </div>
         </div>
 
@@ -698,63 +874,7 @@ const Helpme = () => {
         <div className="category">
           <div className="category-title">스터디</div>
           <div className="item-list">
-            <div className="item-card" onClick={() => handleItemClick("산수")}>
-              <div
-                className="item-image 스터디-1"
-                style={{ backgroundImage: `url('/img/math.png')` }}
-              ></div>
-              <div className="item-text">산수</div>
-              <div
-                className={`item-icon-circle ${
-                  isItemSelected("산수") ? "selected" : ""
-                }`}
-              ></div>
-            </div>
-            <div
-              className="item-card"
-              onClick={() => handleItemClick("교과 보충")}
-            >
-              <div
-                className="item-image 스터디-2"
-                style={{ backgroundImage: `url('/img/textbook.png')` }}
-              ></div>
-              <div className="item-text">교과 보충</div>
-              <div
-                className={`item-icon-circle ${
-                  isItemSelected("교과 보충") ? "selected" : ""
-                }`}
-              ></div>
-            </div>
-            <div
-              className="item-card"
-              onClick={() => handleItemClick("독서 대화")}
-            >
-              <div
-                className="item-image 스터디-3"
-                style={{ backgroundImage: `url('/img/reading.png')` }}
-              ></div>
-              <div className="item-text">독서 대화</div>
-              <div
-                className={`item-icon-circle ${
-                  isItemSelected("독서 대화") ? "selected" : ""
-                }`}
-              ></div>
-            </div>
-            <div
-              className="item-card"
-              onClick={() => handleItemClick("제2외국어")}
-            >
-              <div
-                className="item-image 스터디-4"
-                style={{ backgroundImage: `url('/img/secondlanguage.png')` }}
-              ></div>
-              <div className="item-text">제2외국어</div>
-              <div
-                className={`item-icon-circle ${
-                  isItemSelected("제2외국어") ? "selected" : ""
-                }`}
-              ></div>
-            </div>
+            {fieldCategories.study.map(renderFieldCard)}
           </div>
         </div>
       </div>
@@ -765,7 +885,7 @@ const Helpme = () => {
           <p className="search-title">어디서?</p>
           <div className="search-input-group">
             <div className="user-location-display">
-              <span className="location-label">살고 계신 지역:</span>
+              <span className="location-label">거주:</span>
               <span className="location-value">
                 {user?.city && user?.area
                   ? `${user.city} ${user.area}`
@@ -773,11 +893,18 @@ const Helpme = () => {
               </span>
             </div>
             <input
+              ref={addressRef}
               type="text"
               placeholder="도로명 주소 입력후 엔터/검색"
               className="search-input"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              value={selectedAddress || searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                // 사용자가 직접 입력할 때는 선택된 주소 초기화
+                if (e.target.value !== selectedAddress) {
+                  setSelectedAddress("");
+                }
+              }}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
@@ -845,17 +972,21 @@ const Helpme = () => {
             )}
           </div>
 
-          {/* 선택 지역과 선택 주소 표시 */}
+          {/* 선택 지역과 세부 주소 입력 */}
           <div className="search-input-group">
             <div className="user-location-display">
               <span className="location-value">
                 {selectedRegion || "선택지역"}
               </span>
             </div>
-            <div className="selected-address-display">
-              <span className="location-value">
-                {selectedAddress || "선택주소"}
-              </span>
+            <div className="detail-address-input">
+              <input
+                type="text"
+                placeholder="세부 주소를 입력해주세요 (동, 호수 등)"
+                value={detailAddress}
+                onChange={(e) => setDetailAddress(e.target.value)}
+                className="detail-address-field"
+              />
             </div>
           </div>
         </div>
@@ -1032,65 +1163,102 @@ const Helpme = () => {
         <div className="filter-group-inline">
           <p className="filter-title-small">쌤 연령 범위</p>
           <div className="age-range-container">
-            <div className="age-display">
-              <span>{minAge}세</span>
-              <span>~</span>
-              <span>{maxAge}세</span>
+            <div className="age-input-container">
+              <div className="age-input-group">
+                <label>최소 나이</label>
+                <input
+                  ref={minAgeRef}
+                  type="number"
+                  value={minAge}
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    if (inputValue === "" || isNaN(inputValue)) {
+                      return; // 빈 값이나 숫자가 아닌 값은 무시
+                    }
+                    const value = parseInt(inputValue);
+                    if (value !== minAge) {
+                      handleAgeChange("min", value);
+                    }
+                  }}
+                  className="age-input"
+                />
+                <span>세</span>
+              </div>
+              <span className="age-separator">~</span>
+              <div className="age-input-group">
+                <label>최대 나이</label>
+                <input
+                  ref={maxAgeRef}
+                  type="number"
+                  value={maxAge}
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    if (inputValue === "" || isNaN(inputValue)) {
+                      return; // 빈 값이나 숫자가 아닌 값은 무시
+                    }
+                    const value = parseInt(inputValue);
+                    if (value !== maxAge) {
+                      handleAgeChange("max", value);
+                    }
+                  }}
+                  className="age-input"
+                />
+                <span>세</span>
+              </div>
             </div>
-            <div className="age-slider-container">
-              <input
-                type="range"
-                min="18"
-                max="80"
-                value={minAge}
-                onChange={(e) => handleAgeChange("min", e.target.value)}
-                className="age-slider min-slider"
-              />
-              <input
-                type="range"
-                min="18"
-                max="80"
-                value={maxAge}
-                onChange={(e) => handleAgeChange("max", e.target.value)}
-                className="age-slider max-slider"
-              />
-            </div>
+
             <div className="age-range-label">
               18세 ~ 80세 범위에서 선택해주세요
             </div>
           </div>
         </div>
+      </div>
+      {/* 새로 추가한 검색 필터 UI 끝! */}
 
-        {/* 지정 쌤 검색 섹션 */}
-        <div className="teacher-search-section">
-          <div className="teacher-search-header">
-            <h3 className="teacher-search-title">지정 쌤 검색</h3>
-          </div>
+      {/* 지정 쌤 검색 섹션 */}
+      <div className="teacher-search-section">
+        <div className="teacher-search-header">
+          <h3 className="teacher-search-title">지정 쌤 검색</h3>
+          <p className="teacher-search-warning">
+            ⚠️ 주의: 지정쌤 검색 시 입력하신 내용이 초기화될 수 있습니다. 지정쌤
+            선택후에 나머지 내용을 입력하세요.
+          </p>
+        </div>
 
-          <div className="teacher-search-input-group">
-            <input
-              type="text"
-              placeholder="쌤 이름을 입력하세요"
-              className="teacher-search-input"
-              value={teacherName}
-              onChange={(e) => setTeacherName(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  handleTeacherSearch();
-                }
-              }}
-            />
+        <div className="teacher-search-input-group">
+          <input
+            type="text"
+            placeholder="쌤 이름을 입력하세요"
+            className={`teacher-search-input ${hopeTutorId ? "disabled" : ""}`}
+            value={teacherName}
+            onChange={(e) => setTeacherName(e.target.value)}
+            disabled={hopeTutorId !== null}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleTeacherSearch();
+              }
+            }}
+          />
+          <button
+            className={`teacher-search-button ${hopeTutorId ? "selected" : ""}`}
+            disabled={hopeTutorId !== null}
+          >
+            {hopeTutorId ? "선택됨" : "검색"}
+          </button>
+          {hopeTutorId && (
             <button
-              className="teacher-search-button"
-              onClick={handleTeacherSearch}
+              className="teacher-reset-button"
+              onClick={() => {
+                setHopeTutorId(null);
+                setTeacherName("");
+              }}
             >
               검색
             </button>
-          </div>
+          )}
         </div>
       </div>
-      {/* 새로 추가한 검색 필터 UI 끝! */}
 
       {/* 아동 분류 폼 섹션 */}
       <div className="child-classification-section">
@@ -1273,6 +1441,7 @@ const Helpme = () => {
           <div className="content-area">
             <h3>이렇게 해주세요!</h3>
             <textarea
+              ref={additionalInfoRef}
               placeholder="예시) 직접 책을 읽어주세요&#10;아이가 잘 읽는지 옆에서 봐주세요&#10;가끔 다른 놀이를 해도 괜찮아요"
               value={additionalInfo}
               onChange={(e) => setAdditionalInfo(e.target.value)}

@@ -14,8 +14,8 @@ const TeacherProfile = () => {
     getTutorById,
     getTutorCategories,
     getTutorRegions,
-    addTutorCategory,
-    addTutorRegion,
+    addTutorCategories,
+    addTutorRegions,
     deleteTutorCategories,
     deleteTutorRegions,
     updateTutor,
@@ -38,6 +38,7 @@ const TeacherProfile = () => {
   // 분야 선택 상태
   const [selectedFields, setSelectedFields] = useState([]);
   const [selectedRegions, setSelectedRegions] = useState([]);
+  const [name, setName] = useState("");
   const [school, setSchool] = useState("");
   const [major, setMajor] = useState("");
   const [isGraduate, setIsGraduate] = useState("");
@@ -206,6 +207,9 @@ const TeacherProfile = () => {
           } else {
             // 기존 프로필이 없는 경우 - 신규 등록 모드
             setIsEditMode(false);
+
+            // user.name 에서 이름 추출
+            setName(user.name);
 
             // user.birth_date에서 생년 추출
             let defaultBirthYear = "";
@@ -467,6 +471,7 @@ const TeacherProfile = () => {
     const submitData = new FormData();
 
     // FormData에 텍스트 데이터 append
+    submitData.append("name", name);
     submitData.append("school", school);
     submitData.append("major", major);
     submitData.append("is_graduate", isGraduate);
@@ -527,7 +532,7 @@ const TeacherProfile = () => {
           // 4. 새로운 카테고리 추가
           if (selectedFields && selectedFields.length > 0) {
             try {
-              await addTutorCategory(tutorId, selectedFields);
+              await addTutorCategories(tutorId, selectedFields);
               console.log("새로운 카테고리 추가 완료");
             } catch (categoryError) {
               console.error("분야 추가 실패:", categoryError);
@@ -538,7 +543,7 @@ const TeacherProfile = () => {
           // 5. 새로운 지역 추가
           if (selectedRegions && selectedRegions.length > 0) {
             try {
-              await addTutorRegion(tutorId, selectedRegions);
+              await addTutorRegions(tutorId, selectedRegions);
               console.log("새로운 지역 추가 완료");
             } catch (regionError) {
               console.error("지역 추가 실패:", regionError);
@@ -604,7 +609,7 @@ const TeacherProfile = () => {
       // 3. 카테고리 추가 API 호출
       if (selectedFields && selectedFields.length > 0) {
         try {
-          const categoryResponse = await addTutorCategory(
+          const categoryResponse = await addTutorCategories(
             tutorId,
             selectedFields
           );
@@ -628,7 +633,10 @@ const TeacherProfile = () => {
       // 4. 지역 추가 API 호출
       if (selectedRegions && selectedRegions.length > 0) {
         try {
-          const regionResponse = await addTutorRegion(tutorId, selectedRegions);
+          const regionResponse = await addTutorRegions(
+            tutorId,
+            selectedRegions
+          );
         } catch (regionError) {
           console.error("지역 추가 실패:", regionError);
 

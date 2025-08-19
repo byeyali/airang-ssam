@@ -234,8 +234,11 @@
   border: 2px solid #e1e5e9;
   border-radius: 15px;
   padding: 12px 16px;
-  width: 200px;
+  width: 280px; /* 세부 주소 입력 필드와 동일한 너비로 변경 */
+  height: 48px; /* 세부 주소 입력 필드와 동일한 높이로 고정 */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0; /* 크기 고정 */
+  box-sizing: border-box; /* 패딩과 보더를 포함한 크기 계산 */
 }
 
 .location-label {
@@ -252,34 +255,65 @@
   flex: 1;
 }
 
-/* 선택 주소 표시 - 주소입력과 동일한 길이 */
-.selected-address-display {
+/* 세부 주소 입력 필드 */
+.detail-address-input {
+  flex: 1;
+  margin-left: 0;
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border: 2px solid #e1e5e9;
-  border-radius: 15px;
-  padding: 12px 16px;
-  flex: 1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  justify-content: flex-start; /* 좌측 정렬 */
 }
 
-.search-input {
-  flex: 1;
-  padding: 12px 16px;
+.detail-address-field {
+  width: 450px; /* 기존 380px + 70px */
+  padding: 12px 16px; /* 선택지역과 동일한 패딩 */
   border: 2px solid #e1e8ed;
   border-radius: 15px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
   background: #f8f9fa;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  height: 48px; /* 거주 선택지역과 동일한 높이로 고정 */
+  line-height: 1.2; /* 텍스트 세로 정렬 */
+  flex-shrink: 0; /* 크기 고정 */
+  box-sizing: border-box; /* 패딩과 보더를 포함한 크기 계산 */
 }
 
-.search-input:focus {
+.detail-address-field:focus {
   outline: none;
   border-color: #4a90e2;
   box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
   background: white;
+}
+
+.detail-address-field::placeholder {
+  color: #999;
+  font-weight: 400;
+}
+
+.search-input {
+  width: 450px !important; /* 세부 주소 입력 필드와 동일한 너비 - 강제 적용 */
+  padding: 12px 16px !important; /* 세부 주소 입력 필드와 동일한 패딩 */
+  border: 2px solid #e1e8ed !important; /* 세부 주소 입력 필드와 동일한 보더 */
+  border-radius: 15px !important; /* 세부 주소 입력 필드와 동일한 보더 반경 */
+  font-size: 1rem !important; /* 세부 주소 입력 필드와 동일한 폰트 크기 */
+  font-weight: 500 !important; /* 세부 주소 입력 필드와 동일한 폰트 굵기 */
+  transition: all 0.3s ease;
+  background: #f8f9fa !important; /* 세부 주소 입력 필드와 동일한 배경색 */
+  color: #333 !important; /* 세부 주소 입력 필드와 동일한 텍스트 색상 */
+  flex-shrink: 0 !important; /* 크기 고정 */
+  height: 48px !important; /* 세부 주소 입력 필드와 동일한 높이 */
+  box-sizing: border-box !important; /* 패딩과 보더를 포함한 크기 계산 */
+  min-width: 450px !important; /* 최소 너비 강제 설정 */
+  max-width: 450px !important; /* 최대 너비 강제 설정 */
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4a90e2; /* 세부 주소 입력 필드와 동일한 포커스 보더 색상 */
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1); /* 세부 주소 입력 필드와 동일한 포커스 그림자 */
+  background: white; /* 세부 주소 입력 필드와 동일한 포커스 배경색 */
 }
 
 .search-button {
@@ -858,6 +892,64 @@
   border-color: #4a90e2;
   color: white;
   box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+}
+
+.age-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.age-input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.age-input-group label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2f0005;
+  margin-bottom: 8px;
+}
+
+.age-input-group .age-input {
+  width: 90px;
+  padding: 15px 30px;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  color: #333;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.age-input-group .age-input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.2);
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  transform: translateY(-2px);
+}
+
+.age-input-group span {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2f0005;
+  margin-top: 8px;
+}
+
+.age-separator {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2f0005;
+  margin: 0 15px;
 }
 
 .age-display {
@@ -1688,17 +1780,19 @@
 .age-slider-container {
   position: relative;
   width: 100%;
-  height: 50px;
+  height: 60px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   padding: 0 10px;
   background: #f0f0f0;
   border-radius: 8px;
+  gap: 5px;
 }
 
 .age-slider {
-  position: absolute;
-  width: calc(100% - 20px);
+  position: relative;
+  width: 100%;
   height: 8px;
   background: transparent;
   border-radius: 4px;
@@ -1753,13 +1847,15 @@
 
 .min-slider {
   z-index: 3;
+  pointer-events: auto;
 }
 
 .max-slider {
   z-index: 4;
+  pointer-events: auto;
 }
 
-/* 슬라이더 오버랩 처리 - 선택된 범위만 파란색으로 표시 */
+/* 슬라이더 배경 */
 .age-slider-container::before {
   content: "";
   position: absolute;
@@ -1776,26 +1872,6 @@
 }
 
 .age-slider-container:hover::before {
-  height: 10px;
-}
-
-/* 선택된 범위를 파란색으로 표시하는 가상 요소 */
-.age-slider-container::after {
-  content: "";
-  position: absolute;
-  left: calc(10px + (var(--min-percent, 0) * (100% - 20px) / 100));
-  right: calc(10px + ((100 - var(--max-percent, 100)) * (100% - 20px) / 100));
-  top: 50%;
-  transform: translateY(-50%);
-  height: 8px;
-  background: linear-gradient(90deg, #4a90e2 0%, #357abd 100%);
-  border-radius: 4px;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  z-index: 0;
-}
-
-.age-slider-container:hover::after {
   height: 10px;
 }
 
@@ -1816,6 +1892,7 @@
   margin: 20px 0;
   box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
   border: 2px solid rgba(255, 255, 255, 0.2);
+  scroll-margin-top: 20px; /* 스크롤 시 상단 여백 */
 }
 
 .teacher-search-header {
@@ -1829,6 +1906,19 @@
   font-weight: 700;
   margin: 0 0 10px 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.teacher-search-warning {
+  color: #ffeb3b;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  background: rgba(255, 235, 59, 0.1);
+  padding: 8px 16px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 235, 59, 0.3);
+  backdrop-filter: blur(5px);
 }
 
 .teacher-search-subtitle {
@@ -1905,6 +1995,18 @@
   font-weight: 500;
 }
 
+.teacher-search-input.disabled {
+  background: rgba(240, 240, 240, 0.95);
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.teacher-search-input.disabled:focus {
+  transform: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
 .teacher-search-button {
   background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
   color: white;
@@ -1925,6 +2027,40 @@
 }
 
 .teacher-search-button:active {
+  transform: translateY(0);
+}
+
+.teacher-search-button.selected {
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  cursor: default;
+  opacity: 0.9;
+}
+
+.teacher-search-button.selected:hover {
+  transform: none;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.teacher-reset-button {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.teacher-reset-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+}
+
+.teacher-reset-button:active {
   transform: translateY(0);
 }
 
@@ -1962,9 +2098,44 @@
     font-size: 14px;
   }
 
-  .teacher-search-button {
+  .teacher-search-button,
+  .teacher-reset-button {
     padding: 12px 25px;
     font-size: 14px;
     width: 100%;
+  }
+
+  .detail-address-input {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .search-input {
+    width: 240px; /* 모바일에서는 적절한 너비 */
+    flex-shrink: 0;
+  }
+
+  .detail-address-field {
+    padding: 10px 12px; /* 선택지역과 동일한 패딩 */
+    font-size: 13px;
+    border-radius: 12px;
+    width: 240px; /* 모바일에서는 적절한 너비 */
+    height: auto;
+    line-height: 1.2;
+    flex-shrink: 0;
+  }
+
+  .age-input-container {
+    gap: 10px;
+  }
+
+  .age-input-group .age-input {
+    width: 50px;
+    padding: 6px 8px;
+    font-size: 0.8rem;
+  }
+
+  .age-input-group label {
+    font-size: 0.7rem;
   }
 }

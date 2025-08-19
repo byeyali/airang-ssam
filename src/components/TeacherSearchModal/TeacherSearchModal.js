@@ -7,15 +7,14 @@ import React, {
   useMemo,
 } from "react";
 import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
+
 import { useTeacherSearch } from "../../contexts/TeacherSearchContext";
 import { useUser } from "../../contexts/UserContext";
 import { useApplication } from "../../contexts/ApplicationContext";
 import { getMatchingTeachersByScore } from "../../config/api";
 import "./TeacherSearchModal.css";
 
-const TeacherSearchModal = memo(({ isOpen, onClose }) => {
-  const navigate = useNavigate();
+const TeacherSearchModal = memo(({ isOpen, onClose, onTeacherSelect }) => {
   const { searchResults, searchQuery, clearSearchData } = useTeacherSearch();
   const { user } = useUser();
   const { getAllApplications } = useApplication();
@@ -24,10 +23,31 @@ const TeacherSearchModal = memo(({ isOpen, onClose }) => {
   const initializationRef = useRef(false);
   const modalRef = useRef(null);
 
+  // 백엔드 데이터를 프론트엔드 형식으로 변환
+  const transformTeacherData = useCallback((teacher) => {
+    return {
+      id: teacher.id,
+      name: teacher.name,
+      rating: teacher.rating || 4.0, // 기본값 설정
+      regions: teacher.regions
+        ? teacher.regions.split(", ")
+        : ["지역 정보 없음"],
+      skills: teacher.categories
+        ? teacher.categories.split(", ")
+        : ["분야 정보 없음"],
+      birth_year: teacher.birth_year,
+      gender: teacher.gender,
+      categories: teacher.categories,
+    };
+  }, []);
+
   // 메모이제이션된 검색 결과 (성별 매칭 적용)
   const memoizedSearchResults = useMemo(() => {
-    if (!user || user.type !== "parent" || !searchResults.length) {
-      return searchResults;
+    // 백엔드 데이터 변환
+    const transformedResults = searchResults.map(transformTeacherData);
+
+    if (!user || user.type !== "parents" || !transformedResults.length) {
+      return transformedResults;
     }
 
     // 부모의 공고 정보 가져오기
@@ -51,21 +71,14 @@ const TeacherSearchModal = memo(({ isOpen, onClose }) => {
   }, [searchResults, user, getAllApplications]);
 
   // 쌤 이미지 매핑 함수
-  const getTeacherImage = (teacherId) => {
-    const imageMap = {
-      teacher_001: "/img/teacher-kimyouhghee-womam.png", // 김영희
-      teacher_002: "/img/teacher-man-ball.jpg", // 박민수
-      teacher_003: "/img/teacher-kimjiyoung.jpg", // 김지영
-      teacher_004: "/img/teacher-math-english.jpg", // 최지영
-      teacher_005: "/img/teacher-woman-31-glasses.png", // 한미영
-      teacher_006: "/img/teacher-man-readingbook.png", // 정성훈
-      teacher_007: "/img/kimtashyeon-man.png", // 김태현
-      teacher_008: "/img/teacher-30-man.png", // 박성훈
-      teacher_009: "/img/teacher-20-woman.png", // 이미영
-      teacher_010: "/img/teacher-40-woman.png", // 박지영 (45세)
-      teacher_011: "/img/teacher-60-woman.png", // 최영희 (55세)
-    };
-    return imageMap[teacherId] || "/img/teacher-30-woman.png";
+  const getTeacherImage = (teacher) => {
+    // 백엔드에서 받은 photo_path가 있으면 사용
+    if (teacher.photo_path) {
+      return teacher.photo_path;
+    }
+
+    // photo_path가 없으면 기본 이미지 사용
+    return "/img/teacher-30-woman.png";
   };
 
   // 초기화 체크 (한 번만 실행)
@@ -96,12 +109,14 @@ const TeacherSearchModal = memo(({ isOpen, onClose }) => {
     }
   }, [isOpen]);
 
-  const handleTeacherClick = useCallback(
-    (teacherId) => {
-      // 모달을 닫지 않고 바로 네비게이션
-      navigate(`/teacher-detail/${teacherId}`);
+  const handleTeacherSelect = useCallback(
+    (teacher) => {
+      // 콜백 실행 (App.js에서 모달 닫기 처리)
+      if (onTeacherSelect) {
+        onTeacherSelect(teacher);
+      }
     },
-    [navigate]
+    [onTeacherSelect]
   );
 
   const handleCloseModal = useCallback(() => {
@@ -166,52 +181,56 @@ const TeacherSearchModal = memo(({ isOpen, onClose }) => {
               <div className="no-results">검색 결과가 없습니다.</div>
             )}
 
-            <div className="teachers-grid">
+            <div className="teachers-list">
               {memoizedSearchResults.map((teacher) => (
-                <div
-                  key={teacher.id}
-                  className="teacher-card"
-                  onClick={() => handleTeacherClick(teacher.id)}
-                >
-                  <div className="teacher-avatar">
-                    <img
-                      src={getTeacherImage(teacher.id)}
-                      alt={teacher.name}
-                      onError={(e) => {
-                        e.target.src = "/img/teacher-30-woman.png";
-                      }}
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="teacher-info">
-                    <h3 className="teacher-name">{teacher.name}</h3>
-                    <div className="teacher-rating">⭐ {teacher.rating}</div>
-                    <div className="teacher-regions">
-                      📍 {teacher.regions.join(", ")}
-                    </div>
-                    <div className="teacher-skills">
-                      {teacher.skills.map((skill, index) => (
-                        <span key={index} className="skill-tag">
-                          {skill}
+                <div key={teacher.id} className="teacher-list-item">
+                  <div className="teacher-list-content">
+                    <div className="teacher-basic-info">
+                      <div className="teacher-name">{teacher.name}</div>
+                      <div className="teacher-details">
+                        <span className="birth-year">
+                          {teacher.birth_year}년생
                         </span>
-                      ))}
+                        <span className="gender">{teacher.gender}</span>
+                      </div>
                     </div>
-                    {/* 성별 매칭 점수 표시 */}
-                    {teacher.matchScore && user?.type === "parent" && (
-                      <div className="matching-score">
-                        <div className="score-label">매칭 점수</div>
-                        <div className="score-value">
-                          {Math.round(teacher.matchScore * 100)}점
-                        </div>
-                        {teacher.genderScore && (
-                          <div className="gender-match">
-                            {teacher.genderScore >= 0.8
-                              ? "✅ 성별 우선"
-                              : "⚪ 성별 일반"}
-                          </div>
+                    <div className="teacher-info-section">
+                      <div className="teacher-categories">
+                        {teacher.categories ? (
+                          teacher.categories
+                            .split(", ")
+                            .map((category, index) => (
+                              <span key={index} className="category-tag">
+                                {category}
+                              </span>
+                            ))
+                        ) : (
+                          <span className="no-categories">분야 정보 없음</span>
                         )}
                       </div>
-                    )}
+                      <div className="teacher-regions">
+                        {teacher.regions && teacher.regions.length > 0 ? (
+                          teacher.regions.map((region, index) => (
+                            <span key={index} className="region-tag">
+                              {region}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="no-regions">지역 정보 없음</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="teacher-actions">
+                      <button
+                        className="teacher-select-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleTeacherSelect(teacher);
+                        }}
+                      >
+                        선택
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}

@@ -15,6 +15,30 @@ export const useApplication = () => {
 
 export const ApplicationProvider = ({ children }) => {
   const [applications, setApplications] = useState([]);
+  const [formData, setFormData] = useState({
+    selectedItems: [],
+    address: "",
+    selectedRegion: "",
+    detailAddress: "",
+    startDate: "",
+    endDate: "",
+    selectedDays: [],
+    startTime: "",
+    endTime: "",
+    minAge: "",
+    maxAge: "",
+    selectedGender: "",
+    selectedChild: "boy",
+    selectedGrade: "유아",
+    customAge: "5",
+    minWage: "11000",
+    maxWage: "",
+    isNegotiable: false,
+    requests: "",
+    additionalInfo: "",
+    hopeTutorId: null,
+    teacherName: "",
+  });
 
   // 공고 추가
   const addApplication = (newApplication) => {
@@ -86,8 +110,44 @@ export const ApplicationProvider = ({ children }) => {
     );
   };
 
+  // 폼 데이터 업데이트
+  const updateFormData = (newData) => {
+    setFormData((prev) => ({ ...prev, ...newData }));
+  };
+
+  // 폼 데이터 초기화
+  const clearFormData = () => {
+    setFormData({
+      selectedItems: [],
+      address: "",
+      selectedRegion: "",
+      detailAddress: "",
+      startDate: "",
+      endDate: "",
+      selectedDays: [],
+      startTime: "",
+      endTime: "",
+      minAge: "",
+      maxAge: "",
+      selectedGender: "",
+      selectedChild: "boy",
+      selectedGrade: "유아",
+      customAge: "5",
+      minWage: "11000",
+      maxWage: "",
+      isNegotiable: false,
+      requests: "",
+      additionalInfo: "",
+      hopeTutorId: null,
+      teacherName: "",
+    });
+  };
+
   const value = {
     applications,
+    formData,
+    updateFormData,
+    clearFormData,
     addApplication,
     updateApplication,
     deleteApplication,

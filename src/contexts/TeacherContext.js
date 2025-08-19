@@ -99,7 +99,7 @@ export const TeacherProvider = ({ children }) => {
   };
 
   // 분야 추가 함수
-  const addTutorCategory = async (tutorId, fields) => {
+  const addTutorCategories = async (tutorId, fields) => {
     try {
       // 백엔드에서 기대하는 형식으로 데이터 준비
       // fields가 문자열 배열이면 숫자로 변환 시도
@@ -135,7 +135,7 @@ export const TeacherProvider = ({ children }) => {
   };
 
   // 지역 추가 함수
-  const addTutorRegion = async (tutorId, regions) => {
+  const addTutorRegions = async (tutorId, regions) => {
     try {
       let processedRegions = regions;
       if (Array.isArray(regions)) {
@@ -364,8 +364,8 @@ export const TeacherProvider = ({ children }) => {
     getTutorRegions,
     deleteTutorCategories,
     deleteTutorRegions,
-    addTutorCategory,
-    addTutorRegion,
+    addTutorCategories,
+    addTutorRegions,
     uploadTutorFiles,
     saveTutorFilePaths,
     loading,

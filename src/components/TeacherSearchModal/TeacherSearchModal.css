@@ -129,11 +129,11 @@
   -webkit-backface-visibility: hidden;
 }
 
-/* 쌤 그리드 */
-.teachers-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+/* 쌤 리스트 */
+.teachers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
@@ -141,12 +141,12 @@
   contain: layout style paint;
 }
 
-/* 쌤 카드 */
-.teacher-card {
+/* 쌤 리스트 아이템 */
+.teacher-list-item {
   background: white;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: all 0.3s ease;
   transform: translateZ(0);
@@ -157,37 +157,30 @@
   border: 1px solid #f0f0f0;
 }
 
-.teacher-card:hover {
-  transform: translateZ(0) translateY(-5px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+.teacher-list-item:hover {
+  transform: translateZ(0) translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  border-color: #e0e0e0;
 }
 
-/* 쌤 아바타 */
-.teacher-avatar {
-  text-align: center;
-  margin-bottom: 15px;
+/* 쌤 리스트 콘텐츠 */
+.teacher-list-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 
-.teacher-avatar img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #f0f0f0;
-  transform: translateZ(0);
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  contain: layout style paint;
-}
-
-/* 쌤 정보 */
-.teacher-info {
-  text-align: center;
+/* 쌤 기본 정보 */
+.teacher-basic-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
@@ -195,58 +188,116 @@
 }
 
 .teacher-name {
-  margin: 0 0 8px 0;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: #333;
+  margin: 0;
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 
-.teacher-rating {
-  margin-bottom: 8px;
-  color: #ff6b35;
-  font-weight: 500;
-  transform: translateZ(0);
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.teacher-regions {
-  margin-bottom: 12px;
-  color: #666;
+.teacher-details {
+  display: flex;
+  gap: 12px;
   font-size: 0.9rem;
+  color: #666;
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 
-.teacher-skills {
+.birth-year {
+  color: #555;
+  font-weight: 500;
+}
+
+.gender {
+  color: #555;
+  font-weight: 500;
+}
+
+/* 쌤 정보 섹션 */
+.teacher-info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* 쌤 분야 */
+.teacher-categories {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  justify-content: center;
+  gap: 6px;
+  align-items: center;
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 
-/* 스킬 태그 */
-.skill-tag {
+/* 분야 태그 */
+.category-tag {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.8rem;
   font-weight: 500;
-  margin-right: 4px;
-  margin-bottom: 4px;
   display: inline-block;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* 쌤 지역 */
+.teacher-regions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* 지역 태그 */
+.region-tag {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: inline-block;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.no-categories {
+  color: #999;
+  font-size: 0.85rem;
+  font-style: italic;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.no-regions {
+  color: #999;
+  font-size: 0.85rem;
+  font-style: italic;
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
@@ -369,21 +420,73 @@
     padding: 20px;
   }
 
-  .teachers-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
+  .teachers-list {
+    gap: 10px;
   }
 
-  .teacher-card {
-    padding: 15px;
+  .teacher-list-item {
+    padding: 12px 16px;
   }
 
-  .teacher-avatar img {
-    width: 60px;
-    height: 60px;
+  .teacher-list-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .teacher-info-section {
+    width: 100%;
+  }
+
+  .teacher-categories,
+  .teacher-regions {
+    width: 100%;
+  }
+
+  .teacher-select-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 0.8rem;
   }
 
   .teacher-name {
     font-size: 1.1rem;
   }
+}
+
+/* 쌤 액션 버튼 */
+.teacher-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.teacher-select-btn {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.teacher-select-btn:hover {
+  transform: translateZ(0) translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 16px rgba(79, 172, 254, 0.4);
 }
