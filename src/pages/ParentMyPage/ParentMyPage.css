@@ -401,9 +401,9 @@
 .matching-details p,
 .payment-details p,
 .contract-details p {
-  margin: 8px 0;
+  margin: 2px 0;
   font-size: 1rem;
-  color: white;
+  color: rgb(55, 50, 50);
   line-height: 1.4;
 }
 

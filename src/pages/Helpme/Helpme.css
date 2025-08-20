@@ -14,6 +14,20 @@
   padding: 20px 0;
 }
 
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header-text {
+  flex: 1;
+  text-align: center;
+}
+
 .helpme-header h1 {
   font-size: 3rem;
   font-weight: 800;
@@ -26,6 +40,26 @@
   font-size: 1.4rem;
   color: #666;
   font-weight: 500;
+}
+
+.top-list-button {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+  min-width: 60px;
+}
+
+.top-list-button:hover {
+  background: linear-gradient(135deg, #5a6268 0%, #343a40 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
 }
 
 /* 선택된 항목 표시 섹션 */
@@ -1384,6 +1418,13 @@
   margin-top: 50px;
 }
 
+.button-group {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
 .save-button {
   background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
   color: white;
@@ -1415,6 +1456,26 @@
 .save-button.disabled:hover {
   transform: none;
   box-shadow: none;
+}
+
+.list-button {
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  color: white;
+  border: none;
+  padding: 18px 40px;
+  border-radius: 15px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(108, 117, 125, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.list-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
 }
 
 /* 반응형 디자인 */

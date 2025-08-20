@@ -12,9 +12,13 @@ const Helpme = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useUser();
-  const { setSearchData, searchTeachers, createTutorJob, addTutorJobCategory } =
-    useTeacherSearch();
-  const { formData: contextFormData, updateFormData } = useApplication();
+  const { setSearchData, searchTeachers } = useTeacherSearch();
+  const {
+    formData: contextFormData,
+    updateFormData,
+    addApplication,
+    addApplicationCategory,
+  } = useApplication();
   const [isEditMode, setIsEditMode] = useState(false);
   const [editApplicationId, setEditApplicationId] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -223,7 +227,6 @@ const Helpme = () => {
     // 커스텀 이벤트 리스너 추가
     const handleTeacherSelected = (event) => {
       const { teacher } = event.detail;
-      console.log("선택된 쌤 정보:", teacher);
 
       // 선택된 쌤의 ID만 hope_tutor_id에 설정
       setHopeTutorId(teacher.id);
@@ -259,7 +262,6 @@ const Helpme = () => {
     // 전역 변수에서 쌤 선택 정보 확인
     if (window.fromTeacherSearch && window.selectedTeacher) {
       const teacher = window.selectedTeacher;
-      console.log("전역 변수에서 선택된 쌤 정보:", teacher);
 
       // 선택된 쌤의 ID만 hope_tutor_id에 설정
       setHopeTutorId(teacher.id);
@@ -519,9 +521,6 @@ const Helpme = () => {
   };
 
   const handleTeacherSearch = async () => {
-    console.log("지정 쌤 검색 버튼 클릭됨");
-    console.log("검색할 쌤 이름:", teacherName);
-
     if (!teacherName || !teacherName.trim()) {
       alert("쌤 이름을 입력해주세요.");
       return;
@@ -719,8 +718,6 @@ const Helpme = () => {
     };
 
     try {
-      console.log("공고 등록 요청 데이터:", jobData);
-
       if (isEditMode) {
         // 수정 모드일 때는 기존 로직 유지 (로컬 스토리지)
         const applicationData = {
@@ -750,14 +747,11 @@ const Helpme = () => {
           updatedAt: new Date().toISOString(),
         };
 
-        console.log("공고 수정:", applicationData);
         alert("공고가 수정되었습니다!");
         navigate("/applications");
       } else {
         // 새 공고 등록 시 백엔드 API 호출
-        const response = await createTutorJob(jobData);
-        console.log("공고 등록 성공:", response);
-        console.log("응답 전체 구조:", response);
+        const response = await addApplication(jobData);
 
         // jobId 추출 (다양한 가능한 필드명 확인)
         const jobId =
@@ -766,19 +760,11 @@ const Helpme = () => {
           response.job_id ||
           response.data?.id ||
           response.data?.jobId;
-        console.log("추출된 jobId:", jobId);
 
         // 공고 등록 성공 후 분야 정보 추가
         if (jobId && selectedItems.length > 0) {
           try {
-            console.log(
-              "분야 정보 추가 시작 - jobId:",
-              jobId,
-              "selectedItems (ID):",
-              selectedItems
-            );
-            await addTutorJobCategory(jobId, selectedItems);
-            console.log("분야 정보 추가 성공");
+            await addApplicationCategory(jobId, selectedItems);
           } catch (categoryError) {
             console.error("분야 정보 추가 실패:", categoryError);
             // 분야 추가 실패해도 공고는 등록되었으므로 경고만 표시
@@ -787,11 +773,6 @@ const Helpme = () => {
             return;
           }
         } else {
-          console.log(
-            "jobId가 없거나 selectedItems가 비어있어 분야 추가를 건너뜀"
-          );
-          console.log("jobId:", jobId);
-          console.log("selectedItems:", selectedItems);
         }
 
         alert("공고가 성공적으로 등록되었습니다!");
@@ -822,8 +803,18 @@ const Helpme = () => {
   return (
     <div className="helpme-container">
       <div className="helpme-header">
-        <h1>{isEditMode ? "공고 수정" : "도와줘요 쌤"}</h1>
-        <p>{isEditMode ? "공고 정보를 수정해주세요" : "무엇을?"}</p>
+        <div className="header-content">
+          <div className="header-text">
+            <h1>{isEditMode ? "공고 수정" : "도와줘요 쌤"}</h1>
+            <p>{isEditMode ? "공고 정보를 수정해주세요" : "무엇을?"}</p>
+          </div>
+          <button
+            className="top-list-button"
+            onClick={() => navigate("/applications")}
+          >
+            리스트
+          </button>
+        </div>
       </div>
 
       {/* 선택된 항목 표시 섹션 */}
@@ -1075,7 +1066,6 @@ const Helpme = () => {
               onChange={(e) => {
                 // 한번만 모드일 때는 종료일 변경을 차단
                 if (durationType === "onetime") {
-                  console.log("한번만 모드: 종료일 변경 차단됨");
                   return;
                 }
 
@@ -1330,7 +1320,6 @@ const Helpme = () => {
                     value={customAge}
                     onChange={(e) => {
                       const value = parseInt(e.target.value);
-                      console.log("나이 입력 변경:", value);
 
                       if (value >= 1 && value <= 6) {
                         setCustomAge(e.target.value);
@@ -1342,9 +1331,7 @@ const Helpme = () => {
                         setCustomAge("1");
                       }
                     }}
-                    onInput={(e) => {
-                      console.log("나이 입력 이벤트:", e.target.value);
-                    }}
+                    onInput={(e) => {}}
                     className="age-input"
                     placeholder="5"
                   />
@@ -1452,13 +1439,15 @@ const Helpme = () => {
 
         {/* 저장 버튼 */}
         <div className="save-section">
-          <button
-            className={`save-button ${!user ? "disabled" : ""}`}
-            onClick={handleSave}
-            disabled={!user}
-          >
-            {user ? (isEditMode ? "수정 완료" : "저장") : "로그인 후 저장"}
-          </button>
+          <div className="button-group">
+            <button
+              className={`save-button ${!user ? "disabled" : ""}`}
+              onClick={handleSave}
+              disabled={!user}
+            >
+              {user ? (isEditMode ? "수정 완료" : "저장") : "로그인 후 저장"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -303,12 +303,15 @@ const SignUp = () => {
   return (
     <div className="signup-form-container">
       <div className="signup-header">
-        <div className="signup-header-icon" onClick={handleMainPageClick}>
-          <img
-            src="/img/new-logo-airang.png"
-            alt="아이랑 쌤"
-            className="signup-header-logo"
-          />
+        <div className="signup-header-section" onClick={handleMainPageClick}>
+          <div className="signup-header-content">
+            <img
+              src="/img/Image_fx.png"
+              alt="아이랑쌤이랑 로고"
+              className="signup-header-logo"
+            />
+            <span className="signup-header-title">아이랑 쌤이랑</span>
+          </div>
         </div>
         <h1 className="signup-title">회원가입</h1>
       </div>

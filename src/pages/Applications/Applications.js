@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApplication } from "../../contexts/ApplicationContext";
 import { useUser } from "../../contexts/UserContext";
@@ -11,28 +11,51 @@ function Applications() {
   const { user } = useUser();
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [pagination, setPagination] = useState(null);
 
-  // 사용자 타입에 따른 데이터 필터링
-  const getFilteredApplications = () => {
-    if (!user) return [];
-
-    if (user.type === "parent") {
-      return getMyApplications(user.id);
-    } else if (user.type === "tutor") {
-      // 쌤은 부모 공고만 볼 수 있고, 지역이 매칭되는 것만
-      const allApplications = getAllApplications();
-      return allApplications.filter((app) =>
-        user.regions.some((region) => app.region.title.includes(region))
-      );
-    } else if (user.type === "admin") {
-      // 관리자는 모든 공고를 볼 수 있음
-      return getAllApplications();
+  // 백엔드 API에서 공고 목록 조회
+  const fetchApplications = async (params = {}) => {
+    if (!user || !user.id || !user.member_type) {
+      console.log("사용자 정보가 아직 로드되지 않았습니다:", user);
+      return;
     }
 
-    return [];
+    setLoading(true);
+    setError(null);
+
+    try {
+      const result = await getMyApplications(params);
+
+      if (result.success) {
+        setApplications(result.data);
+        setPagination(result.pagination);
+      } else {
+        setError(result.error);
+        setApplications([]);
+      }
+    } catch (err) {
+      console.error("공고 목록 조회 오류:", err);
+      setError("공고 목록을 불러오는 중 오류가 발생했습니다.");
+      setApplications([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const applications = getFilteredApplications();
+  // 컴포넌트 마운트 시 공고 목록 조회
+  useEffect(() => {
+    if (user && user.id && user.member_type) {
+      fetchApplications();
+    }
+  }, [user]);
+
+  // 페이지 변경 시 공고 목록 조회
+  const handlePageChange = (page) => {
+    fetchApplications({ page });
+  };
 
   const handleEdit = (application) => {
     // 공고 수정을 위해 Helpme 페이지로 이동
@@ -68,8 +91,12 @@ function Applications() {
     <div className="applications-page">
       <div className="applications-container">
         <div className="applications-header">
-          <h1>{user?.type === "parent" ? "내 공고 확인" : "공고 신청 목록"}</h1>
-          {user?.type === "parent" && (
+          <h1>
+            {user?.member_type === "parents"
+              ? "내 공고 확인"
+              : "공고 신청 목록"}
+          </h1>
+          {user?.member_type === "parents" && (
             <button
               className="write-application-button"
               onClick={() => navigate("/Helpme")}
@@ -79,10 +106,19 @@ function Applications() {
           )}
         </div>
 
-        {applications.length === 0 ? (
+        {loading ? (
+          <div className="loading-container">
+            <p>공고 목록을 불러오는 중...</p>
+          </div>
+        ) : error ? (
+          <div className="error-container">
+            <p>오류: {error}</p>
+            <button onClick={() => fetchApplications()}>다시 시도</button>
+          </div>
+        ) : applications.length === 0 ? (
           <div className="no-applications">
             <p>등록된 공고가 없습니다.</p>
-            {user?.type === "parent" && (
+            {user?.member_type === "parents" && (
               <button
                 className="write-application-button-large"
                 onClick={() => navigate("/Helpme")}
@@ -96,100 +132,60 @@ function Applications() {
             {applications.map((application) => (
               <div key={application.id} className="application-item">
                 <div className="application-left">
-                  <div className="application-summary-card">
-                    <div className="child-avatar-section">
-                      <div className="child-avatar">
-                        <img
-                          src={
-                            application.target.includes("남아")
-                              ? "/img/boy.png"
-                              : "/img/girl.png"
-                          }
-                          alt="아이 아바타"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="application-basic-info">
-                      <div className="application-target">
-                        {application.target} ({application.region.title})
-                      </div>
-                      <div className="application-title">
-                        {application.title}
-                      </div>
-                      <div className="application-details">
-                        <div className="application-date">
-                          {application.startDate} 시작
-                        </div>
-                        <div className="application-schedule">
-                          {application.type}
-                        </div>
-                        <div className="application-payment">
-                          {application.payment}
-                        </div>
-                      </div>
-                    </div>
+                  <div className="child-avatar">
+                    <img
+                      src={
+                        application.target.includes("남아")
+                          ? "/img/boy.png"
+                          : "/img/girl.png"
+                      }
+                      alt="아이 아바타"
+                    />
                   </div>
                 </div>
-
                 <div className="application-right">
-                  <div className="detail-info-box">
-                    <h2>상세 정보</h2>
-
-                    <div className="detail-row">
-                      <span className="detail-label">대상:</span>
-                      <span className="detail-value">{application.target}</span>
-                    </div>
-
-                    <div className="detail-row">
-                      <span className="detail-label">목적:</span>
-                      <span className="detail-value">
-                        {application.purpose}
-                      </span>
-                    </div>
-
-                    <div className="detail-row">
-                      <span className="detail-label">유형:</span>
-                      <span className="detail-value">{application.type}</span>
-                    </div>
-
-                    <div className="detail-row">
-                      <span className="detail-label">기간:</span>
-                      <span className="detail-value">{application.period}</span>
-                    </div>
-
-                    <div className="detail-row">
-                      <span className="detail-label">근무시간:</span>
-                      <span className="detail-value">
-                        {application.workingHours}
-                      </span>
-                    </div>
-
-                    <div className="detail-row">
-                      <span className="detail-label">가족 구성:</span>
-                      <span className="detail-value">
-                        {application.familyDetails}
-                      </span>
-                    </div>
-
-                    <div className="detail-row">
-                      <span className="detail-label">부모님 메시지:</span>
-                      <span className="detail-value">
-                        {application.parentMessage}
-                      </span>
-                    </div>
-
-                    <div className="detail-row">
-                      <span className="detail-label">지급액:</span>
-                      <span className="detail-value">
-                        {application.payment}
-                      </span>
+                  <div className="application-info">
+                    <div className="application-details">
+                      <p>
+                        <strong>대상:</strong> {application.target}
+                      </p>
+                      <p>
+                        <strong>분야:</strong> {application.objective}
+                      </p>
+                      <p>
+                        <strong>기간:</strong>{" "}
+                        {application.work_type === "regular"
+                          ? "오랫동안"
+                          : "한번만"}
+                        {application.start_date && (
+                          <>
+                            {" "}
+                            (
+                            {new Date(
+                              application.start_date
+                            ).toLocaleDateString()}
+                            {application.end_date &&
+                              ` ~ ${new Date(
+                                application.end_date
+                              ).toLocaleDateString()}`}
+                            )
+                          </>
+                        )}
+                      </p>
+                      <p>
+                        <strong>시급:</strong>{" "}
+                        {Math.floor(application.payment)?.toLocaleString()}원
+                      </p>
                     </div>
                   </div>
-
                   <div className="application-actions">
-                    {user?.type === "parent" &&
-                    application.parentId === user.id ? (
+                    <button
+                      className="view-detail-button"
+                      onClick={() => handleApplicationDetail(application.id)}
+                    >
+                      상세보기
+                    </button>
+                    {user?.member_type === "parents" && (
                       <>
                         <button
                           className="edit-button"
@@ -204,11 +200,46 @@ function Applications() {
                           삭제
                         </button>
                       </>
-                    ) : null}
+                    )}
                   </div>
                 </div>
               </div>
             ))}
+
+            {/* 페이지네이션 */}
+            {pagination && pagination.totalPages > 1 && (
+              <div className="pagination-container">
+                <div className="pagination-info">
+                  총 {pagination.totalCount}개의 공고 중{" "}
+                  {pagination.currentPage}페이지
+                </div>
+                <div className="pagination-buttons">
+                  {pagination.hasPrevPage && (
+                    <button
+                      className="pagination-button"
+                      onClick={() =>
+                        handlePageChange(pagination.currentPage - 1)
+                      }
+                    >
+                      이전
+                    </button>
+                  )}
+                  <span className="pagination-current">
+                    {pagination.currentPage} / {pagination.totalPages}
+                  </span>
+                  {pagination.hasNextPage && (
+                    <button
+                      className="pagination-button"
+                      onClick={() =>
+                        handlePageChange(pagination.currentPage + 1)
+                      }
+                    >
+                      다음
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
