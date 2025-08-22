@@ -699,7 +699,6 @@ const TeacherProfile = () => {
     <div className="teacher-profile-container">
       <div className="profile-header">
         <h1>쌤 프로필 등록</h1>
-        <p>자신 있는 분야는?</p>
       </div>
 
       {/* 분야 선택 섹션 */}

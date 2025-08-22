@@ -42,11 +42,9 @@ function Login() {
         navigate("/");
       } else {
         setError(result.message || "로그인에 실패했습니다.");
+        alert(result.message);
       }
     } catch (error) {
-      console.error("Login error:", error);
-
-      // 구체적인 에러 메시지 처리
       if (
         error.code === "NETWORK_ERROR" ||
         error.message.includes("Network Error") ||
@@ -62,6 +60,9 @@ function Login() {
         setError("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       } else if (error.response?.status === 0) {
         setError("CORS 오류가 발생했습니다. 브라우저 설정을 확인해주세요.");
+      }
+      if (error.response && error.response.status === 401) {
+        setError(error.response.data.message || "로그인에 실패했습니다.");
       } else {
         setError("로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
       }

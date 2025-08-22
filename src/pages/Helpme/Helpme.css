@@ -1,101 +1,181 @@
 /* 전체 컨테이너 */
-.helpme-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  padding: 30px 20px;
-  font-family: "Pretendard", sans-serif;
-  line-height: 1.6;
-}
-
 /* 헤더 */
-.helpme-header {
-  text-align: center;
-  margin-bottom: 50px;
-  padding: 20px 0;
+.helpme-container .title-header {
+  text-align: center !important;
+  margin-bottom: 10px !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
 }
 
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 20px;
+.helpme-container .title-header h1 {
+  font-size: 2.5rem !important;
+  font-weight: 700 !important;
+  color: #2f0005 !important;
+  margin-bottom: 15px !important;
+  text-align: center !important;
+  width: 100% !important;
 }
 
-.header-text {
-  flex: 1;
-  text-align: center;
+.teacher-profile-container .title-header p {
+  font-size: 1.2rem !important;
+  color: #666 !important;
+  text-align: center !important;
+  margin: 0 !important;
+  width: 100% !important;
 }
 
-.helpme-header h1 {
-  font-size: 3rem;
-  font-weight: 800;
+.field-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+}
+
+.field-category h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #2f0005;
-  margin-bottom: 15px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+  text-align: center;
+  position: relative;
 }
 
-.helpme-header p {
-  font-size: 1.4rem;
-  color: #666;
-  font-weight: 500;
+.field-category h3::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  border-radius: 2px;
 }
 
-.top-list-button {
-  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+}
+
+.field-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 2px solid #e1e5e9;
+  border-radius: 15px;
+  padding: 20px 15px;
+  text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
-  min-width: 60px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
-.top-list-button:hover {
-  background: linear-gradient(135deg, #5a6268 0%, #343a40 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
+.field-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: #4a90e2;
 }
 
-/* 선택된 항목 표시 섹션 */
-.selected-items-section {
-  max-width: 1400px;
-  margin: 0 auto;
+.field-card.selected {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  border-color: #4a90e2;
+  color: white;
+  box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+}
+
+.field-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.field-name {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.selection-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #e1e5e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.selection-indicator.selected {
+  background: #28a745;
+  color: white;
+}
+
+/* 분야 선택 섹션 */
+.field-selection-section {
+  max-width: 800px;
+  margin: 0 auto 80px;
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
   border-radius: 25px;
   padding: 40px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  margin-bottom: 50px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
 }
 
-.selected-items-container {
+/* 선택된 분야 표시 스타일 */
+.selected-fields-display {
+  margin-bottom: 20px;
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 15px;
+  border: 1px solid #e1e5e9;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
-.selected-items-title {
-  font-size: 1.5rem;
+.selected-fields-display h4 {
+  font-size: 1.3rem;
   font-weight: 700;
   color: #2f0005;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  margin-bottom: 15px;
 }
 
-.selected-items-list {
+.selected-fields-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  align-items: flex-start;
+  gap: 10px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.selected-field-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
 }
 
 .selected-item-tag {
@@ -224,9 +304,9 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* 검색 필터 섹션 */
-.search-filter-section {
-  max-width: 1400px;
+/* 공고 기본정보 섹션 */
+.helpme-basic-info-section {
+  max-width: 800px;
   margin: 0 auto;
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
   border-radius: 25px;
@@ -242,7 +322,7 @@
   margin-bottom: 40px;
 }
 
-.search-title {
+.helpme-search-title {
   font-size: 1.5rem;
   font-weight: 700;
   color: #2f0005;
@@ -250,6 +330,20 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/* 원하시는 쌤 성별, 나이 제목 */
+.helpme-tutor-gender-title,
+.helpme-tutor-age-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2f0005;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  height: 1.2em;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .search-input-group {
@@ -779,7 +873,7 @@
   border-radius: 25px;
   padding: 50px;
   margin: 0 auto;
-  max-width: 900px;
+  max-width: 800px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   font-family: "Pretendard", sans-serif;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -821,7 +915,7 @@
   margin-bottom: 30px;
 }
 
-.child-avatar {
+.helpme-container .child-avatar {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -833,12 +927,12 @@
   border: 3px solid transparent;
 }
 
-.child-avatar:hover {
+.helpme-container .child-avatar:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
-.child-avatar.selected {
+.helpme-container .child-avatar.selected {
   border-color: #4a90e2;
   background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
   box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
@@ -853,7 +947,7 @@
   transition: all 0.3s ease;
 }
 
-.avatar-image img {
+.helpme-container .avatar-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1340,6 +1434,10 @@
   align-items: flex-start;
 }
 
+.additional-info-section {
+  margin-bottom: 0px;
+}
+
 .section-icon {
   flex-shrink: 0;
 }
@@ -1363,9 +1461,11 @@
 
 .content-area {
   flex: 1;
+  width: 90%;
+  min-width: 540px;
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
   border-radius: 20px;
-  padding: 25px;
+  padding: 25px 5px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -1390,7 +1490,7 @@
 }
 
 .content-area textarea {
-  width: 100%;
+  width: 540px;
   min-height: 120px;
   padding: 15px;
   border: 2px solid #e1e5e9;
@@ -1517,7 +1617,7 @@
     height: 120px;
   }
 
-  .search-filter-section {
+  .helpme-basic-info-section {
     padding: 30px 20px;
   }
 
@@ -1680,7 +1780,7 @@
     font-size: 1.2rem;
   }
 
-  .search-filter-section {
+  .helpme-basic-info-section {
     padding: 20px 15px;
   }
 
@@ -1947,10 +2047,11 @@
 
 /* 지정 쌤 검색 섹션 */
 .teacher-search-section {
+  max-width: 800px;
+  margin: 0 auto 80px;
   background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
   border-radius: 15px;
   padding: 25px;
-  margin: 20px 0;
   box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
   border: 2px solid rgba(255, 255, 255, 0.2);
   scroll-margin-top: 20px; /* 스크롤 시 상단 여백 */

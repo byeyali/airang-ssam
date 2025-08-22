@@ -729,8 +729,8 @@
 
 .detail-label {
   font-size: 1rem;
-  color: #6c757d;
-  font-weight: 600;
+  color: #0066cc;
+  font-weight: 700;
   min-width: 100px;
 }
 
@@ -924,6 +924,8 @@
 
   .detail-label {
     font-size: 0.9rem;
+    color: #0066cc;
+    font-weight: 700;
   }
 
   .detail-value {
@@ -1023,6 +1025,8 @@
 
   .detail-label {
     font-size: 0.85rem;
+    color: #0066cc;
+    font-weight: 700;
   }
 
   .detail-value {

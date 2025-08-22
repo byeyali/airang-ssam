@@ -125,20 +125,6 @@ export const ApplicationProvider = ({ children }) => {
       };
     }
   };
-  // 공고 수정
-  const updateApplication = (applicationId, updatedData) => {
-    setApplications((prev) =>
-      prev.map((app) =>
-        app.id === applicationId
-          ? {
-              ...app,
-              ...updatedData,
-              updatedAt: new Date().toISOString().split("T")[0],
-            }
-          : app
-      )
-    );
-  };
 
   // 쌤 공고 생성 함수 (백엔드 API 호출)
   const addApplication = useCallback(async (jobData) => {
@@ -168,7 +154,7 @@ export const ApplicationProvider = ({ children }) => {
   }, []);
 
   // 공고 분야 추가 함수
-  const addApplicationCategory = async (jobId, fields) => {
+  const addApplicationCategories = async (jobId, fields) => {
     try {
       // jobId 유효성 검사
       if (!jobId || jobId === undefined || jobId === null) {
@@ -226,27 +212,54 @@ export const ApplicationProvider = ({ children }) => {
       throw error;
     }
   };
-  // 공고 삭제
-  const deleteApplication = (applicationId) => {
-    setApplications((prev) => prev.filter((app) => app.id !== applicationId));
+  // 공고 삭제 (백엔드 API 호출)
+  const deleteApplication = async (applicationId) => {
+    try {
+      if (!user || !user.id || !user.member_type) {
+        throw new Error("사용자 정보가 없습니다. 로그인을 확인해주세요.");
+      }
+
+      const response = await axiosInstance.delete(`/jobs/${applicationId}`);
+
+      if (response.status === 200 || response.status === 204) {
+        // 로컬 state에서도 제거
+        setApplications((prev) =>
+          prev.filter((app) => app.id !== applicationId)
+        );
+        return { success: true };
+      } else {
+        throw new Error("공고 삭제에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("공고 삭제 오류:", error);
+      throw new Error("공고 삭제에 실패했습니다.");
+    }
   };
 
-  // 모든 공고 조회
-  const getAllApplications = () => {
-    return applications;
-  };
+  // 특정 공고 조회 (백엔드 API 호출)
+  const getApplicationById = async (applicationId) => {
+    try {
+      console.log("getApplicationById 시작, applicationId:", applicationId);
+      console.log("현재 사용자 정보:", user);
 
-  // 매칭 가능한 공고 조회 (쌤용)
-  const getMatchingApplications = (teacherRegions) => {
-    return applications.filter(
-      (app) =>
-        app.status === "active" && isRegionMatch(app.region, teacherRegions)
-    );
-  };
+      if (!user || !user.id || !user.member_type) {
+        throw new Error("사용자 정보가 없습니다. 로그인을 확인해주세요.");
+      }
 
-  // 특정 공고 조회
-  const getApplicationById = (applicationId) => {
-    return applications.find((app) => app.id === applicationId);
+      console.log("API 호출 시작: /jobs/${applicationId}");
+      const response = await axiosInstance.get(`/jobs/${applicationId}`);
+      console.log("API 응답:", response);
+
+      // 백엔드에서 직접 job 객체를 반환하므로 response.data가 바로 데이터
+      console.log("반환할 데이터:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("공고 상세 조회 오류:", error);
+      if (error.response && error.response.status === 404) {
+        throw new Error("도와줘요 쌤 공고가 없습니다.");
+      }
+      throw new Error("공고 정보를 불러오는데 실패했습니다.");
+    }
   };
 
   // 공고 상태 변경
@@ -262,6 +275,53 @@ export const ApplicationProvider = ({ children }) => {
           : app
       )
     );
+  };
+
+  // 공고 수정 (백엔드 API 호출)
+  const updateApplication = async (applicationId, updatedData) => {
+    try {
+      console.log("updateApplication 시작, applicationId:", applicationId);
+      console.log("수정할 데이터:", updatedData);
+
+      if (!user || !user.id || !user.member_type) {
+        throw new Error("사용자 정보가 없습니다. 로그인을 확인해주세요.");
+      }
+
+      const response = await axiosInstance.put(
+        `/jobs/${applicationId}`,
+        updatedData
+      );
+      console.log("수정 API 응답:", response);
+
+      return response.data;
+    } catch (error) {
+      console.error("공고 수정 오류:", error);
+      throw new Error("공고 수정에 실패했습니다.");
+    }
+  };
+
+  // 공고 카테고리 삭제 (백엔드 API 호출)
+  const deleteApplicationCategories = async (applicationId) => {
+    try {
+      console.log(
+        "deleteApplicationCategories 시작, applicationId:",
+        applicationId
+      );
+
+      if (!user || !user.id || !user.member_type) {
+        throw new Error("사용자 정보가 없습니다. 로그인을 확인해주세요.");
+      }
+
+      const response = await axiosInstance.delete(
+        `/jobs/${applicationId}/category`
+      );
+      console.log("카테고리 삭제 API 응답:", response);
+
+      return response.data;
+    } catch (error) {
+      console.error("카테고리 삭제 오류:", error);
+      throw new Error("카테고리 삭제에 실패했습니다.");
+    }
   };
 
   // 폼 데이터 업데이트
@@ -297,19 +357,24 @@ export const ApplicationProvider = ({ children }) => {
     });
   };
 
+  // 모든 공고 조회 (홈페이지용)
+  const getAllApplications = () => {
+    return applications;
+  };
+
   const value = {
     applications,
     formData,
     addApplication,
-    addApplicationCategory,
+    addApplicationCategories,
     deleteApplicationCategory,
     getMyApplications,
     updateFormData,
     clearFormData,
     updateApplication,
+    deleteApplicationCategories,
     deleteApplication,
     getAllApplications,
-    getMatchingApplications,
     getApplicationById,
     updateApplicationStatus,
   };

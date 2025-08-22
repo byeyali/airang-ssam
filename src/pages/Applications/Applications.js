@@ -6,7 +6,7 @@ import "./Applications.css";
 
 function Applications() {
   const navigate = useNavigate();
-  const { getAllApplications, getMyApplications, deleteApplication } =
+  const { getAllApplications, getMyApplications, getApplicationById } =
     useApplication();
   const { user } = useUser();
   const [selectedApplication, setSelectedApplication] = useState(null);
@@ -19,7 +19,6 @@ function Applications() {
   // 백엔드 API에서 공고 목록 조회
   const fetchApplications = async (params = {}) => {
     if (!user || !user.id || !user.member_type) {
-      console.log("사용자 정보가 아직 로드되지 않았습니다:", user);
       return;
     }
 
@@ -37,7 +36,6 @@ function Applications() {
         setApplications([]);
       }
     } catch (err) {
-      console.error("공고 목록 조회 오류:", err);
       setError("공고 목록을 불러오는 중 오류가 발생했습니다.");
       setApplications([]);
     } finally {
@@ -67,12 +65,6 @@ function Applications() {
     });
   };
 
-  const handleDelete = (applicationId) => {
-    if (window.confirm("정말로 이 공고를 삭제하시겠습니까?")) {
-      deleteApplication(applicationId);
-    }
-  };
-
   const handleViewDetail = (application) => {
     setSelectedApplication(application);
     setShowDetail(true);
@@ -83,8 +75,15 @@ function Applications() {
     setSelectedApplication(null);
   };
 
-  const handleApplicationDetail = (applicationId) => {
-    navigate(`/application-detail/${applicationId}`);
+  const handleApplicationDetail = async (applicationId) => {
+    try {
+      // 먼저 getApplicationById를 호출하여 데이터를 가져옴
+      await getApplicationById(applicationId);
+      // 성공하면 상세 페이지로 이동
+      navigate(`/application-detail/${applicationId}`);
+    } catch (error) {
+      alert(error.message || "공고 정보를 불러오는데 실패했습니다.");
+    }
   };
 
   return (
@@ -145,7 +144,7 @@ function Applications() {
                 </div>
                 <div className="application-right">
                   <div className="application-info">
-                    <div className="application-details">
+                    <div className="applications-details">
                       <p>
                         <strong>대상:</strong> {application.target}
                       </p>
@@ -185,22 +184,6 @@ function Applications() {
                     >
                       상세보기
                     </button>
-                    {user?.member_type === "parents" && (
-                      <>
-                        <button
-                          className="edit-button"
-                          onClick={() => handleEdit(application)}
-                        >
-                          수정
-                        </button>
-                        <button
-                          className="delete-button"
-                          onClick={() => handleDelete(application.id)}
-                        >
-                          삭제
-                        </button>
-                      </>
-                    )}
                   </div>
                 </div>
               </div>

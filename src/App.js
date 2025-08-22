@@ -113,7 +113,10 @@ function AppContent() {
           <Route path="/matchings" element={<Matchings />} />
           <Route path="/parent-service" element={<ParentService />} />
           <Route path="/teacher-service" element={<TeacherService />} />
-          <Route path="/application-detail" element={<ApplicationDetail />} />
+          <Route
+            path="/application-detail/:id"
+            element={<ApplicationDetail />}
+          />
           <Route path="/my-reviews" element={<MyReviews />} />
           <Route path="/teacher-detail/:id" element={<TeacherDetail />} />
           <Route
