@@ -46,6 +46,9 @@ export const UserProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("authToken");
     delete axiosInstance.defaults.headers.common["Authorization"];
+
+    // 메인 페이지로 이동
+    window.location.href = "/";
   };
 
   useEffect(() => {

@@ -203,39 +203,6 @@ export const ApplicationProvider = ({ children }) => {
     }
   };
 
-  const deleteApplicationCategory = async (tutorId) => {
-    try {
-      const response = await axiosInstance.delete(`/jobs/${tutorId}/category`);
-      return response.data;
-    } catch (error) {
-      setError("분야 데이터 삭제에 실패했습니다.");
-      throw error;
-    }
-  };
-  // 공고 삭제 (백엔드 API 호출)
-  const deleteApplication = async (applicationId) => {
-    try {
-      if (!user || !user.id || !user.member_type) {
-        throw new Error("사용자 정보가 없습니다. 로그인을 확인해주세요.");
-      }
-
-      const response = await axiosInstance.delete(`/jobs/${applicationId}`);
-
-      if (response.status === 200 || response.status === 204) {
-        // 로컬 state에서도 제거
-        setApplications((prev) =>
-          prev.filter((app) => app.id !== applicationId)
-        );
-        return { success: true };
-      } else {
-        throw new Error("공고 삭제에 실패했습니다.");
-      }
-    } catch (error) {
-      console.error("공고 삭제 오류:", error);
-      throw new Error("공고 삭제에 실패했습니다.");
-    }
-  };
-
   // 특정 공고 조회 (백엔드 API 호출)
   const getApplicationById = async (applicationId) => {
     try {
@@ -262,19 +229,28 @@ export const ApplicationProvider = ({ children }) => {
     }
   };
 
-  // 공고 상태 변경
-  const updateApplicationStatus = (applicationId, status) => {
-    setApplications((prev) =>
-      prev.map((app) =>
-        app.id === applicationId
-          ? {
-              ...app,
-              status,
-              updatedAt: new Date().toISOString().split("T")[0],
-            }
-          : app
-      )
-    );
+  // 공고 카테고리 삭제 (백엔드 API 호출)
+  const deleteApplicationCategories = async (applicationId) => {
+    try {
+      console.log(
+        "deleteApplicationCategories 시작, applicationId:",
+        applicationId
+      );
+
+      if (!user || !user.id || !user.member_type) {
+        throw new Error("사용자 정보가 없습니다. 로그인을 확인해주세요.");
+      }
+
+      const response = await axiosInstance.delete(
+        `/jobs/${applicationId}/category`
+      );
+      console.log("카테고리 삭제 API 응답:", response);
+
+      return response.data;
+    } catch (error) {
+      console.error("카테고리 삭제 오류:", error);
+      throw new Error("카테고리 삭제에 실패했습니다.");
+    }
   };
 
   // 공고 수정 (백엔드 API 호출)
@@ -300,27 +276,72 @@ export const ApplicationProvider = ({ children }) => {
     }
   };
 
-  // 공고 카테고리 삭제 (백엔드 API 호출)
-  const deleteApplicationCategories = async (applicationId) => {
+  const deleteApplication = async (applicationId) => {
+    try {
+      if (!user || !user.id || !user.member_type) {
+        throw new Error("사용자 정보가 없습니다. 로그인을 확인해주세요.");
+      }
+
+      const response = await axiosInstance.delete(`/jobs/${applicationId}`);
+
+      if (response.status === 200 || response.status === 204) {
+        // 로컬 state에서도 제거
+        setApplications((prev) =>
+          prev.filter((app) => app.id !== applicationId)
+        );
+        return { success: true };
+      } else {
+        throw new Error("공고 삭제에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("공고 삭제 오류:", error);
+      throw new Error("공고 삭제에 실패했습니다.");
+    }
+  };
+
+  // 공고 상태 변경 (백엔드 API 호출)
+  const updateApplicationStatus = async (
+    applicationId,
+    status,
+    matched_tutor_id = null
+  ) => {
     try {
       console.log(
-        "deleteApplicationCategories 시작, applicationId:",
+        "updateApplicationStatus 시작, applicationId:",
         applicationId
       );
+      console.log("변경할 상태:", status);
+      console.log("매칭된 튜터 ID:", matched_tutor_id);
 
       if (!user || !user.id || !user.member_type) {
         throw new Error("사용자 정보가 없습니다. 로그인을 확인해주세요.");
       }
 
-      const response = await axiosInstance.delete(
-        `/jobs/${applicationId}/category`
+      const requestData = {
+        status: status,
+        ...(matched_tutor_id && { matched_tutor_id: matched_tutor_id }),
+      };
+
+      const response = await axiosInstance.put(
+        `/jobs/${applicationId}/status`,
+        requestData
       );
-      console.log("카테고리 삭제 API 응답:", response);
+      console.log("상태 변경 API 응답:", response);
 
       return response.data;
     } catch (error) {
-      console.error("카테고리 삭제 오류:", error);
-      throw new Error("카테고리 삭제에 실패했습니다.");
+      console.error("공고 상태 변경 오류:", error);
+      throw new Error("공고 상태 변경에 실패했습니다.");
+    }
+  };
+
+  const deleteApplicationCategory = async (tutorId) => {
+    try {
+      const response = await axiosInstance.delete(`/jobs/${tutorId}/category`);
+      return response.data;
+    } catch (error) {
+      setError("분야 데이터 삭제에 실패했습니다.");
+      throw error;
     }
   };
 
@@ -367,16 +388,16 @@ export const ApplicationProvider = ({ children }) => {
     formData,
     addApplication,
     addApplicationCategories,
+    deleteApplicationCategories,
     deleteApplicationCategory,
     getMyApplications,
-    updateFormData,
-    clearFormData,
     updateApplication,
-    deleteApplicationCategories,
     deleteApplication,
-    getAllApplications,
     getApplicationById,
     updateApplicationStatus,
+    updateFormData,
+    clearFormData,
+    getAllApplications,
   };
 
   return (

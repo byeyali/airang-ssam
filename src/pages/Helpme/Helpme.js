@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
 import { useTeacherSearch } from "../../contexts/TeacherSearchContext";
 import { useApplication } from "../../contexts/ApplicationContext";
-import { searchRegionLocal } from "../../config/api";
 import { searchAddress } from "../../config/api";
 import axiosInstance from "../../config/axiosInstance";
 import "./Helpme.css";
@@ -14,8 +13,6 @@ const Helpme = () => {
   const { user } = useUser();
   const { setSearchData, searchTeachers } = useTeacherSearch();
   const {
-    formData: contextFormData,
-    updateFormData,
     addApplication,
     addApplicationCategories,
     updateApplication,
@@ -30,9 +27,6 @@ const Helpme = () => {
   const [showAddressSearch, setShowAddressSearch] = useState(false);
   const [addressResults, setAddressResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
-  const [countPerPage] = useState(10);
 
   // formData 상태 추가
   const [formData, setFormData] = useState({
@@ -82,9 +76,6 @@ const Helpme = () => {
   const additionalInfoRef = useRef(null);
 
   // 입력 필드 refs 추가
-  const memberIdRef = useRef(null);
-  const childGenderRef = useRef(null);
-  const gradeRef = useRef(null);
   const startDateRef = useRef(null);
   const endDateRef = useRef(null);
   const startTimeRef = useRef(null);
@@ -96,7 +87,6 @@ const Helpme = () => {
   const minWageRef = useRef(null);
   const maxWageRef = useRef(null);
   const addressRef = useRef(null);
-  const selectedItemsRef = useRef(null);
 
   // 분야 카테고리 상태
   const [fieldCategories, setFieldCategories] = useState({
@@ -552,7 +542,7 @@ const Helpme = () => {
   };
 
   // 주소 검색
-  const handleAddressSearch = async (page = 1) => {
+  const handleAddressSearch = async () => {
     const keyword = searchQuery;
 
     if (!keyword || keyword.trim() === "") {
@@ -560,18 +550,14 @@ const Helpme = () => {
     }
 
     try {
-      const response = await searchAddress(keyword, page, countPerPage);
+      const response = await searchAddress(keyword, 1, 10);
 
       if (response?.data?.addresses) {
         setAddressResults(response.data.addresses);
-        setTotalCount(response.data.totalCount || 0);
-        setCurrentPage(response.data.currentPage || 1);
         setShowAddressSearch(true);
       } else if (response?.data?.data) {
         // 다른 구조일 가능성
         setAddressResults(response.data.data);
-        setTotalCount(response.data.totalCount || 0);
-        setCurrentPage(response.data.currentPage || 1);
         setShowAddressSearch(true);
       } else {
         alert("주소는 없거나 자세히 입력해 주세요.");
@@ -674,7 +660,8 @@ const Helpme = () => {
       return;
     }
 
-    if (!address.trim()) {
+    // 수정 모드가 아닐 때만 주소 입력 체크 (수정 모드에서는 DB에 저장된 주소가 있으면 skip)
+    if (!isEditMode && !address.trim()) {
       alert("주소를 입력해주세요.");
       if (addressRef.current) {
         addressRef.current.focus();
@@ -927,7 +914,7 @@ const Helpme = () => {
         )}
 
         <div
-          className="field-categories"
+          className="helpme-field-categories"
           ref={selectedItemsSectionRef}
           tabIndex={-1}
         >
@@ -1018,33 +1005,6 @@ const Helpme = () => {
                       {result.address}
                     </div>
                   ))}
-                </div>
-                <div className="pagination">
-                  {currentPage > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => handleAddressSearch(currentPage - 1)}
-                      className="pagination-btn"
-                    >
-                      ◀ 이전
-                    </button>
-                  )}
-
-                  <span className="pagination-info">
-                    {currentPage} /{" "}
-                    {Math.max(1, Math.ceil(totalCount / countPerPage))} 페이지
-                    {totalCount > 0 && ` (총 ${totalCount}개)`}
-                  </span>
-
-                  {currentPage < Math.ceil(totalCount / countPerPage) && (
-                    <button
-                      type="button"
-                      onClick={() => handleAddressSearch(currentPage + 1)}
-                      className="pagination-btn"
-                    >
-                      다음 ▶
-                    </button>
-                  )}
                 </div>
               </div>
             )}

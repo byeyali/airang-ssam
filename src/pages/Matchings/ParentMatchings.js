@@ -181,7 +181,7 @@ function ParentMatchings() {
     }
   };
 
-  if (!user || user.type !== "parent") {
+  if (!user || user.member_type !== "parents") {
     return (
       <div className="matchings-page">
         <div className="login-required">

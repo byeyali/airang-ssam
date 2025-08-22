@@ -19,11 +19,11 @@ function Matchings() {
   }
 
   // 사용자 타입에 따라 적절한 컴포넌트 렌더링
-  if (user.type === "parent") {
+  if (user.member_type === "parents") {
     return <ParentMatchings />;
-  } else if (user.type === "tutor") {
+  } else if (user.member_type === "tutor") {
     return <TeacherMatchings />;
-  } else if (user.type === "admin") {
+  } else if (user.member_type === "admin") {
     return <AdminMatchings />;
   }
 

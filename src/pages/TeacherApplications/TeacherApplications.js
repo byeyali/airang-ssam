@@ -35,15 +35,20 @@ function TeacherApplications() {
   const getFilteredTeachers = () => {
     if (!user) return [];
 
-    if (user.type === "parent") {
+    // getAllTeachers가 null을 반환할 수 있으므로 안전한 처리
+    const allTeachers = getAllTeachers() || [];
+
+    if (user.member_type === "parents") {
       // 부모는 쌤 정보만 볼 수 있고, 지역이 매칭되는 것만
-      const allTeachers = getAllTeachers();
-      return allTeachers.filter((teacher) =>
-        teacher.regions.some((region) => user.region.includes(region))
+      return allTeachers.filter(
+        (teacher) =>
+          teacher.regions &&
+          teacher.regions.some(
+            (region) => user.region && user.region.includes(region)
+          )
       );
-    } else if (user.type === "tutor") {
+    } else if (user.member_type === "tutor") {
       // 쌤은 간략한 쌤 프로필만 볼 수 있음 (상세보기/매칭 제한)
-      const allTeachers = getAllTeachers();
       // 쌤이 본인을 볼 때는 원래 이름을 표시하도록 데이터 가공
       return allTeachers.map((teacher) => {
         if (user.id === teacher.id) {
@@ -58,9 +63,9 @@ function TeacherApplications() {
           };
         }
       });
-    } else if (user.type === "admin") {
+    } else if (user.member_type === "admin") {
       // 관리자는 모든 쌤 정보를 볼 수 있음
-      return getAllTeachers();
+      return allTeachers;
     }
 
     return [];
@@ -68,12 +73,12 @@ function TeacherApplications() {
 
   // 성별 매칭을 고려한 선생님 조회 (부모용)
   const getFilteredTeachersWithGenderMatching = () => {
-    if (!user || user.type !== "parent") {
+    if (!user || user.member_type !== "parents") {
       return getFilteredTeachers();
     }
 
-    // 부모의 공고 정보 가져오기
-    const applications = getAllApplications();
+    // 부모의 공고 정보 가져오기 (안전한 처리)
+    const applications = getAllApplications() || [];
     const parentApplications = applications.filter(
       (app) => app.parentId === user.id
     );
@@ -84,7 +89,8 @@ function TeacherApplications() {
 
     // 가장 최근 공고를 기준으로 성별 매칭
     const latestApplication = parentApplications[0];
-    const matchingTeachers = getMatchingTeachersWithGender(latestApplication);
+    const matchingTeachers =
+      getMatchingTeachersWithGender(latestApplication) || [];
 
     return matchingTeachers;
   };
@@ -103,7 +109,7 @@ function TeacherApplications() {
 
   const handleViewDetail = (teacher) => {
     // 쌤 회원은 상세보기 제한
-    if (user && user.type === "tutor") {
+    if (user && user.member_type === "tutor") {
       showNotification("쌤 회원은 상세보기를 이용할 수 없습니다.", "warning");
       return;
     }
@@ -117,7 +123,7 @@ function TeacherApplications() {
     }
 
     // 쌤 회원은 매칭 요청 제한
-    if (user.type === "tutor") {
+    if (user.member_type === "tutor") {
       showNotification("쌤 회원은 매칭 요청을 이용할 수 없습니다.", "warning");
       return;
     }

@@ -1,7 +1,7 @@
 .field-categories {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 
 .field-category h3 {
@@ -517,8 +517,8 @@ input:disabled {
   }
 
   .field-categories {
-    grid-template-columns: 1fr;
-    gap: 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
   }
 
   .field-grid {

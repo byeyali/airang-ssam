@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import axiosInstance from "../config/axiosInstance";
 
 const MatchingContext = createContext();
 
@@ -13,7 +14,7 @@ export const useMatching = () => {
 export const MatchingProvider = ({ children }) => {
   const [matchingRequests, setMatchingRequests] = useState([]);
 
-  // 매칭 요청 생성
+  // 매칭 요청 생성 (로컬 상태)
   const createMatchingRequest = (request) => {
     const newRequest = {
       id: Date.now().toString(),
@@ -23,6 +24,42 @@ export const MatchingProvider = ({ children }) => {
     };
     setMatchingRequests((prev) => [newRequest, ...prev]);
     return newRequest;
+  };
+
+  // 매칭 요청 생성 (백엔드 API 호출)
+  const createJobApply = async (tutor_job_id, message) => {
+    try {
+      console.log("createJobApply 시작:", { tutor_job_id, message });
+
+      if (!tutor_job_id) {
+        throw new Error("공고 ID가 필요합니다.");
+      }
+
+      const requestData = {
+        tutor_job_id: tutor_job_id,
+        message: message || "",
+      };
+
+      const response = await axiosInstance.post("/applies", requestData);
+      console.log("createJobApply 응답:", response.data);
+
+      // 성공 시 로컬 상태에도 추가
+      const newRequest = {
+        id: response.data.id || Date.now().toString(),
+        tutor_job_id: tutor_job_id,
+        message: message,
+        status: "pending",
+        createdAt: new Date().toISOString(),
+      };
+      setMatchingRequests((prev) => [newRequest, ...prev]);
+
+      return response.data;
+    } catch (error) {
+      console.error("createJobApply 오류:", error);
+      throw new Error(
+        error.response?.data?.message || "매칭 요청 생성에 실패했습니다."
+      );
+    }
   };
 
   // 매칭 요청 수락
@@ -111,6 +148,7 @@ export const MatchingProvider = ({ children }) => {
   const value = {
     matchingRequests,
     createMatchingRequest,
+    createJobApply,
     acceptMatchingRequest,
     rejectMatchingRequest,
     startContract,

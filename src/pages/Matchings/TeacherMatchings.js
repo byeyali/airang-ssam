@@ -177,7 +177,7 @@ function TeacherMatchings() {
     }
   };
 
-  if (!user || user.type !== "tutor") {
+  if (!user || user.member_type !== "tutor") {
     return (
       <div className="matchings-page">
         <div className="login-required">
