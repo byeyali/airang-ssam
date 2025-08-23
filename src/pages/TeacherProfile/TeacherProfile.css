@@ -4,10 +4,31 @@
   gap: 20px;
 }
 
+.field-selection-section h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #666666;
+  margin-bottom: 25px;
+  text-align: center;
+  position: relative;
+}
+
+.field-selection-section h3::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  border-radius: 2px;
+}
+
 .field-category h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   margin-bottom: 25px;
   text-align: center;
   position: relative;
@@ -109,7 +130,7 @@
 .selected-fields-display h4 {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   margin-bottom: 15px;
 }
 
@@ -152,7 +173,7 @@
 .personal-info-section h3 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   margin-bottom: 30px;
   text-align: center;
   position: relative;
@@ -188,7 +209,7 @@
 .basic-info-input label {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   min-width: 60px;
 }
 
@@ -238,7 +259,7 @@
 .gender-selection label {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   min-width: 60px;
 }
 
@@ -335,7 +356,7 @@ input:disabled {
 .region-selection-container label {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   display: block;
   margin-bottom: 10px;
 }
@@ -416,7 +437,7 @@ input:disabled {
 .file-upload-section h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   margin-bottom: 15px;
   text-align: center;
   line-height: 1.4;
@@ -455,7 +476,7 @@ input:disabled {
 .upload-item span {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2f0005;
+  color: #666666;
 }
 
 .upload-button-small {
@@ -513,6 +534,10 @@ input:disabled {
   }
 
   .category-title {
+    font-size: 1.8rem;
+  }
+
+  .field-selection-section h3 {
     font-size: 1.8rem;
   }
 
@@ -629,6 +654,10 @@ input:disabled {
     font-size: 1.6rem;
   }
 
+  .field-selection-section h3 {
+    font-size: 1.6rem;
+  }
+
   .field-card {
     padding: 12px 8px;
   }
@@ -671,7 +700,7 @@ input:disabled {
 .self-introduction-section h3 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   margin-bottom: 30px;
   text-align: center;
   position: relative;
@@ -755,7 +784,7 @@ input:disabled {
 .teacher-profile-container .profile-header h1 {
   font-size: 2.5rem !important;
   font-weight: 700 !important;
-  color: #2f0005 !important;
+  color: #666666 !important;
   margin-bottom: 15px !important;
   text-align: center !important;
   width: 100% !important;
@@ -769,15 +798,73 @@ input:disabled {
   width: 100% !important;
 }
 
-/* 아이템 카드 선택 상태 */
-.item-card.selected {
-  background: linear-gradient(135deg, #b0e0e6 0%, #87ceeb 100%) !important;
-  border-color: #4682b4 !important;
-  color: white !important;
-  box-shadow: 0 8px 25px rgba(176, 224, 230, 0.5) !important;
+/* 아이템 카드 */
+.teacher-profile-item-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
-.item-icon-circle.selected {
-  background: #20b2aa !important;
-  border-color: #20b2aa !important;
+.teacher-profile-item-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  border-color: #dee2e6;
+}
+
+.teacher-profile-item-card.selected {
+  border-color: #dee2e6;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-profile-item-card.selected .item-image {
+  filter: drop-shadow(0 3 8px rgba(0, 0, 0, 0.1));
+}
+
+/* 아이템 이미지 */
+.teacher-profile-item-card .item-image {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 아이템 텍스트 */
+.teacher-profile-item-card .item-text {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #4a4a4a;
+  margin-bottom: 15px;
+}
+
+.teacher-profile-item-icon-circle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #e1e5e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.teacher-profile-item-icon-circle.selected {
+  background: #4a90e2;
+  color: white;
 }

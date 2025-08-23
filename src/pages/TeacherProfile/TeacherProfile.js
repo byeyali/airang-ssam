@@ -676,7 +676,7 @@ const TeacherProfile = () => {
     return (
       <div
         key={field.id}
-        className={`item-card ${isSelected ? "selected" : ""}`}
+        className={`teacher-profile-item-card ${isSelected ? "selected" : ""}`}
         onClick={() => handleFieldSelect(field.id)}
       >
         <div
@@ -685,7 +685,9 @@ const TeacherProfile = () => {
         ></div>
         <div className="item-text">{field.name}</div>
         <div
-          className={`item-icon-circle ${isSelected ? "selected" : ""}`}
+          className={`teacher-profile-item-icon-circle ${
+            isSelected ? "selected" : ""
+          }`}
         ></div>
       </div>
     );
@@ -703,29 +705,7 @@ const TeacherProfile = () => {
 
       {/* 분야 선택 섹션 */}
       <div className="field-selection-section">
-        {/* 선택된 분야 표시 */}
-        {selectedFields.length > 0 && (
-          <div className="selected-fields-display">
-            <h4>선택된 분야 ({selectedFields.length}/4)</h4>
-            <div className="selected-fields-list">
-              {selectedFields.map((fieldId) => {
-                // 모든 카테고리에서 해당 ID의 분야 찾기
-                const allFields = [
-                  ...fieldCategories.care,
-                  ...fieldCategories.play,
-                  ...fieldCategories.study,
-                ];
-                const field = allFields.find((f) => f.id === fieldId);
-                return field ? (
-                  <span key={fieldId} className="selected-field-tag">
-                    {field.name}
-                  </span>
-                ) : null;
-              })}
-            </div>
-          </div>
-        )}
-
+        <h3>분야 선택</h3>
         <div className="field-categories" ref={selectRef} tabIndex={-1}>
           {/* 돌봄 */}
           <div className="category">
@@ -751,6 +731,29 @@ const TeacherProfile = () => {
             </div>
           </div>
         </div>
+
+        {/* 선택된 분야 표시 */}
+        {selectedFields.length > 0 && (
+          <div className="selected-fields-display">
+            <h4>선택된 분야 ({selectedFields.length}/4)</h4>
+            <div className="selected-fields-list">
+              {selectedFields.map((fieldId) => {
+                // 모든 카테고리에서 해당 ID의 분야 찾기
+                const allFields = [
+                  ...fieldCategories.care,
+                  ...fieldCategories.play,
+                  ...fieldCategories.study,
+                ];
+                const field = allFields.find((f) => f.id === fieldId);
+                return field ? (
+                  <span key={fieldId} className="selected-field-tag">
+                    {field.name}
+                  </span>
+                ) : null;
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* 개인정보 입력 섹션 */}

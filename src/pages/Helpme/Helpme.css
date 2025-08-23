@@ -13,7 +13,7 @@
 .helpme-container .title-header h1 {
   font-size: 2.5rem !important;
   font-weight: 700 !important;
-  color: #2f0005 !important;
+  color: #666666 !important;
   margin-bottom: 15px !important;
   text-align: center !important;
   width: 100% !important;
@@ -33,10 +33,31 @@
   gap: 20px;
 }
 
+.helpme-field-categories h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #666666;
+  margin-bottom: 25px;
+  text-align: center;
+  position: relative;
+}
+
+.helpme-field-categories h3::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  border-radius: 2px;
+}
+
 .field-category h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   margin-bottom: 25px;
   text-align: center;
   position: relative;
@@ -150,7 +171,7 @@
 .selected-fields-display h4 {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   margin-bottom: 15px;
 }
 
@@ -215,7 +236,7 @@
 .category-title {
   font-size: 2.2rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   margin-bottom: 30px;
   text-align: center;
   position: relative;
@@ -242,7 +263,7 @@
 
 /* 아이템 카드 */
 .item-card {
-  background: #f8f9fa;
+  background: #ffffff;
   border-radius: 20px;
   padding: 25px;
   text-align: center;
@@ -261,7 +282,6 @@
 
 .item-card.selected {
   border-color: #dee2e6;
-  background: #e9ecef;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -274,7 +294,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #f8f9fa;
+  background-color: #ffffff;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -282,26 +302,31 @@
 .item-text {
   font-size: 1.4rem;
   font-weight: 600;
-  color: #4a4a4a;
+  color: #666666;
   margin-bottom: 15px;
 }
 
 /* 선택 아이콘 */
 .item-icon-circle {
-  width: 25px;
-  height: 25px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background-color: #e1e5e9;
-  margin: 0 auto;
-  transition: all 0.3s ease;
+  background: #e1e5e9;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #666;
+  transition: all 0.3s ease;
 }
 
 .item-icon-circle.selected {
-  background: #e9ecef;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #4a90e2;
+  color: white;
 }
 
 /* 공고 기본정보 섹션 */
@@ -325,7 +350,7 @@
 .helpme-search-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -337,7 +362,7 @@
 .helpme-tutor-age-title {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #2f0005;
+  color: #666666;
   margin: 0;
   padding: 0;
   line-height: 1.2;
@@ -379,7 +404,7 @@
 .location-value {
   font-size: 1rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   flex: 1;
 }
 
@@ -568,7 +593,7 @@
 .filter-title {
   font-size: 1.4rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   margin-bottom: 15px;
   display: flex;
   align-items: center;
@@ -883,7 +908,7 @@
 .classification-title {
   font-size: 2.5rem;
   font-weight: 800;
-  color: #2f0005;
+  color: #666666;
   text-align: center;
   margin-bottom: 40px;
   position: relative;
@@ -1473,7 +1498,7 @@
 .content-area h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2f0005;
+  color: #666666;
   margin-bottom: 20px;
   position: relative;
 }
@@ -1604,6 +1629,10 @@
   }
 
   .category-title {
+    font-size: 1.8rem;
+  }
+
+  .helpme-field-categories h3 {
     font-size: 1.8rem;
   }
 
@@ -2285,6 +2314,10 @@
     height: auto;
     line-height: 1.2;
     flex-shrink: 0;
+  }
+
+  .helpme-field-categories h3 {
+    font-size: 1.6rem;
   }
 
   .age-input-container {

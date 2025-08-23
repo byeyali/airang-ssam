@@ -890,29 +890,7 @@ const Helpme = () => {
 
       {/* 분야 선택 섹션 */}
       <div className="field-selection-section">
-        {/* 선택된 분야 표시 */}
-        {selectedItems.length > 0 && (
-          <div className="selected-fields-display">
-            <h4>무엇을? ({selectedItems.length}/4)</h4>
-            <div className="selected-fields-list">
-              {selectedItems.map((fieldId) => {
-                // 모든 카테고리에서 해당 ID의 분야 찾기
-                const allFields = [
-                  ...fieldCategories.care,
-                  ...fieldCategories.play,
-                  ...fieldCategories.study,
-                ];
-                const field = allFields.find((f) => f.id === fieldId);
-                return field ? (
-                  <span key={fieldId} className="selected-field-tag">
-                    {field.name}
-                  </span>
-                ) : null;
-              })}
-            </div>
-          </div>
-        )}
-
+        <h3>분야 선택</h3>
         <div
           className="helpme-field-categories"
           ref={selectedItemsSectionRef}
@@ -942,6 +920,29 @@ const Helpme = () => {
             </div>
           </div>
         </div>
+
+        {/* 선택된 분야 표시 */}
+        {selectedItems.length > 0 && (
+          <div className="selected-fields-display">
+            <h4>무엇을? ({selectedItems.length}/4)</h4>
+            <div className="selected-fields-list">
+              {selectedItems.map((fieldId) => {
+                // 모든 카테고리에서 해당 ID의 분야 찾기
+                const allFields = [
+                  ...fieldCategories.care,
+                  ...fieldCategories.play,
+                  ...fieldCategories.study,
+                ];
+                const field = allFields.find((f) => f.id === fieldId);
+                return field ? (
+                  <span key={fieldId} className="selected-field-tag">
+                    {field.name}
+                  </span>
+                ) : null;
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ✨✨✨ 여기부터 공고 기본정보 UI를 추가합니다. */}
