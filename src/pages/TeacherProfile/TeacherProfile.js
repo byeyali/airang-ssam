@@ -354,7 +354,11 @@ const TeacherProfile = () => {
     if (file) {
       if (fileType === "photo") {
         // 사진 파일은 별도 상태로 처리
-        setPhotoFile({ photo_image: file });
+        // 새 사진이 업로드되면 기존 경로는 초기화
+        setPhotoFile({
+          photo_image: file,
+          photo_path: null, // 새 사진 업로드 시 기존 경로 초기화
+        });
       } else {
         // 일반 파일은 uploadedFiles에 저장
         setUploadedFiles((prev) => ({
@@ -368,6 +372,9 @@ const TeacherProfile = () => {
         }));
       }
     }
+
+    // 파일 입력 초기화 (같은 파일을 다시 선택할 수 있도록)
+    event.target.value = "";
   };
 
   // 파일 업로드 액션 처리
@@ -896,8 +903,21 @@ const TeacherProfile = () => {
           </p>
           <div className="upload-item">
             <div className="photo-preview">
-              {console.log("현재 photoFile.photo_path:", photoFile.photo_path)}
-              {photoFile.photo_path ? (
+              {console.log("현재 photoFile 상태:", photoFile)}
+              {/* 새로 업로드된 사진이 있으면 미리보기 표시 */}
+              {photoFile.photo_image ? (
+                <img
+                  src={URL.createObjectURL(photoFile.photo_image)}
+                  alt="프로필 사진 미리보기"
+                  style={{
+                    width: "90px",
+                    height: "90px",
+                    objectFit: "cover",
+                    borderRadius: "8px",
+                    marginLeft: "20px",
+                  }}
+                />
+              ) : photoFile.photo_path ? (
                 <img
                   src={photoFile.photo_path}
                   alt="프로필 사진"
@@ -969,9 +989,9 @@ const TeacherProfile = () => {
               style={{ marginLeft: "20px" }}
             >
               {photoFile.photo_image
-                ? photoFile.photo_image.name
-                  ? photoFile.photo_image.name // 파일 객체인 경우
-                  : "이미지 업로드됨" // URL 등 문자열일 경우
+                ? `새 사진: ${photoFile.photo_image.name}`
+                : photoFile.photo_path
+                ? "사진 변경"
                 : "파일 올리기"}
             </label>
           </div>

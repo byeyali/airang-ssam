@@ -168,7 +168,7 @@
   margin: 0;
   font-size: 1.1rem;
   color: #000;
-  line-height: 1.4;
+  line-height: 1;
   text-align: left !important;
   font-weight: 500;
   width: 100%;
@@ -416,4 +416,41 @@
   .detail-info-box h2 {
     font-size: 1.6rem;
   }
+}
+
+/* 상태 배지 스타일 */
+.application-status {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  min-width: 60px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-registered {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #8b6914;
+}
+
+.status-open {
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+  color: white;
+}
+
+.status-matched {
+  background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+  color: white;
+}
+
+.status-closed {
+  background: linear-gradient(135deg, #9e9e9e 0%, #bdbdbd 100%);
+  color: white;
 }

@@ -28,6 +28,7 @@ import TeacherApplications from "./pages/TeacherApplications/TeacherApplications
 import Reviews from "./pages/Reviews/Reviews";
 
 import Matchings from "./pages/Matchings/Matchings";
+import MatchingsDetail from "./pages/Matchings/MatchingsDetail";
 import ParentService from "./pages/ParentService/ParentService";
 import TeacherService from "./pages/TeacherService/TeacherService";
 import ApplicationDetail from "./pages/ApplicationDetail/ApplicationDetail";
@@ -111,6 +112,7 @@ function AppContent() {
           <Route path="/reviews" element={<Reviews />} />
 
           <Route path="/matchings" element={<Matchings />} />
+          <Route path="/matchings-detail/:id" element={<MatchingsDetail />} />
           <Route path="/parent-service" element={<ParentService />} />
           <Route path="/teacher-service" element={<TeacherService />} />
           <Route

@@ -60,7 +60,13 @@ export const UserProvider = ({ children }) => {
       axiosInstance
         .get("/members/me")
         .then((res) => setUser(res.data))
-        .catch(() => logout());
+        .catch((error) => {
+          console.error("사용자 정보 조회 실패:", error);
+          // 토큰이 만료된 경우에만 로그아웃
+          if (error.response && error.response.status === 401) {
+            logout();
+          }
+        });
     }
   }, []);
 

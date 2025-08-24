@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useMatching } from "../../contexts/MatchingContext";
 import { useUser } from "../../contexts/UserContext";
 import { useNotification } from "../../contexts/NotificationContext";
+import { useApplication } from "../../contexts/ApplicationContext";
 import "./Matchings.css";
 
 function ParentMatchings() {
@@ -11,12 +12,14 @@ function ParentMatchings() {
     getMatchingRequestsForParent,
     acceptMatchingRequest,
     rejectMatchingRequest,
+    getJobApply,
   } = useMatching();
   const {
     createContractProgressNotification,
     createContractCompletedNotification,
     createNotification,
   } = useNotification();
+  const { getMyApplications, getApplicationById } = useApplication();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -24,6 +27,10 @@ function ParentMatchings() {
   const [showDetail, setShowDetail] = useState(false);
   const [showContractModal, setShowContractModal] = useState(false);
   const [contractStatus, setContractStatus] = useState({});
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [pagination, setPagination] = useState(null);
 
   // 쌤 이미지 매핑 함수
   const getTeacherImage = useCallback((teacherId) => {
@@ -68,6 +75,33 @@ function ParentMatchings() {
 
   const matchings = user ? getMatchingRequestsForParent(user.id) : [];
 
+  // 백엔드 API에서 공고 목록 조회
+  const fetchApplications = async (params = {}) => {
+    if (!user || !user.id || !user.member_type) {
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const result = await getMyApplications(params);
+
+      if (result.success) {
+        setApplications(result.data);
+        setPagination(result.pagination);
+      } else {
+        setError(result.error);
+        setApplications([]);
+      }
+    } catch (err) {
+      setError("공고 목록을 불러오는 중 오류가 발생했습니다.");
+      setApplications([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // URL 파라미터에서 matchingId 확인
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -81,6 +115,18 @@ function ParentMatchings() {
       }
     }
   }, [location.search, matchings]);
+
+  // 컴포넌트 마운트 시 공고 목록 조회
+  useEffect(() => {
+    if (user && user.id && user.member_type) {
+      fetchApplications();
+    }
+  }, [user]);
+
+  // 페이지 변경 시 공고 목록 조회
+  const handlePageChange = (page) => {
+    fetchApplications({ page });
+  };
 
   const handleViewDetail = (matching) => {
     setSelectedMatching(matching);
@@ -99,6 +145,37 @@ function ParentMatchings() {
 
   const handleCloseContractModal = () => {
     setShowContractModal(false);
+  };
+
+  const handleEdit = (application) => {
+    // 공고 수정을 위해 Helpme 페이지로 이동
+    navigate("/Helpme", {
+      state: {
+        editMode: true,
+        applicationData: application,
+      },
+    });
+  };
+
+  const handleApplicationDetail = async (applicationId) => {
+    try {
+      // 먼저 getApplicationById를 호출하여 데이터를 가져옴
+      await getApplicationById(applicationId);
+      // 성공하면 상세 페이지로 이동
+      navigate(`/application-detail/${applicationId}`);
+    } catch (error) {
+      alert(error.message || "공고 정보를 불러오는데 실패했습니다.");
+    }
+  };
+
+  const handleMatchingRequests = async (jobId) => {
+    try {
+      // MatchingsDetail 페이지로 이동
+      navigate(`/matchings-detail/${jobId}`);
+    } catch (error) {
+      console.error("매칭요청내역 페이지 이동 오류:", error);
+      alert("매칭요청내역 페이지로 이동하는데 실패했습니다.");
+    }
   };
 
   // 계약 진행하기
@@ -197,23 +274,15 @@ function ParentMatchings() {
       <div className="matchings-container">
         <div className="matchings-header">
           <h1>내 매칭 관리</h1>
-          <p>내가 보낸 매칭 요청 현황을 확인하고 관리하세요</p>
+          <button
+            className="write-application-button"
+            onClick={() => navigate("/Helpme")}
+          >
+            공고 등록
+          </button>
         </div>
 
-        {matchings.length === 0 ? (
-          <div className="no-matchings">
-            <div className="no-matchings-content">
-              <h2>매칭 내역이 없습니다</h2>
-              <p>아직 매칭 요청을 보내지 않았습니다.</p>
-              <button
-                className="create-application-button"
-                onClick={() => navigate("/Helpme")}
-              >
-                공고 등록하기
-              </button>
-            </div>
-          </div>
-        ) : (
+        {matchings.length > 0 && (
           <div className="matchings-content">
             <div className="matchings-list">
               {matchings.map((matching) => (
@@ -303,6 +372,243 @@ function ParentMatchings() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* 공고 목록 섹션 */}
+        {loading ? (
+          <div className="loading-container">
+            <p>공고 목록을 불러오는 중...</p>
+          </div>
+        ) : error ? (
+          <div className="error-container">
+            <p>오류: {error}</p>
+            <button onClick={() => fetchApplications()}>다시 시도</button>
+          </div>
+        ) : applications.length === 0 ? (
+          <div className="no-applications">
+            <p>등록된 공고가 없습니다.</p>
+            <button
+              className="write-application-button-large"
+              onClick={() => navigate("/Helpme")}
+            >
+              첫 공고 작성하기
+            </button>
+          </div>
+        ) : (
+          <div className="applications-content">
+            {applications.map((application) => (
+              <div key={application.id} className="application-item">
+                <div
+                  className="application-left"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    width: "100px",
+                    minWidth: "100px",
+                  }}
+                >
+                  <div
+                    className="child-avatar"
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      borderRadius: "50%",
+                      overflow: "hidden",
+                      margin: "0 auto 5px",
+                      border: "3px solid white",
+                      boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
+                      background: "white",
+                    }}
+                  >
+                    <img
+                      src={
+                        application.target.includes("남아")
+                          ? "/img/boy.png"
+                          : "/img/girl.png"
+                      }
+                      alt="아이 아바타"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                  <div
+                    className="application-status"
+                    style={{
+                      marginTop: "5px",
+                      textAlign: "center",
+                      width: "100%",
+                    }}
+                  >
+                    {application.status === "registered" && (
+                      <span
+                        style={{
+                          display: "inline-block",
+                          padding: "3px 8px",
+                          borderRadius: "10px",
+                          fontSize: "0.7rem",
+                          fontWeight: "600",
+                          textAlign: "center",
+                          minWidth: "45px",
+                          boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
+                          background:
+                            "linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)",
+                          color: "#8b6914",
+                        }}
+                      >
+                        공고등록
+                      </span>
+                    )}
+                    {application.status === "open" && (
+                      <span
+                        style={{
+                          display: "inline-block",
+                          padding: "3px 8px",
+                          borderRadius: "10px",
+                          fontSize: "0.7rem",
+                          fontWeight: "600",
+                          textAlign: "center",
+                          minWidth: "45px",
+                          boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
+                          background:
+                            "linear-gradient(135deg, #4caf50 0%, #66bb6a 100%)",
+                          color: "white",
+                        }}
+                      >
+                        공고게시
+                      </span>
+                    )}
+                    {application.status === "matched" && (
+                      <span
+                        style={{
+                          display: "inline-block",
+                          padding: "3px 8px",
+                          borderRadius: "10px",
+                          fontSize: "0.7rem",
+                          fontWeight: "600",
+                          textAlign: "center",
+                          minWidth: "45px",
+                          boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
+                          background:
+                            "linear-gradient(135deg, #2196f3 0%, #42a5f5 100%)",
+                          color: "white",
+                        }}
+                      >
+                        매칭
+                      </span>
+                    )}
+                    {application.status === "closed" && (
+                      <span
+                        style={{
+                          display: "inline-block",
+                          padding: "3px 8px",
+                          borderRadius: "10px",
+                          fontSize: "0.7rem",
+                          fontWeight: "600",
+                          textAlign: "center",
+                          minWidth: "45px",
+                          boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
+                          background:
+                            "linear-gradient(135deg, #9e9e9e 0%, #bdbdbd 100%)",
+                          color: "white",
+                        }}
+                      >
+                        종료
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="application-right">
+                  <div className="application-info">
+                    <div className="applications-details">
+                      <p>
+                        <strong>대상:</strong> {application.target}
+                      </p>
+                      <p>
+                        <strong>지역:</strong> {application.work_place}
+                      </p>
+                      <p>
+                        <strong>분야:</strong> {application.objective}
+                      </p>
+                      <p>
+                        <strong>기간:</strong>{" "}
+                        {application.work_type === "regular"
+                          ? "오랫동안"
+                          : "한번만"}
+                        {application.start_date && (
+                          <>
+                            {" "}
+                            (
+                            {new Date(
+                              application.start_date
+                            ).toLocaleDateString()}
+                            {application.end_date &&
+                              ` ~ ${new Date(
+                                application.end_date
+                              ).toLocaleDateString()}`}
+                            )
+                          </>
+                        )}
+                      </p>
+                      <p>
+                        <strong>시급:</strong>{" "}
+                        {Math.floor(application.payment)?.toLocaleString()}원
+                      </p>
+                    </div>
+                  </div>
+                  <div className="application-actions">
+                    {application.status === "open" && (
+                      <button
+                        className="view-detail-button"
+                        onClick={() => handleMatchingRequests(application.id)}
+                      >
+                        매칭요청내역
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* 페이지네이션 */}
+            {pagination && pagination.totalPages > 1 && (
+              <div className="pagination-container">
+                <div className="pagination-info">
+                  총 {pagination.totalCount}개의 공고 중{" "}
+                  {pagination.currentPage}페이지
+                </div>
+                <div className="pagination-buttons">
+                  {pagination.hasPrevPage && (
+                    <button
+                      className="pagination-button"
+                      onClick={() =>
+                        handlePageChange(pagination.currentPage - 1)
+                      }
+                    >
+                      이전
+                    </button>
+                  )}
+                  <span className="pagination-current">
+                    {pagination.currentPage} / {pagination.totalPages}
+                  </span>
+                  {pagination.hasNextPage && (
+                    <button
+                      className="pagination-button"
+                      onClick={() =>
+                        handlePageChange(pagination.currentPage + 1)
+                      }
+                    >
+                      다음
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
 

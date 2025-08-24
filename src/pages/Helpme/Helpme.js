@@ -1495,12 +1495,6 @@ const Helpme = () => {
             >
               {user ? (isEditMode ? "수정 완료" : "저장") : "로그인 후 저장"}
             </button>
-            <button
-              className="list-button"
-              onClick={() => navigate("/applications")}
-            >
-              리스트
-            </button>
           </div>
         </div>
       </div>

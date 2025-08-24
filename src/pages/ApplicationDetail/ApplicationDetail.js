@@ -149,10 +149,22 @@ function ApplicationDetail() {
         navigate("/matchings");
       } catch (error) {
         console.error("매칭 요청 실패:", error);
-        alert(
-          error.message ||
-            "매칭 요청 중 오류가 발생했습니다. 다시 시도해주세요."
-        );
+
+        // 쌤 프로필 미등록 오류인 경우 특별 처리
+        if (error.message && error.message.includes("등록된 쌤이 아닙니다")) {
+          if (
+            window.confirm(
+              "쌤 프로필이 등록되지 않았습니다. 쌤 프로필 등록 페이지로 이동하시겠습니까?"
+            )
+          ) {
+            navigate("/teacher-profile");
+          }
+        } else {
+          alert(
+            error.message ||
+              "매칭 요청 중 오류가 발생했습니다. 다시 시도해주세요."
+          );
+        }
       }
     }
   };
@@ -306,20 +318,20 @@ function ApplicationDetail() {
                 )}
                 {user?.member_type === "tutor" &&
                   application?.status === "open" && (
-                    <div className="application-detail-item">
-                      <div className="application-detail-label">
+                    <div className="application-matching-request-section">
+                      <div className="application-matching-request-label">
                         매칭 요청 메시지
                       </div>
-                      <div className="application-detail-value">
+                      <div className="application-matching-request-value">
                         <textarea
-                          className="matching-message-textarea"
+                          className="matching-message-textarea application-matching-request-textarea"
                           placeholder="부모님께 전달할 매칭 요청 메시지를 입력해주세요..."
                           value={matchingMessage}
                           onChange={(e) => setMatchingMessage(e.target.value)}
                           rows={4}
                           maxLength={500}
                         />
-                        <div className="matching-message-counter">
+                        <div className="matching-message-counter application-matching-request-counter">
                           {matchingMessage.length}/500
                         </div>
                       </div>
@@ -327,35 +339,43 @@ function ApplicationDetail() {
                   )}
                 {user?.member_type === "parents" &&
                   application.requester_id === user.id && (
-                    <div className="application-detail-buttons">
-                      <button
-                        className={`application-detail-edit-button ${
-                          application.status !== "registered" ? "disabled" : ""
-                        }`}
-                        onClick={handleEdit}
-                        disabled={application.status !== "registered"}
-                      >
-                        공고수정
-                      </button>
-                      <button
-                        className={`application-detail-publish-button ${
-                          application.status !== "registered" ? "disabled" : ""
-                        }`}
-                        onClick={handlePublish}
-                        disabled={application.status !== "registered"}
-                      >
-                        공고게시
-                      </button>
-                      <button
-                        className={`application-detail-delete-button ${
-                          application.status !== "registered" ? "disabled" : ""
-                        }`}
-                        onClick={handleDelete}
-                        disabled={application.status !== "registered"}
-                      >
-                        공고삭제
-                      </button>
-                    </div>
+                    <>
+                      <div className="application-detail-buttons">
+                        <button
+                          className={`application-detail-edit-button ${
+                            application.status !== "registered"
+                              ? "disabled"
+                              : ""
+                          }`}
+                          onClick={handleEdit}
+                          disabled={application.status !== "registered"}
+                        >
+                          공고수정
+                        </button>
+                        <button
+                          className={`application-detail-publish-button ${
+                            application.status !== "registered"
+                              ? "disabled"
+                              : ""
+                          }`}
+                          onClick={handlePublish}
+                          disabled={application.status !== "registered"}
+                        >
+                          공고게시
+                        </button>
+                        <button
+                          className={`application-detail-delete-button ${
+                            application.status !== "registered"
+                              ? "disabled"
+                              : ""
+                          }`}
+                          onClick={handleDelete}
+                          disabled={application.status !== "registered"}
+                        >
+                          공고삭제
+                        </button>
+                      </div>
+                    </>
                   )}
                 {user?.member_type === "tutor" && (
                   <div className="application-detail-buttons">
@@ -368,6 +388,34 @@ function ApplicationDetail() {
                     >
                       매칭 요청
                     </button>
+                    <div className="tutor-profile-notice">
+                      <p
+                        style={{
+                          fontSize: "14px",
+                          color: "#666",
+                          marginTop: "10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        💡 매칭 요청 전에 쌤 프로필을 먼저 등록해주세요!
+                      </p>
+                      <button
+                        className="profile-register-button"
+                        onClick={() => navigate("/teacher-profile")}
+                        style={{
+                          marginTop: "8px",
+                          padding: "8px 16px",
+                          backgroundColor: "#f8f9fa",
+                          border: "1px solid #dee2e6",
+                          borderRadius: "4px",
+                          color: "#495057",
+                          fontSize: "14px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        쌤 프로필 등록하기
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>

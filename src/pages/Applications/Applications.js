@@ -149,6 +149,9 @@ function Applications() {
                         <strong>대상:</strong> {application.target}
                       </p>
                       <p>
+                        <strong>지역:</strong> {application.work_place}
+                      </p>
+                      <p>
                         <strong>분야:</strong> {application.objective}
                       </p>
                       <p>

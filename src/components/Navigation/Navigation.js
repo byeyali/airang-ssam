@@ -134,9 +134,9 @@ function Navigation() {
 
           {/* 3. 우리 아이 쌤 찾기 */}
           <Link
-            to="/teacher-applications"
+            to="/applications"
             className={`nav-item ${
-              isActiveMenu("/teacher-applications") ? "active" : ""
+              isActiveMenu("/applications") ? "active" : ""
             }`}
           >
             <img
@@ -256,9 +256,9 @@ function Navigation() {
           {/* 부모 기능 메뉴 - 부모만 표시 */}
           {(!user || user.member_type === "parents") && (
             <Link
-              to="/teacher-applications"
+              to="/applications"
               className={`nav-item ${
-                isActiveMenu("/teacher-applications") ? "active" : ""
+                isActiveMenu("/applications") ? "active" : ""
               }`}
               onClick={(e) => handleParentFeatureClick(e, "우리 아이 쌤 찾기")}
             >

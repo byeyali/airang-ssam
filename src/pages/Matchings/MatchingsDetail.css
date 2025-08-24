@@ -1,0 +1,248 @@
+/* MatchingDetail 페이지 스타일 */
+.matching-detail-page {
+  min-height: 100vh;
+  background: white;
+  padding: 10px;
+}
+
+.matching-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.matching-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 15px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.matching-detail-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+  color: #1a237e;
+  margin: 0;
+  text-align: center;
+  flex: 1;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.3px;
+}
+
+.matching-detail-back-button {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+}
+
+.matching-detail-back-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
+}
+
+.matching-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 2열 레이아웃을 위한 새로운 스타일 */
+.matching-detail-info-box {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.matching-detail-info-box h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+  color: #1a237e;
+  margin: 0 0 15px 0;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.matching-detail-columns {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.matching-detail-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 3열 레이아웃을 위한 추가 스타일 */
+.matching-detail-column:nth-child(1) {
+  /* 첫 번째 열: 이름, 학교, 신청일시 */
+}
+
+.matching-detail-column:nth-child(2) {
+  /* 두 번째 열: 출생년도, 전공, 상태 */
+}
+
+.matching-detail-column:nth-child(3) {
+  /* 세 번째 열: 성별, 졸업유무 */
+}
+
+.matching-detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.matching-detail-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 3px;
+}
+
+.matching-detail-value {
+  font-size: 0.9rem;
+  color: #000;
+  font-weight: 500;
+  padding: 4px 5px;
+  background: #f5f6f7;
+  border-radius: 6px;
+}
+
+/* 전체 너비 아이템 (소개글, 메시지) */
+.matching-detail-item:not(.matching-detail-column .matching-detail-item) {
+  margin-bottom: 15px;
+}
+
+.matching-detail-item:not(.matching-detail-column .matching-detail-item)
+  .matching-detail-value {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+}
+
+/* 버튼 스타일 */
+.matching-detail-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef;
+}
+
+.matching-detail-accept-button {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+.matching-detail-accept-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+}
+
+.matching-detail-reject-button {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
+
+.matching-detail-reject-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+/* 상태 배지 스타일 */
+.matching-status-badge {
+  padding: 4.2px 8.4px;
+  border-radius: 12.6px;
+  font-size: 0.63rem;
+  font-weight: 600;
+  text-align: center;
+  display: inline-block;
+}
+
+.matching-status-ready {
+  background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+  color: #000;
+}
+
+.matching-status-accept {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+}
+
+.matching-status-reject {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+}
+
+.matching-status-confirm {
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+  color: white;
+}
+
+.matching-status-contract {
+  background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);
+  color: white;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .matching-detail-columns {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .matching-detail-info-box {
+    padding: 20px;
+  }
+
+  .matching-detail-info-box h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .matching-detail-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .matching-detail-accept-button,
+  .matching-detail-reject-button {
+    width: 100%;
+    max-width: 200px;
+  }
+}

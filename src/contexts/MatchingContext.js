@@ -145,6 +145,88 @@ export const MatchingProvider = ({ children }) => {
     return matchingRequests;
   };
 
+  // 특정 공고의 신청내역 조회
+  const getJobApplications = async (jobId) => {
+    try {
+      const response = await axiosInstance.get(
+        `/applies/job/${jobId}/applications`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("공고 신청내역 조회 오류:", error);
+      throw error;
+    }
+  };
+
+  // 신청 상태 업데이트 (수락/거절)
+  const updateApplicationStatus = async (applyId, status) => {
+    try {
+      const response = await axiosInstance.put(`/applies/${applyId}/status`, {
+        status,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("신청 상태 업데이트 오류:", error);
+      throw error;
+    }
+  };
+
+  // 특정 공고의 신청내역 조회 (단일 조회)
+  const getJobApply = async (jobId) => {
+    try {
+      const response = await axiosInstance.get(`/applies/${jobId}/apply`);
+      return response.data;
+    } catch (error) {
+      console.error("공고 신청내역 단일 조회 오류:", error);
+      throw error;
+    }
+  };
+
+  // 특정 선생님의 특정 공고에 대한 매칭 요청 메시지 조회
+  const getJobApplyMessage = async (jobId, memberId) => {
+    try {
+      const response = await axiosInstance.get(
+        `/applies/${jobId}/apply-message`,
+        {
+          params: {
+            member_id: memberId,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("매칭 요청 메시지 조회 오류:", error);
+      throw error;
+    }
+  };
+
+  // 신청 상태 업데이트 (수락/거절) - 새로운 API 엔드포인트 사용
+  const updateApplyStatus = async (jobId, applyId, status) => {
+    try {
+      const response = await axiosInstance.put(
+        `/applies/${jobId}/${applyId}/status`,
+        {
+          status,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("신청 상태 업데이트 오류:", error);
+      throw error;
+    }
+  };
+
+  // 선생님의 수락된 매칭 요청 조회
+  const getJobApplyMatch = async () => {
+    try {
+      const response = await axiosInstance.get("/applies/match/me");
+      return response.data;
+    } catch (error) {
+      console.error("수락된 매칭 요청 조회 오류:", error);
+      throw error;
+    }
+  };
+
   const value = {
     matchingRequests,
     createMatchingRequest,
@@ -157,6 +239,12 @@ export const MatchingProvider = ({ children }) => {
     getMatchingRequestsForParent,
     getPendingRequestsCount,
     getAllMatchingRequests,
+    getJobApplications,
+    updateApplicationStatus,
+    getJobApply,
+    getJobApplyMessage,
+    updateApplyStatus,
+    getJobApplyMatch,
   };
 
   return (
