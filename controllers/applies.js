@@ -1,16 +1,19 @@
+const fs = require("fs");
+const { error } = require("console");
 const {
   TutorJob,
   Tutor,
   Member,
+  Category,
   TutorApply,
   TutorContract,
+  TutorJobCategory,
 } = require("../models");
 const { Op } = require("sequelize");
 
-// 매칭 요청 생성 (공고 지원)
 const createJobApply = async (req, res) => {
   try {
-    const tutorId = req.member.id;
+    const memberId = req.member.id; // Member 테이블의 ID
     const { tutor_job_id, message } = req.body;
 
     // 공고가 있는지 확인
@@ -26,9 +29,9 @@ const createJobApply = async (req, res) => {
       });
     }
 
-    // 튜터 체크 - member_id로 조회
+    // 튜터 체크 - member_id로 조회 (수정된 부분)
     const tutor = await Tutor.findOne({
-      where: { member_id: tutorId },
+      where: { member_id: memberId },
     });
     if (!tutor) {
       return res.status(403).json({
@@ -38,7 +41,7 @@ const createJobApply = async (req, res) => {
 
     const existingApply = await TutorApply.findOne({
       where: {
-        tutor_id: tutor.id,
+        tutor_id: tutor.id, // tutor.id 사용 (Tutor 테이블의 ID)
         tutor_job_id: tutor_job_id,
       },
     });
@@ -49,19 +52,20 @@ const createJobApply = async (req, res) => {
     }
 
     const newTutorApply = await TutorApply.create({
-      tutor_id: tutor.id,
+      tutor_id: tutor.id, // tutor.id 사용 (Tutor 테이블의 ID)
       tutor_job_id: tutor_job_id,
       message: message,
-      apply_status: "ready",
+      apply_status: "ready", // 상태 추가
     });
 
     res.status(201).json(newTutorApply);
   } catch (err) {
+    console.error("createJobApply 오류:", err);
     res.status(500).json({ error: err.message });
   }
 };
 
-// 특정 공고의 신청내역 조회 (단일 조회)
+// 특정 공고의 신청내역 조회
 const getJobApply = async (req, res) => {
   try {
     const { jobId } = req.params;
@@ -90,7 +94,7 @@ const getJobApply = async (req, res) => {
             {
               model: Member,
               as: "Member",
-              attributes: ["name"],
+              attributes: ["name"], // 부모 이름은 필요없으므로 제외
             },
           ],
           attributes: [
@@ -108,14 +112,12 @@ const getJobApply = async (req, res) => {
         },
       ],
       attributes: ["id", "apply_status", "message", "created_at"],
-      order: [["created_at", "DESC"]],
+      order: [["created_at", "DESC"]], // 최신 신청순으로 정렬
     });
 
     // 응답 데이터 포맷팅
     const formattedApplications = applications.map((application, index) => {
       const tutor = application.Tutor;
-      console.log("Tutor 데이터:", tutor);
-      console.log("photo_path 값:", tutor.photo_path);
       return {
         id: application.id,
         tutorId: tutor.id,
@@ -131,7 +133,7 @@ const getJobApply = async (req, res) => {
         applyStatus: application.apply_status,
         message: application.message,
         appliedAt: application.created_at,
-        rank: index + 1,
+        rank: index + 1, // 서열 (신청 순서)
       };
     });
 
@@ -149,170 +151,39 @@ const getJobApply = async (req, res) => {
   }
 };
 
-// 매칭 요청 수정
 const updateJobApply = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { message } = req.body;
-    const tutorId = req.member.id;
+    const id = req.params.id;
+    const { status, message, jobId } = req.body;
 
-    // 신청내역 조회 및 권한 확인
-    const application = await TutorApply.findOne({
+    // 지원 데이터 유무 확인
+    const apply = await TutorApply.findOne({
       where: { id: id },
-      include: [
-        {
-          model: Tutor,
-          where: { member_id: tutorId },
-        },
-      ],
     });
 
-    if (!application) {
+    if (!apply) {
       return res.status(404).json({
-        success: false,
-        message: "해당 신청내역을 찾을 수 없거나 수정 권한이 없습니다.",
+        message: "지원내역을 찾을수 없습니다.",
       });
     }
 
-    // 신청내역 수정
-    await application.update({
-      message: message,
-    });
+    // status가 있으면 상태 업데이트
+    if (status) {
+      await TutorApply.update({ apply_status: status }, { where: { id: id } });
 
-    res.json({
-      success: true,
-      message: "신청내역이 수정되었습니다.",
-    });
-  } catch (error) {
-    console.error("신청내역 수정 오류:", error);
-    res.status(500).json({
-      success: false,
-      message: "신청내역을 수정하는 중 오류가 발생했습니다.",
-    });
-  }
-};
-
-// 계약 생성
-const createContract = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const memberId = req.member.id;
-
-    // 신청내역 조회 및 권한 확인
-    const application = await TutorApply.findOne({
-      where: { id: id },
-      include: [
-        {
-          model: TutorJob,
-          where: { requester_id: memberId },
-        },
-      ],
-    });
-
-    if (!application) {
-      return res.status(404).json({
-        success: false,
-        message: "해당 신청내역을 찾을 수 없거나 계약 권한이 없습니다.",
+      res.json({
+        success: true,
+        message: "신청 상태가 성공적으로 변경되었습니다.",
       });
+    } else {
+      // 메시지만 업데이트
+      await TutorApply.update({ message }, { where: { id: id } });
+
+      const updatedApply = await TutorApply.findByPk(id);
+      res.status(200).json(updatedApply);
     }
-
-    // 계약 상태로 변경
-    await application.update({
-      apply_status: "contract",
-    });
-
-    // 공고 상태도 매칭 완료로 변경
-    await TutorJob.update(
-      {
-        status: "matched",
-        matched_tutor_id: application.tutor_id,
-        matched_at: new Date(),
-      },
-      {
-        where: { id: application.tutor_job_id },
-      }
-    );
-
-    res.json({
-      success: true,
-      message: "계약이 성공적으로 생성되었습니다.",
-    });
-  } catch (error) {
-    console.error("계약 생성 오류:", error);
-    res.status(500).json({
-      success: false,
-      message: "계약을 생성하는 중 오류가 발생했습니다.",
-    });
-  }
-};
-
-const getJobApplyMessage = async (req, res) => {
-  try {
-    const { member_id, job_id } = req.query;
-    const currentMemberId = req.member.id;
-
-    const tutorJob = await TutorJob.findOne({
-      where: {
-        id: job_id,
-      },
-    });
-
-    if (!tutorJob) {
-      return res.status(404).json({
-        success: false,
-        message: "해당 공고를 찾을 수 없거나 접근 권한이 없습니다.",
-      });
-    }
-
-    // member_id로 tutor_id 조회
-    const tutor = await Tutor.findOne({
-      where: {
-        member_id: member_id,
-      },
-      attributes: ["id"],
-    });
-
-    if (!tutor) {
-      return res.status(404).json({
-        success: false,
-        message: "해당 선생님 정보를 찾을 수 없습니다.",
-      });
-    }
-
-    // 매칭 요청 메시지 조회 (최신의 마지막 메시지만 반환)
-    const matchingMessage = await TutorApply.findOne({
-      where: {
-        tutor_id: tutor.id,
-        tutor_job_id: job_id,
-      },
-      attributes: ["id", "message", "apply_status", "created_at"],
-      include: [
-        {
-          model: Tutor,
-          as: "Tutor",
-          attributes: ["name"],
-        },
-      ],
-      order: [["created_at", "DESC"]], // 최신순으로 정렬하여 마지막 메시지 반환
-    });
-
-    if (!matchingMessage) {
-      return res.status(404).json({
-        success: false,
-        message: "해당 매칭 요청 메시지를 찾을 수 없습니다.",
-      });
-    }
-
-    res.json({
-      success: true,
-      data: matchingMessage,
-    });
-  } catch (error) {
-    console.error("매칭 요청 메시지 조회 오류:", error);
-    res.status(500).json({
-      success: false,
-      message: "매칭 요청 메시지를 조회하는 중 오류가 발생했습니다.",
-    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
@@ -350,10 +221,9 @@ const updateApplyStatus = async (req, res) => {
     if (!tutorApply) {
       return res.status(404).json({
         success: false,
-        message: "해당 신청내역을 찾을 수 없거나 수락 상태가 아닙니다.",
+        message: "해당 내역을 찾을 수 없거나 이미 처리된 신청입니다.",
       });
     }
-
     // 4. 권한 확인
     // accept/reject: 공고 작성자만 가능
     // confirm: 신청자만 가능
@@ -383,7 +253,7 @@ const updateApplyStatus = async (req, res) => {
       apply_status: status,
     });
 
-    // 6. 만약 confirm인 경우, 공고 상태도 변경하고 계약 데이터 생성
+    // 6. 만약 confirm인 경우, 공고 상태도 변경
     if (status === "confirm") {
       await TutorJob.update(
         {
@@ -396,7 +266,6 @@ const updateApplyStatus = async (req, res) => {
         }
       );
 
-      // 계약 데이터 생성
       await TutorContract.create({
         apply_id: tutorApply.id,
         job_id: jobId,
@@ -405,7 +274,7 @@ const updateApplyStatus = async (req, res) => {
         tutor_job_id: jobId,
         tutor_id: tutorApply.tutor_id,
         requester_id: tutorJob.requester_id,
-        contract_status: "active",
+        contract_status: "write",
         start_date: tutorJob.start_date,
         end_date: tutorJob.end_date,
         payment: tutorJob.payment,
@@ -423,6 +292,34 @@ const updateApplyStatus = async (req, res) => {
         status: status,
         updatedAt: tutorApply.updated_at,
       },
+    });
+  } catch (err) {
+    console.error("신청 상태 변경 오류:", err);
+    res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
+};
+
+// 간단한 수락 처리 함수
+const updateApplyAccept = async (req, res) => {
+  try {
+    const applyId = req.params.id;
+
+    // tb_tutor_apply status 변경
+    await TutorApply.update(
+      {
+        apply_status: "accept",
+      },
+      {
+        where: { id: applyId },
+      }
+    );
+
+    res.json({
+      success: true,
+      message: "신청 상태가 성공적으로 변경되었습니다.",
     });
   } catch (err) {
     console.error("신청 상태 변경 오류:", err);
@@ -539,10 +436,10 @@ const getJobApplyMatch = async (req, res) => {
       totalCount: formattedApplications.length,
     });
   } catch (error) {
-    console.error("신청내역 조회 오류:", error);
+    console.error("매칭내역 조회 오류:", error);
     res.status(500).json({
       success: false,
-      message: "신청내역을 조회하는 중 오류가 발생했습니다.",
+      message: "매칭내역을 조회하는 중 오류가 발생했습니다.",
     });
   }
 };
@@ -550,9 +447,8 @@ const getJobApplyMatch = async (req, res) => {
 module.exports = {
   createJobApply,
   getJobApply,
+  updateApplyAccept,
   updateJobApply,
-  createContract,
-  getJobApplyMessage,
   updateApplyStatus,
   getJobApplyMatch,
 };

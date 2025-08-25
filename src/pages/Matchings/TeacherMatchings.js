@@ -7,7 +7,8 @@ import "./Matchings.css";
 
 function TeacherMatchings() {
   const { user } = useUser();
-  const { getJobApplyMatch, updateApplyStatus } = useMatching();
+  const { getJobApplyMatch, updateApplyStatus, updateApplyConfirm } =
+    useMatching();
   const navigate = useNavigate();
 
   const [acceptedMatchings, setAcceptedMatchings] = useState([]);
@@ -217,7 +218,7 @@ function TeacherMatchings() {
                       className="matching-detail-accept-button"
                       onClick={async () => {
                         try {
-                          await updateApplyStatus(
+                          await updateApplyConfirm(
                             matching.jobId,
                             matching.id,
                             "confirm"
@@ -232,7 +233,23 @@ function TeacherMatchings() {
                     >
                       계약 진행
                     </button>
-                    <button className="matching-detail-reject-button">
+                    <button
+                      className="matching-detail-reject-button"
+                      onClick={async () => {
+                        try {
+                          await updateApplyConfirm(
+                            matching.jobId,
+                            matching.id,
+                            "reject"
+                          );
+                          alert("매칭이 취소되었습니다!");
+                          window.location.reload();
+                        } catch (error) {
+                          console.error("매칭 취소 실패:", error);
+                          alert("매칭 취소 중 오류가 발생했습니다.");
+                        }
+                      }}
+                    >
                       매칭 취소
                     </button>
                   </div>

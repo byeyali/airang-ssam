@@ -92,34 +92,6 @@ export const MatchingProvider = ({ children }) => {
     );
   };
 
-  // 계약 진행 상태로 변경
-  const startContract = (requestId) => {
-    setMatchingRequests((prev) =>
-      prev.map((request) =>
-        request.id === requestId
-          ? {
-              ...request,
-              contractStatus: "progress",
-            }
-          : request
-      )
-    );
-  };
-
-  // 계약 완료 상태로 변경
-  const completeContract = (requestId) => {
-    setMatchingRequests((prev) =>
-      prev.map((request) =>
-        request.id === requestId
-          ? {
-              ...request,
-              contractStatus: "completed",
-            }
-          : request
-      )
-    );
-  };
-
   // 특정 쌤의 매칭 요청 가져오기
   const getMatchingRequestsForTeacher = (teacherId) => {
     return matchingRequests.filter(
@@ -132,49 +104,15 @@ export const MatchingProvider = ({ children }) => {
     return matchingRequests.filter((request) => request.parentId === parentId);
   };
 
-  // 대기 중인 매칭 요청 개수
-  const getPendingRequestsCount = (teacherId) => {
-    return matchingRequests.filter(
-      (request) =>
-        request.teacherId === teacherId && request.status === "pending"
-    ).length;
-  };
-
   // 모든 매칭 요청 가져오기 (관리자용)
   const getAllMatchingRequests = () => {
     return matchingRequests;
   };
 
-  // 특정 공고의 신청내역 조회
-  const getJobApplications = async (jobId) => {
-    try {
-      const response = await axiosInstance.get(
-        `/applies/job/${jobId}/applications`
-      );
-      return response.data;
-    } catch (error) {
-      console.error("공고 신청내역 조회 오류:", error);
-      throw error;
-    }
-  };
-
-  // 신청 상태 업데이트 (수락/거절)
-  const updateApplicationStatus = async (applyId, status) => {
-    try {
-      const response = await axiosInstance.put(`/applies/${applyId}/status`, {
-        status,
-      });
-      return response.data;
-    } catch (error) {
-      console.error("신청 상태 업데이트 오류:", error);
-      throw error;
-    }
-  };
-
   // 특정 공고의 신청내역 조회 (단일 조회)
   const getJobApply = async (jobId) => {
     try {
-      const response = await axiosInstance.get(`/applies/${jobId}/apply`);
+      const response = await axiosInstance.get(`/applies/job/${jobId}/apply`);
       return response.data;
     } catch (error) {
       console.error("공고 신청내역 단일 조회 오류:", error);
@@ -182,36 +120,46 @@ export const MatchingProvider = ({ children }) => {
     }
   };
 
-  // 특정 선생님의 특정 공고에 대한 매칭 요청 메시지 조회
-  const getJobApplyMessage = async (jobId, memberId) => {
+  // 신청 상태 업데이트 (수락/거절) - 올바른 라우팅
+  const updateApplyStatus = async (jobId, applyId, status) => {
     try {
-      const response = await axiosInstance.get(
-        `/applies/${jobId}/apply-message`,
-        {
-          params: {
-            member_id: memberId,
-          },
-        }
-      );
+      console.log("updateApplyStatus 호출:", { jobId, applyId, status });
+
+      // Azure에 배포된 올바른 라우팅 사용
+      const url = `/applies/${applyId}/status`;
+      console.log("요청 URL:", url);
+
+      const response = await axiosInstance.put(url, {
+        status: status,
+      });
+      console.log("응답 성공:", response.data);
       return response.data;
     } catch (error) {
-      console.error("매칭 요청 메시지 조회 오류:", error);
+      console.error("신청 상태 업데이트 오류:", error);
+      console.error("요청 URL:", `/applies/${applyId}/status`);
+      console.error("요청 데이터:", { status: status });
       throw error;
     }
   };
 
-  // 신청 상태 업데이트 (수락/거절) - 새로운 API 엔드포인트 사용
-  const updateApplyStatus = async (jobId, applyId, status) => {
+  // 계약 진행 확인 - Azure 라우팅
+  const updateApplyConfirm = async (jobId, applyId, status) => {
     try {
-      const response = await axiosInstance.put(
-        `/applies/${jobId}/${applyId}/status`,
-        {
-          status,
-        }
-      );
+      console.log("updateApplyConfirm 호출:", { jobId, applyId, status });
+
+      // Azure에 배포된 confirm 라우팅 사용
+      const url = `/applies/${jobId}/${applyId}/confirm`;
+      console.log("요청 URL:", url);
+
+      const response = await axiosInstance.put(url, {
+        status: status,
+      });
+      console.log("응답 성공:", response.data);
       return response.data;
     } catch (error) {
-      console.error("신청 상태 업데이트 오류:", error);
+      console.error("계약 진행 확인 오류:", error);
+      console.error("요청 URL:", `/applies/${jobId}/${applyId}/confirm`);
+      console.error("요청 데이터:", { status: status });
       throw error;
     }
   };
@@ -233,17 +181,12 @@ export const MatchingProvider = ({ children }) => {
     createJobApply,
     acceptMatchingRequest,
     rejectMatchingRequest,
-    startContract,
-    completeContract,
     getMatchingRequestsForTeacher,
     getMatchingRequestsForParent,
-    getPendingRequestsCount,
     getAllMatchingRequests,
-    getJobApplications,
-    updateApplicationStatus,
     getJobApply,
-    getJobApplyMessage,
     updateApplyStatus,
+    updateApplyConfirm,
     getJobApplyMatch,
   };
 

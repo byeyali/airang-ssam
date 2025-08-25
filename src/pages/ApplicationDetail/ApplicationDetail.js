@@ -145,8 +145,8 @@ function ApplicationDetail() {
 
         alert("매칭 요청이 성공적으로 전송되었습니다!");
 
-        // 매칭 페이지로 이동
-        navigate("/matchings");
+        // 공고 신청 목록으로 이동
+        navigate("/applications");
       } catch (error) {
         console.error("매칭 요청 실패:", error);
 

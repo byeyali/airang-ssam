@@ -9,9 +9,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // 라우트 등록
 const tutorJobRoutes = require("./tutor_job_routes");
+const applyRoutes = require("./applyRoutes");
 
 // API 라우트
 app.use("/api/tutor-jobs", tutorJobRoutes);
+app.use("/api/applies", applyRoutes);
 
 // 기본 라우트
 app.get("/", (req, res) => {

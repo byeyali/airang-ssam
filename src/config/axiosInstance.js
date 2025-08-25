@@ -38,11 +38,23 @@ const axiosInstance = axios.create({
   baseURL: getApiUrl(),
   withCredentials: true,
   timeout: 10000, // 10초 타임아웃 설정
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 // 요청 인터셉터 추가
 axiosInstance.interceptors.request.use(
   (config) => {
+    // Content-Type 설정
+    if (
+      config.method === "post" ||
+      config.method === "put" ||
+      config.method === "patch"
+    ) {
+      config.headers["Content-Type"] = "application/json";
+    }
+
     // 토큰이 있으면 헤더에 추가
     const token = localStorage.getItem("authToken");
     if (token) {

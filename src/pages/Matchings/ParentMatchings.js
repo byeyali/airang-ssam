@@ -8,17 +8,9 @@ import "./Matchings.css";
 
 function ParentMatchings() {
   const { user } = useUser();
-  const {
-    getMatchingRequestsForParent,
-    acceptMatchingRequest,
-    rejectMatchingRequest,
-    getJobApply,
-  } = useMatching();
-  const {
-    createContractProgressNotification,
-    createContractCompletedNotification,
-    createNotification,
-  } = useNotification();
+  const { getMatchingRequestsForParent } = useMatching();
+  const { createContractProgressNotification, createNotification } =
+    useNotification();
   const { getMyApplications, getApplicationById } = useApplication();
   const navigate = useNavigate();
   const location = useLocation();
@@ -236,7 +228,7 @@ function ParentMatchings() {
     switch (status) {
       case "pending":
         return "대기중";
-      case "accepted":
+      case "accept":
         return "수락됨";
       case "rejected":
         return "거절됨";
